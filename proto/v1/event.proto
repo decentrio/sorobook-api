@@ -1,0 +1,17 @@
+syntax = "proto3";
+package v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  rpc Ping(PingRequest) returns (PingResponse) {
+    option (google.api.http).get = "/v1/ping";
+  }
+}
+
+message PingRequest { int64 timestamp = 1; }
+
+message PingResponse { string hello = 1; }

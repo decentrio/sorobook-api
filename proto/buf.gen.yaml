@@ -1,0 +1,8 @@
+version: v1
+plugins:
+  # The name of the plugin.
+  - name: gogofaster
+     # The the relative output directory.
+    out: ../types
+    # Any options to provide to the plugin.
+    opt: plugins=grpc,paths=source_relative
