@@ -3,17 +3,17 @@ managed:
   enabled: true
 plugins:
   - plugin: buf.build/grpc-ecosystem/gateway:v2.19.1
-    out: gen
+    out: types
     opt:
       - paths=source_relative
   # dependencies
   - plugin: buf.build/protocolbuffers/go
-    out: gen
+    out: types
     opt:
       - paths=source_relative
   - plugin: buf.build/grpc/go
-    out: gen
+    out: types
     opt:
       - paths=source_relative
   - plugin: buf.build/grpc-ecosystem/openapiv2:v2.19.1
-    out: gen/openapi
+    out: types/openapi

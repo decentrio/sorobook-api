@@ -1,0 +1,16 @@
+syntax = "proto3";
+package v1.transaction;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types/transaction";
+
+service TransactionQuery {
+    rpc Ping(PingRequest) returns (PingResponse) {
+      option (google.api.http).get = "/v1/contract/ping";
+    }
+  }
+  
+  message PingRequest { int64 timestamp = 1; }
+  
+  message PingResponse { string hello = 1; }

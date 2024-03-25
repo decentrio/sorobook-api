@@ -1,0 +1,6 @@
+syntax = "proto3";
+package v1.contract;
+
+option go_package = "github.com/decentrio/sorobook-api/types/contract";
+
+message Hello { string hello = 1; }

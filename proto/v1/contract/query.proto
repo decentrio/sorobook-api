@@ -1,14 +1,13 @@
 syntax = "proto3";
-package v1;
+package v1.contract;
 
 import "google/api/annotations.proto";
 
-option go_package = "github.com/decentrio/sorobook-api/types";
+option go_package = "github.com/decentrio/sorobook-api/types/contract";
 
-// Query defines the gRPC querier service.
-service Query {
+service ContractQuery {
   rpc Ping(PingRequest) returns (PingResponse) {
-    option (google.api.http).get = "/v1/ping";
+    option (google.api.http).get = "/v1/contract/ping";
   }
 }
 
