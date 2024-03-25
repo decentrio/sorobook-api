@@ -1,0 +1,23 @@
+syntax = "proto3";
+package v1;
+
+option go_package = "github.com/decentrio/sorobook-api/types";
+
+message ContractEntry {
+  string contract_id = 1;
+  string key_xdr = 2;
+  string value_xdr = 3;
+  string durability = 4;
+  int64 expiration_ledger_seq = 5;
+  int32 flags = 6;
+}
+
+message ContractEntryRequest {
+  string contract_id = 1;
+  string key_xdr = 2;
+}
+
+message ContractEntryResponse { 
+  ContractEntry entry = 1;
+  bool found = 2;
+ }

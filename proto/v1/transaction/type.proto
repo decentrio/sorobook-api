@@ -1,6 +1,0 @@
-syntax = "proto3";
-package v1.transaction;
-
-option go_package = "github.com/decentrio/sorobook-api/types/transaction";
-
-message Hello { string hello = 1; }

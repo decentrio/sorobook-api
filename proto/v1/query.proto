@@ -1,0 +1,25 @@
+syntax = "proto3";
+package v1;
+
+import "google/api/annotations.proto";
+import "v1/contract.proto";
+import "v1/ledger.proto";
+import "v1/event.proto";
+import "v1/transaction.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types";
+
+service Query {
+  rpc Ledger(LedgerRequest) returns (LedgerResponse) {
+    option (google.api.http).get = "/v1/ledgers/{sequence}";
+  }
+  rpc Transaction(TransactionRequest) returns (TransactionResponse) {
+    option (google.api.http).get = "/v1/transactions/{hash}";
+  }
+  rpc Event(EventRequest) returns (EventResponse) {
+    option (google.api.http).get = "/v1/events/{id}";
+  }
+  rpc ContractEntry(ContractEntryRequest) returns (ContractEntryResponse) {
+    option (google.api.http).get = "/v1/contract-entries/{contract_id}/{key_xdr}";
+  }
+}

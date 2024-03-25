@@ -1,0 +1,21 @@
+syntax = "proto3";
+package v1;
+
+option go_package = "github.com/decentrio/sorobook-api/types";
+
+message Ledger {
+  int64 sequence = 1;
+  string hash = 2;
+  string prev_hash = 3;
+  int32 transactions = 4;
+  int32 operations = 5;
+}
+
+message LedgerRequest {
+  int64 sequence =1; 
+}
+
+message LedgerResponse { 
+  Ledger ledger = 1;
+  bool found = 2;
+ }

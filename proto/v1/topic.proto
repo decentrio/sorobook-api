@@ -1,0 +1,10 @@
+syntax = "proto3";
+package v1;
+
+option go_package = "github.com/decentrio/sorobook-api/types";
+
+message Topic {
+  string event_id = 1;
+  string topic_xdr = 2;
+  int32 topic_idx = 3;
+}

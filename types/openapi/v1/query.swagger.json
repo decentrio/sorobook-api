@@ -1,0 +1,321 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "v1/query.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Query"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/contract-entries/{contractId}/{keyXdr}": {
+      "get": {
+        "operationId": "Query_ContractEntry",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ContractEntryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "contractId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "keyXdr",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/v1/events/{id}": {
+      "get": {
+        "operationId": "Query_Event",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1EventResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/v1/ledgers/{sequence}": {
+      "get": {
+        "operationId": "Query_Ledger",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LedgerResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sequence",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/v1/transactions/{hash}": {
+      "get": {
+        "operationId": "Query_Transaction",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1TransactionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "v1ContractEntry": {
+      "type": "object",
+      "properties": {
+        "contractId": {
+          "type": "string"
+        },
+        "keyXdr": {
+          "type": "string"
+        },
+        "valueXdr": {
+          "type": "string"
+        },
+        "durability": {
+          "type": "string"
+        },
+        "expirationLedgerSeq": {
+          "type": "string",
+          "format": "int64"
+        },
+        "flags": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1ContractEntryResponse": {
+      "type": "object",
+      "properties": {
+        "entry": {
+          "$ref": "#/definitions/v1ContractEntry"
+        },
+        "found": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1Event": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "contractId": {
+          "type": "string"
+        },
+        "txHash": {
+          "type": "string"
+        },
+        "txIndex": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "eventType": {
+          "type": "string"
+        },
+        "valueXdr": {
+          "type": "string"
+        }
+      }
+    },
+    "v1EventResponse": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "$ref": "#/definitions/v1Event"
+        },
+        "found": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1Ledger": {
+      "type": "object",
+      "properties": {
+        "sequence": {
+          "type": "string",
+          "format": "int64"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "prevHash": {
+          "type": "string"
+        },
+        "transactions": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "operations": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1LedgerResponse": {
+      "type": "object",
+      "properties": {
+        "ledger": {
+          "$ref": "#/definitions/v1Ledger"
+        },
+        "found": {
+          "type": "boolean"
+        }
+      }
+    },
+    "v1Transaction": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "ledger": {
+          "type": "string",
+          "format": "int64"
+        },
+        "applicationOrder": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "envelopeXdr": {
+          "type": "string"
+        },
+        "resultXdr": {
+          "type": "string"
+        },
+        "sourceAddress": {
+          "type": "string"
+        }
+      }
+    },
+    "v1TransactionResponse": {
+      "type": "object",
+      "properties": {
+        "ledger": {
+          "$ref": "#/definitions/v1Transaction"
+        },
+        "found": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
