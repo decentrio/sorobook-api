@@ -23,5 +23,3 @@ func (q Keeper) Event(ctx context.Context, request *types.EventRequest) (*types.
 func (q Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryRequest) (*types.ContractEntryResponse, error) {
 	return nil, nil
 }
-
-func (q Keeper) mustEmbedUnimplementedQueryServer() {}

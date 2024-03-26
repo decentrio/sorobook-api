@@ -6,11 +6,23 @@ option go_package = "github.com/decentrio/sorobook-api/types";
 message Transaction {
   string hash = 1;
   string status = 2;
-  int64 ledger = 3;
-  int32 application_order = 4;
+  uint32 ledger = 3;
+  uint32 application_order = 4;
+  bytes envelope_xdr = 5;
+  bytes result_xdr = 6;
+  bytes result_meta_xdr = 7;
+  string source_address = 8;
+}
+
+message TransactionInfo {
+  string hash = 1;
+  string status = 2;
+  uint32 ledger = 3;
+  uint32 application_order = 4;
   string envelope_xdr = 5;
   string result_xdr = 6;
-  string source_address = 7;
+  string result_meta_xdr = 7;
+  string source_address = 8;
 }
 
 message TransactionRequest {
@@ -18,6 +30,6 @@ message TransactionRequest {
 }
 
 message TransactionResponse { 
-  Transaction ledger = 1;
+  TransactionInfo ledger = 1;
   bool found = 2;
  }

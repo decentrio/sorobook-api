@@ -7,9 +7,9 @@ message Event {
   string id = 1;
   string contract_id = 2;
   string tx_hash = 3;
-  int32 tx_index = 4;
+  uint32 tx_index = 4;
   string event_type = 5;
-  string value_xdr = 6;
+  bytes value_xdr = 6;
 }
 
 message EventRequest {

@@ -104,7 +104,7 @@
             "name": "sequence",
             "in": "path",
             "required": true,
-            "type": "string",
+            "type": "integer",
             "format": "int64"
           }
         ],
@@ -173,7 +173,7 @@
         }
       }
     },
-    "v1ContractEntry": {
+    "v1ContractEntryInfo": {
       "type": "object",
       "properties": {
         "contractId": {
@@ -189,12 +189,12 @@
           "type": "string"
         },
         "expirationLedgerSeq": {
-          "type": "string",
+          "type": "integer",
           "format": "int64"
         },
         "flags": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         }
       }
     },
@@ -202,7 +202,7 @@
       "type": "object",
       "properties": {
         "entry": {
-          "$ref": "#/definitions/v1ContractEntry"
+          "$ref": "#/definitions/v1ContractEntryInfo"
         },
         "found": {
           "type": "boolean"
@@ -223,13 +223,14 @@
         },
         "txIndex": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "eventType": {
           "type": "string"
         },
         "valueXdr": {
-          "type": "string"
+          "type": "string",
+          "format": "byte"
         }
       }
     },
@@ -248,7 +249,7 @@
       "type": "object",
       "properties": {
         "sequence": {
-          "type": "string",
+          "type": "integer",
           "format": "int64"
         },
         "hash": {
@@ -259,11 +260,11 @@
         },
         "transactions": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "operations": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         }
       }
     },
@@ -278,7 +279,7 @@
         }
       }
     },
-    "v1Transaction": {
+    "v1TransactionInfo": {
       "type": "object",
       "properties": {
         "hash": {
@@ -288,17 +289,20 @@
           "type": "string"
         },
         "ledger": {
-          "type": "string",
+          "type": "integer",
           "format": "int64"
         },
         "applicationOrder": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "envelopeXdr": {
           "type": "string"
         },
         "resultXdr": {
+          "type": "string"
+        },
+        "resultMetaXdr": {
           "type": "string"
         },
         "sourceAddress": {
@@ -310,7 +314,7 @@
       "type": "object",
       "properties": {
         "ledger": {
-          "$ref": "#/definitions/v1Transaction"
+          "$ref": "#/definitions/v1TransactionInfo"
         },
         "found": {
           "type": "boolean"

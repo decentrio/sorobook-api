@@ -47,7 +47,7 @@ func request_Query_Ledger_0(ctx context.Context, marshaler runtime.Marshaler, cl
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sequence")
 	}
 
-	protoReq.Sequence, err = runtime.Int64(val)
+	protoReq.Sequence, err = runtime.Uint32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sequence", err)
 	}
@@ -73,7 +73,7 @@ func local_request_Query_Ledger_0(ctx context.Context, marshaler runtime.Marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sequence")
 	}
 
-	protoReq.Sequence, err = runtime.Int64(val)
+	protoReq.Sequence, err = runtime.Uint32(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sequence", err)
 	}
