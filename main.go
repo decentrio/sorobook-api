@@ -6,6 +6,9 @@ import (
 	"net"
 	"net/http"
 
+	"github.com/rakyll/statik/fs"
+	_ "github.com/decentrio/sorobook-api/docs/statik"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -39,8 +42,15 @@ func runHTTPServer() error {
 		return err
 	}
 
+	statikFS, err := fs.New()
+	if err != nil {
+		panic(err)
+	}
+	staticServer := http.FileServer(statikFS)
+
 	// Serve Swagger UI
 	http.Handle("/", mux)
+	http.Handle("/public/", http.StripPrefix("/public/", staticServer))
 
 	log.Println("HTTP server listening on :8080")
 	return http.ListenAndServe(":8080", nil)
