@@ -12,7 +12,6 @@ type Keeper struct {
 	types.UnimplementedQueryServer
 }
 
-
 func NewKeeper() *Keeper {
 	dbHandler := database.NewDBHandler()
 
@@ -20,3 +19,5 @@ func NewKeeper() *Keeper {
 		dbHandler: dbHandler,
 	}
 }
+
+var _ types.QueryServer = Keeper{}
