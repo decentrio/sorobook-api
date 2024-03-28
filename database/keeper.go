@@ -9,13 +9,9 @@ import (
 )
 
 
-type DBHandler struct {
-	db *gorm.DB
-}
-
-func NewDBHandler() *DBHandler {
+func NewDBHandler() *gorm.DB {
 	db := createConnection()
-	return &DBHandler{db: db}
+	return db
 }
 
 // create connection with postgres db
