@@ -22,4 +22,7 @@ service Query {
   rpc ContractEntry(ContractEntryRequest) returns (ContractEntryResponse) {
     option (google.api.http).get = "/v1/contract-entries/{contract_id}/{key_xdr}";
   }
+  rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
+    option (google.api.http).get = "/v1/contract-entries/{contract_id}/";
+  }
 }

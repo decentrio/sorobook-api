@@ -209,7 +209,7 @@
         }
       }
     },
-    "v1Event": {
+    "v1EventInfo": {
       "type": "object",
       "properties": {
         "id": {
@@ -228,6 +228,13 @@
         "eventType": {
           "type": "string"
         },
+        "topicsXdr": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1Topic"
+          }
+        },
         "valueXdr": {
           "type": "string",
           "format": "byte"
@@ -238,7 +245,7 @@
       "type": "object",
       "properties": {
         "event": {
-          "$ref": "#/definitions/v1Event"
+          "$ref": "#/definitions/v1EventInfo"
         },
         "found": {
           "type": "boolean"
@@ -276,6 +283,22 @@
         },
         "found": {
           "type": "boolean"
+        }
+      }
+    },
+    "v1Topic": {
+      "type": "object",
+      "properties": {
+        "eventId": {
+          "type": "string"
+        },
+        "topicXdr": {
+          "type": "string",
+          "format": "byte"
+        },
+        "topicIdx": {
+          "type": "integer",
+          "format": "int64"
         }
       }
     },

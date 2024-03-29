@@ -29,4 +29,12 @@ message ContractEntryRequest {
 message ContractEntryResponse { 
   ContractEntryInfo entry = 1;
   bool found = 2;
- }
+}
+
+message ContractDataRequest {
+  string contract_id = 1;
+}
+
+message ContractDataResponse {
+  repeated ContractEntryInfo data = 1;
+}

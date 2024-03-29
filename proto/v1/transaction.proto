@@ -32,4 +32,4 @@ message TransactionRequest {
 message TransactionResponse { 
   TransactionInfo ledger = 1;
   bool found = 2;
- }
+}

@@ -18,4 +18,10 @@ message LedgerRequest {
 message LedgerResponse { 
   Ledger ledger = 1;
   bool found = 2;
- }
+}
+
+message LedgerCountRequest {}
+
+message LedgerCountResponse {
+  uint32 count = 1;
+}

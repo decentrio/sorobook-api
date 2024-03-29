@@ -107,6 +107,101 @@ func (x *Event) GetValueXdr() []byte {
 	return nil
 }
 
+type EventInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id         string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ContractId string   `protobuf:"bytes,2,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
+	TxHash     string   `protobuf:"bytes,3,opt,name=tx_hash,json=txHash,proto3" json:"tx_hash,omitempty"`
+	TxIndex    uint32   `protobuf:"varint,4,opt,name=tx_index,json=txIndex,proto3" json:"tx_index,omitempty"`
+	EventType  string   `protobuf:"bytes,5,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	TopicsXdr  []*Topic `protobuf:"bytes,6,rep,name=topics_xdr,json=topicsXdr,proto3" json:"topics_xdr,omitempty"`
+	ValueXdr   []byte   `protobuf:"bytes,7,opt,name=value_xdr,json=valueXdr,proto3" json:"value_xdr,omitempty"`
+}
+
+func (x *EventInfo) Reset() {
+	*x = EventInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *EventInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EventInfo) ProtoMessage() {}
+
+func (x *EventInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EventInfo.ProtoReflect.Descriptor instead.
+func (*EventInfo) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *EventInfo) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *EventInfo) GetContractId() string {
+	if x != nil {
+		return x.ContractId
+	}
+	return ""
+}
+
+func (x *EventInfo) GetTxHash() string {
+	if x != nil {
+		return x.TxHash
+	}
+	return ""
+}
+
+func (x *EventInfo) GetTxIndex() uint32 {
+	if x != nil {
+		return x.TxIndex
+	}
+	return 0
+}
+
+func (x *EventInfo) GetEventType() string {
+	if x != nil {
+		return x.EventType
+	}
+	return ""
+}
+
+func (x *EventInfo) GetTopicsXdr() []*Topic {
+	if x != nil {
+		return x.TopicsXdr
+	}
+	return nil
+}
+
+func (x *EventInfo) GetValueXdr() []byte {
+	if x != nil {
+		return x.ValueXdr
+	}
+	return nil
+}
+
 type EventRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -118,7 +213,7 @@ type EventRequest struct {
 func (x *EventRequest) Reset() {
 	*x = EventRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_v1_event_proto_msgTypes[1]
+		mi := &file_v1_event_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -131,7 +226,7 @@ func (x *EventRequest) String() string {
 func (*EventRequest) ProtoMessage() {}
 
 func (x *EventRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_event_proto_msgTypes[1]
+	mi := &file_v1_event_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -144,7 +239,7 @@ func (x *EventRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EventRequest.ProtoReflect.Descriptor instead.
 func (*EventRequest) Descriptor() ([]byte, []int) {
-	return file_v1_event_proto_rawDescGZIP(), []int{1}
+	return file_v1_event_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *EventRequest) GetId() string {
@@ -159,14 +254,14 @@ type EventResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Event *Event `protobuf:"bytes,1,opt,name=event,proto3" json:"event,omitempty"`
-	Found bool   `protobuf:"varint,2,opt,name=found,proto3" json:"found,omitempty"`
+	Event *EventInfo `protobuf:"bytes,1,opt,name=event,proto3" json:"event,omitempty"`
+	Found bool       `protobuf:"varint,2,opt,name=found,proto3" json:"found,omitempty"`
 }
 
 func (x *EventResponse) Reset() {
 	*x = EventResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_v1_event_proto_msgTypes[2]
+		mi := &file_v1_event_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -179,7 +274,7 @@ func (x *EventResponse) String() string {
 func (*EventResponse) ProtoMessage() {}
 
 func (x *EventResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_event_proto_msgTypes[2]
+	mi := &file_v1_event_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -192,10 +287,10 @@ func (x *EventResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EventResponse.ProtoReflect.Descriptor instead.
 func (*EventResponse) Descriptor() ([]byte, []int) {
-	return file_v1_event_proto_rawDescGZIP(), []int{2}
+	return file_v1_event_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *EventResponse) GetEvent() *Event {
+func (x *EventResponse) GetEvent() *EventInfo {
 	if x != nil {
 		return x.Event
 	}
@@ -209,11 +304,216 @@ func (x *EventResponse) GetFound() bool {
 	return false
 }
 
+type ContractEventsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ContractId string `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
+	Page       uint32 `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ContractEventsRequest) Reset() {
+	*x = ContractEventsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContractEventsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContractEventsRequest) ProtoMessage() {}
+
+func (x *ContractEventsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContractEventsRequest.ProtoReflect.Descriptor instead.
+func (*ContractEventsRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ContractEventsRequest) GetContractId() string {
+	if x != nil {
+		return x.ContractId
+	}
+	return ""
+}
+
+func (x *ContractEventsRequest) GetPage() uint32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type ContractEventsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*EventInfo `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   uint32       `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ContractEventsResponse) Reset() {
+	*x = ContractEventsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContractEventsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContractEventsResponse) ProtoMessage() {}
+
+func (x *ContractEventsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContractEventsResponse.ProtoReflect.Descriptor instead.
+func (*ContractEventsResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ContractEventsResponse) GetEvents() []*EventInfo {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *ContractEventsResponse) GetPage() uint32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type ContractEventCountRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ContractId string `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
+}
+
+func (x *ContractEventCountRequest) Reset() {
+	*x = ContractEventCountRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContractEventCountRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContractEventCountRequest) ProtoMessage() {}
+
+func (x *ContractEventCountRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContractEventCountRequest.ProtoReflect.Descriptor instead.
+func (*ContractEventCountRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *ContractEventCountRequest) GetContractId() string {
+	if x != nil {
+		return x.ContractId
+	}
+	return ""
+}
+
+type ContractEventCountResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Total uint32 `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+}
+
+func (x *ContractEventCountResponse) Reset() {
+	*x = ContractEventCountResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContractEventCountResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContractEventCountResponse) ProtoMessage() {}
+
+func (x *ContractEventCountResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContractEventCountResponse.ProtoReflect.Descriptor instead.
+func (*ContractEventCountResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ContractEventCountResponse) GetTotal() uint32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
 var File_v1_event_proto protoreflect.FileDescriptor
 
 var file_v1_event_proto_rawDesc = []byte{
 	0x0a, 0x0e, 0x76, 0x31, 0x2f, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x12, 0x02, 0x76, 0x31, 0x22, 0xa8, 0x01, 0x0a, 0x05, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x0e,
+	0x12, 0x02, 0x76, 0x31, 0x1a, 0x0e, 0x76, 0x31, 0x2f, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x22, 0xa8, 0x01, 0x0a, 0x05, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x0e,
 	0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1f,
 	0x0a, 0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x12,
@@ -224,20 +524,51 @@ var file_v1_event_proto_rawDesc = []byte{
 	0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79,
 	0x70, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x5f, 0x78, 0x64, 0x72, 0x18,
 	0x06, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x08, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x58, 0x64, 0x72, 0x22,
-	0x1e, 0x0a, 0x0c, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22,
-	0x46, 0x0a, 0x0d, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x1f, 0x0a, 0x05, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x09, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x05, 0x65, 0x76, 0x65, 0x6e,
-	0x74, 0x12, 0x14, 0x0a, 0x05, 0x66, 0x6f, 0x75, 0x6e, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08,
-	0x52, 0x05, 0x66, 0x6f, 0x75, 0x6e, 0x64, 0x42, 0x65, 0x0a, 0x06, 0x63, 0x6f, 0x6d, 0x2e, 0x76,
-	0x31, 0x42, 0x0a, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x27, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x65, 0x63, 0x65,
-	0x6e, 0x74, 0x72, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x72, 0x6f, 0x62, 0x6f, 0x6f, 0x6b, 0x2d, 0x61,
-	0x70, 0x69, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x73, 0xa2, 0x02, 0x03, 0x56, 0x58, 0x58, 0xaa, 0x02,
-	0x02, 0x56, 0x31, 0xca, 0x02, 0x02, 0x56, 0x31, 0xe2, 0x02, 0x0e, 0x56, 0x31, 0x5c, 0x47, 0x50,
-	0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x02, 0x56, 0x31, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0xd6, 0x01, 0x0a, 0x09, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x0e, 0x0a,
+	0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x1f, 0x0a,
+	0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x12, 0x17,
+	0x0a, 0x07, 0x74, 0x78, 0x5f, 0x68, 0x61, 0x73, 0x68, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x06, 0x74, 0x78, 0x48, 0x61, 0x73, 0x68, 0x12, 0x19, 0x0a, 0x08, 0x74, 0x78, 0x5f, 0x69, 0x6e,
+	0x64, 0x65, 0x78, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x07, 0x74, 0x78, 0x49, 0x6e, 0x64,
+	0x65, 0x78, 0x12, 0x1d, 0x0a, 0x0a, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x5f, 0x74, 0x79, 0x70, 0x65,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70,
+	0x65, 0x12, 0x28, 0x0a, 0x0a, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x5f, 0x78, 0x64, 0x72, 0x18,
+	0x06, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x6f, 0x70, 0x69, 0x63,
+	0x52, 0x09, 0x74, 0x6f, 0x70, 0x69, 0x63, 0x73, 0x58, 0x64, 0x72, 0x12, 0x1b, 0x0a, 0x09, 0x76,
+	0x61, 0x6c, 0x75, 0x65, 0x5f, 0x78, 0x64, 0x72, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x08,
+	0x76, 0x61, 0x6c, 0x75, 0x65, 0x58, 0x64, 0x72, 0x22, 0x1e, 0x0a, 0x0c, 0x45, 0x76, 0x65, 0x6e,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x4a, 0x0a, 0x0d, 0x45, 0x76, 0x65, 0x6e,
+	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x23, 0x0a, 0x05, 0x65, 0x76, 0x65,
+	0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x05, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x12, 0x14,
+	0x0a, 0x05, 0x66, 0x6f, 0x75, 0x6e, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x05, 0x66,
+	0x6f, 0x75, 0x6e, 0x64, 0x22, 0x4c, 0x0a, 0x15, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a,
+	0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x12, 0x12,
+	0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x04, 0x70, 0x61,
+	0x67, 0x65, 0x22, 0x53, 0x0a, 0x16, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x06,
+	0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x76,
+	0x31, 0x2e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x06, 0x65, 0x76, 0x65,
+	0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0d, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x3c, 0x0a, 0x19, 0x43, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x49, 0x64, 0x22, 0x32, 0x0a, 0x1a, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
+	0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0d, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x42, 0x65, 0x0a, 0x06, 0x63, 0x6f, 0x6d,
+	0x2e, 0x76, 0x31, 0x42, 0x0a, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
+	0x01, 0x5a, 0x27, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x65,
+	0x63, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x72, 0x6f, 0x62, 0x6f, 0x6f, 0x6b,
+	0x2d, 0x61, 0x70, 0x69, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x73, 0xa2, 0x02, 0x03, 0x56, 0x58, 0x58,
+	0xaa, 0x02, 0x02, 0x56, 0x31, 0xca, 0x02, 0x02, 0x56, 0x31, 0xe2, 0x02, 0x0e, 0x56, 0x31, 0x5c,
+	0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x02, 0x56, 0x31,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -252,19 +583,27 @@ func file_v1_event_proto_rawDescGZIP() []byte {
 	return file_v1_event_proto_rawDescData
 }
 
-var file_v1_event_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_v1_event_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_v1_event_proto_goTypes = []interface{}{
-	(*Event)(nil),         // 0: v1.Event
-	(*EventRequest)(nil),  // 1: v1.EventRequest
-	(*EventResponse)(nil), // 2: v1.EventResponse
+	(*Event)(nil),                      // 0: v1.Event
+	(*EventInfo)(nil),                  // 1: v1.EventInfo
+	(*EventRequest)(nil),               // 2: v1.EventRequest
+	(*EventResponse)(nil),              // 3: v1.EventResponse
+	(*ContractEventsRequest)(nil),      // 4: v1.ContractEventsRequest
+	(*ContractEventsResponse)(nil),     // 5: v1.ContractEventsResponse
+	(*ContractEventCountRequest)(nil),  // 6: v1.ContractEventCountRequest
+	(*ContractEventCountResponse)(nil), // 7: v1.ContractEventCountResponse
+	(*Topic)(nil),                      // 8: v1.Topic
 }
 var file_v1_event_proto_depIdxs = []int32{
-	0, // 0: v1.EventResponse.event:type_name -> v1.Event
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	8, // 0: v1.EventInfo.topics_xdr:type_name -> v1.Topic
+	1, // 1: v1.EventResponse.event:type_name -> v1.EventInfo
+	1, // 2: v1.ContractEventsResponse.events:type_name -> v1.EventInfo
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_v1_event_proto_init() }
@@ -272,6 +611,7 @@ func file_v1_event_proto_init() {
 	if File_v1_event_proto != nil {
 		return
 	}
+	file_v1_topic_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_v1_event_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Event); i {
@@ -286,7 +626,7 @@ func file_v1_event_proto_init() {
 			}
 		}
 		file_v1_event_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*EventRequest); i {
+			switch v := v.(*EventInfo); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -298,7 +638,67 @@ func file_v1_event_proto_init() {
 			}
 		}
 		file_v1_event_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*EventRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*EventResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContractEventsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContractEventsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContractEventCountRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContractEventCountResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -316,7 +716,7 @@ func file_v1_event_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_v1_event_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
