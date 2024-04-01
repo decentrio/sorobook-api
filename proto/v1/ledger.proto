@@ -23,5 +23,5 @@ message LedgerResponse {
 message LedgerCountRequest {}
 
 message LedgerCountResponse {
-  uint32 count = 1;
+  int64 count = 1;
 }

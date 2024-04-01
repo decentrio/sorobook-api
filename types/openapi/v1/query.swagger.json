@@ -16,6 +16,36 @@
     "application/json"
   ],
   "paths": {
+    "/v1/contract-entries/{contractId}": {
+      "get": {
+        "operationId": "Query_ContractData",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ContractDataResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "contractId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
     "/v1/contract-entries/{contractId}/{keyXdr}": {
       "get": {
         "operationId": "Query_ContractEntry",
@@ -52,6 +82,73 @@
         ]
       }
     },
+    "/v1/events/count/{contractId}": {
+      "get": {
+        "operationId": "Query_ContractEventCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ContractEventCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "contractId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/v1/events/{contractId}/{page}": {
+      "get": {
+        "operationId": "Query_ContractEvents",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ContractEventsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "contractId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
     "/v1/events/{id}": {
       "get": {
         "operationId": "Query_Event",
@@ -77,6 +174,28 @@
             "type": "string"
           }
         ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/v1/ledgers/count": {
+      "get": {
+        "operationId": "Query_LedgerCount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1LedgerCountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
         "tags": [
           "Query"
         ]
@@ -173,6 +292,18 @@
         }
       }
     },
+    "v1ContractDataResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1ContractEntryInfo"
+          }
+        }
+      }
+    },
     "v1ContractEntryInfo": {
       "type": "object",
       "properties": {
@@ -209,6 +340,31 @@
         }
       }
     },
+    "v1ContractEventCountResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "v1ContractEventsResponse": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/v1EventInfo"
+          }
+        },
+        "page": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
     "v1EventInfo": {
       "type": "object",
       "properties": {
@@ -225,19 +381,8 @@
           "type": "integer",
           "format": "int64"
         },
-        "eventType": {
+        "eventXdr": {
           "type": "string"
-        },
-        "topicsXdr": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1Topic"
-          }
-        },
-        "valueXdr": {
-          "type": "string",
-          "format": "byte"
         }
       }
     },
@@ -275,6 +420,15 @@
         }
       }
     },
+    "v1LedgerCountResponse": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
     "v1LedgerResponse": {
       "type": "object",
       "properties": {
@@ -283,22 +437,6 @@
         },
         "found": {
           "type": "boolean"
-        }
-      }
-    },
-    "v1Topic": {
-      "type": "object",
-      "properties": {
-        "eventId": {
-          "type": "string"
-        },
-        "topicXdr": {
-          "type": "string",
-          "format": "byte"
-        },
-        "topicIdx": {
-          "type": "integer",
-          "format": "int64"
         }
       }
     },

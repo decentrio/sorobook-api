@@ -6,6 +6,6 @@ import (
 	types "github.com/decentrio/sorobook-api/types/v1"
 )
 
-func (q Keeper) Transaction(ctx context.Context, request *types.TransactionRequest) (*types.TransactionResponse, error) {
+func (k Keeper) Transaction(ctx context.Context, request *types.TransactionRequest) (*types.TransactionResponse, error) {
 	return nil, nil
 }

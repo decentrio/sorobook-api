@@ -1,8 +1,6 @@
 syntax = "proto3";
 package v1;
 
-import "v1/topic.proto";
-
 option go_package = "github.com/decentrio/sorobook-api/types";
 
 message Event {
@@ -10,8 +8,7 @@ message Event {
   string contract_id = 2;
   string tx_hash = 3;
   uint32 tx_index = 4;
-  string event_type = 5;
-  bytes value_xdr = 6;
+  bytes event_xdr = 5;
 }
 
 message EventInfo {
@@ -19,9 +16,7 @@ message EventInfo {
   string contract_id = 2;
   string tx_hash = 3;
   uint32 tx_index = 4;
-  string event_type = 5;
-  repeated Topic topics_xdr = 6;
-  bytes value_xdr = 7;
+  string event_xdr = 5;
 }
 
 message EventRequest {
@@ -48,5 +43,5 @@ message ContractEventCountRequest {
 }
 
 message ContractEventCountResponse {
-  uint32 total = 1;
+  int64 total = 1;
 }

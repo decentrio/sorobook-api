@@ -13,16 +13,25 @@ service Query {
   rpc Ledger(LedgerRequest) returns (LedgerResponse) {
     option (google.api.http).get = "/v1/ledgers/{sequence}";
   }
+  rpc LedgerCount(LedgerCountRequest) returns (LedgerCountResponse) {
+    option (google.api.http).get = "/v1/ledgers/count";
+  }
   rpc Transaction(TransactionRequest) returns (TransactionResponse) {
     option (google.api.http).get = "/v1/transactions/{hash}";
   }
   rpc Event(EventRequest) returns (EventResponse) {
     option (google.api.http).get = "/v1/events/{id}";
   }
+  rpc ContractEvents(ContractEventsRequest) returns (ContractEventsResponse) {
+    option (google.api.http).get = "/v1/events/{contract_id}/{page}";
+  }
+  rpc ContractEventCount(ContractEventCountRequest) returns (ContractEventCountResponse) {
+    option (google.api.http).get = "/v1/events/count/{contract_id}";
+  }
   rpc ContractEntry(ContractEntryRequest) returns (ContractEntryResponse) {
     option (google.api.http).get = "/v1/contract-entries/{contract_id}/{key_xdr}";
   }
   rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
-    option (google.api.http).get = "/v1/contract-entries/{contract_id}/";
+    option (google.api.http).get = "/v1/contract-entries/{contract_id}";
   }
 }
