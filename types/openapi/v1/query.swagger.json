@@ -389,8 +389,8 @@
           "type": "integer",
           "format": "int64"
         },
-        "eventXdr": {
-          "type": "string"
+        "event": {
+          "type": "object"
         }
       }
     },
