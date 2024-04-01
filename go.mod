@@ -1,8 +1,11 @@
 module github.com/decentrio/sorobook-api
 
-go 1.21.7
+go 1.22
+
+toolchain go1.22.1
 
 require (
+	github.com/decentrio/xdr-converter v0.0.0-20240401075605-74fcc244c5f1
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
 	github.com/rakyll/statik v0.1.7
 	google.golang.org/genproto/googleapis/api v0.0.0-20240311173647-c811ad7063a7
@@ -19,6 +22,9 @@ require (
 	github.com/jackc/pgx/v5 v5.4.3 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	github.com/stellar/go v0.0.0-20240329200747-a30c441b6cd6 // indirect
+	github.com/stellar/go-xdr v0.0.0-20231122183749-b53fb00bcac2 // indirect
 	golang.org/x/crypto v0.18.0 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect

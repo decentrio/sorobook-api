@@ -273,6 +273,14 @@
       },
       "additionalProperties": {}
     },
+    "protobufNullValue": {
+      "type": "string",
+      "enum": [
+        "NULL_VALUE"
+      ],
+      "default": "NULL_VALUE",
+      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\nThe JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+    },
     "rpcStatus": {
       "type": "object",
       "properties": {
@@ -457,14 +465,14 @@
           "type": "integer",
           "format": "int64"
         },
-        "envelopeXdr": {
-          "type": "string"
+        "envelope": {
+          "type": "object"
         },
-        "resultXdr": {
-          "type": "string"
+        "result": {
+          "type": "object"
         },
-        "resultMetaXdr": {
-          "type": "string"
+        "resultMeta": {
+          "type": "object"
         },
         "sourceAddress": {
           "type": "string"
@@ -474,7 +482,7 @@
     "v1TransactionResponse": {
       "type": "object",
       "properties": {
-        "ledger": {
+        "transaction": {
           "$ref": "#/definitions/v1TransactionInfo"
         },
         "found": {
