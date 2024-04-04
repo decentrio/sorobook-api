@@ -1,6 +1,8 @@
 syntax = "proto3";
 package v1;
 
+import "google/protobuf/struct.proto";
+
 option go_package = "github.com/decentrio/sorobook-api/types";
 
 message ContractEntry {
@@ -26,15 +28,15 @@ message ContractEntryRequest {
   string key_xdr = 2;
 }
 
-message ContractEntryResponse { 
+message ContractEntryResponse {
   ContractEntryInfo entry = 1;
   bool found = 2;
 }
 
-message ContractDataRequest {
-  string contract_id = 1;
-}
+message ContractDataRequest { string contract_id = 1; }
 
-message ContractDataResponse {
-  repeated ContractEntryInfo data = 1;
-}
+message ContractDataResponse { repeated ContractEntryInfo data = 1; }
+
+message ContractKeysRequest { string contract_id = 1; }
+
+message ContractKeysResponse { repeated google.protobuf.Struct keys = 1; }

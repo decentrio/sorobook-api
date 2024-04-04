@@ -21,29 +21,23 @@ message EventInfo {
   google.protobuf.Struct event = 5;
 }
 
-message EventRequest {
-  string id =1; 
-}
+message EventRequest { string id = 1; }
 
-message EventResponse { 
+message EventResponse {
   EventInfo event = 1;
   bool found = 2;
 }
 
 message ContractEventsRequest {
-  string contract_id  = 1;
-  uint32 page = 2;
+  string contract_id = 1;
+  int32 page = 2;
 }
 
 message ContractEventsResponse {
   repeated EventInfo events = 1;
-  uint32 page = 2;
+  int32 page = 2;
 }
 
-message ContractEventCountRequest {
-  string contract_id  = 1;
-}
+message ContractEventCountRequest { string contract_id = 1; }
 
-message ContractEventCountResponse {
-  int64 total = 1;
-}
+message ContractEventCountResponse { int64 total = 1; }

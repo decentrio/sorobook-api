@@ -46,6 +46,36 @@
         ]
       }
     },
+    "/v1/contract-entries/{contractId}/keys": {
+      "get": {
+        "operationId": "Query_ContractKeys",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ContractKeysResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "contractId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
     "/v1/contract-entries/{contractId}/{keyXdr}": {
       "get": {
         "operationId": "Query_ContractEntry",
@@ -370,6 +400,17 @@
         "page": {
           "type": "integer",
           "format": "int64"
+        }
+      }
+    },
+    "v1ContractKeysResponse": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
         }
       }
     },

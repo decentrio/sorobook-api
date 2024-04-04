@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.22.1
 
 require (
-	github.com/decentrio/xdr-converter v0.0.0-20240401075605-74fcc244c5f1
+	github.com/decentrio/xdr-converter v0.0.0-20240403073441-3ce9ebb97263
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
 	github.com/rakyll/statik v0.1.7
 	google.golang.org/genproto/googleapis/api v0.0.0-20240311173647-c811ad7063a7

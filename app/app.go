@@ -7,6 +7,8 @@ import (
 	types "github.com/decentrio/sorobook-api/types/v1"
 )
 
+var pageSize = 10 
+
 type Keeper struct {
 	dbHandler *gorm.DB
 	types.UnimplementedQueryServer

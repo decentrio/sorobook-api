@@ -23,6 +23,23 @@ func (k Keeper) Ledger(ctx context.Context, request *types.LedgerRequest) (*type
 	}, nil
 }
 
+func (k Keeper) LedgerHash(ctx context.Context, request *types.LedgerHashRequest) (*types.LedgerHashResponse, error) {
+	var ledger types.Ledger
+
+	err := k.dbHandler.Table("ledgers").Where("hash = ?", request.Hash).First(&ledger).Error
+	if err != nil {
+		return &types.LedgerHashResponse{
+			Found:  false,
+			Ledger: &types.Ledger{},
+		}, err
+	}
+
+	return &types.LedgerHashResponse{
+		Ledger: &ledger,
+		Found:  true,
+	}, nil
+}
+
 func (k Keeper) LedgerCount(ctx context.Context, request *types.LedgerCountRequest) (*types.LedgerCountResponse, error) {
 	var count int64
 	err := k.dbHandler.Table("ledgers").Count(&count).Error

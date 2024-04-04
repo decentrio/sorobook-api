@@ -1,7 +1,7 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: Sorobook API
-  version: 1.0.1
+  version: 1.0.0
 tags:
   - name: Query
 consumes:
@@ -13,10 +13,29 @@ paths:
     get:
       operationId: Query_ContractData
       responses:
-        '200':
+        "200":
           description: A successful response.
           schema:
             $ref: '#/definitions/v1ContractDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /v1/contract-entries/{contractId}/keys:
+    get:
+      operationId: Query_ContractKeys
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ContractKeysResponse'
         default:
           description: An unexpected error response.
           schema:
@@ -32,7 +51,7 @@ paths:
     get:
       operationId: Query_ContractEntry
       responses:
-        '200':
+        "200":
           description: A successful response.
           schema:
             $ref: '#/definitions/v1ContractEntryResponse'
@@ -55,7 +74,7 @@ paths:
     get:
       operationId: Query_ContractEventCount
       responses:
-        '200':
+        "200":
           description: A successful response.
           schema:
             $ref: '#/definitions/v1ContractEventCountResponse'
@@ -74,7 +93,7 @@ paths:
     get:
       operationId: Query_ContractEvents
       responses:
-        '200':
+        "200":
           description: A successful response.
           schema:
             $ref: '#/definitions/v1ContractEventsResponse'
@@ -91,14 +110,14 @@ paths:
           in: path
           required: true
           type: integer
-          format: int64
+          format: int32
       tags:
         - Query
   /v1/events/{id}:
     get:
       operationId: Query_Event
       responses:
-        '200':
+        "200":
           description: A successful response.
           schema:
             $ref: '#/definitions/v1EventResponse'
@@ -113,25 +132,31 @@ paths:
           type: string
       tags:
         - Query
-  /v1/ledgers/count:
+  /v1/ledger-by-hash/{hash}:
     get:
-      operationId: Query_LedgerCount
+      operationId: Query_LedgerHash
       responses:
-        '200':
+        "200":
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1LedgerCountResponse'
+            $ref: '#/definitions/v1LedgerHashResponse'
         default:
           description: An unexpected error response.
           schema:
             $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: hash
+          in: path
+          required: true
+          type: integer
+          format: int64
       tags:
         - Query
-  /v1/ledgers/{sequence}:
+  /v1/ledger-by-seq/{sequence}:
     get:
       operationId: Query_Ledger
       responses:
-        '200':
+        "200":
           description: A successful response.
           schema:
             $ref: '#/definitions/v1LedgerResponse'
@@ -147,11 +172,99 @@ paths:
           format: int64
       tags:
         - Query
+  /v1/ledgers/count:
+    get:
+      operationId: Query_LedgerCount
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1LedgerCountResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - Query
+  /v1/transactions-at-ledger-hash/{ledgerHash}/{page}:
+    get:
+      operationId: Query_TransactionsAtLedgerHash
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1TransactionsAtLedgerHashResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: ledgerHash
+          in: path
+          required: true
+          type: integer
+          format: int64
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/transactions-at-ledger-seq/{ledger}/{page}:
+    get:
+      operationId: Query_TransactionsAtLedgerSeq
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1TransactionsAtLedgerSeqResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: ledger
+          in: path
+          required: true
+          type: integer
+          format: int64
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/transactions-by-address/{address}/{page}:
+    get:
+      operationId: Query_TransactionsByAddress
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1TransactionsByAddressResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: address
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
   /v1/transactions/{hash}:
     get:
       operationId: Query_Transaction
       responses:
-        '200':
+        "200":
           description: A successful response.
           schema:
             $ref: '#/definitions/v1TransactionResponse'
@@ -246,7 +359,14 @@ definitions:
           $ref: '#/definitions/v1EventInfo'
       page:
         type: integer
-        format: int64
+        format: int32
+  v1ContractKeysResponse:
+    type: object
+    properties:
+      keys:
+        type: array
+        items:
+          type: object
   v1EventInfo:
     type: object
     properties:
@@ -290,6 +410,13 @@ definitions:
       count:
         type: string
         format: int64
+  v1LedgerHashResponse:
+    type: object
+    properties:
+      ledger:
+        $ref: '#/definitions/v1Ledger'
+      found:
+        type: boolean
   v1LedgerResponse:
     type: object
     properties:
@@ -325,3 +452,36 @@ definitions:
         $ref: '#/definitions/v1TransactionInfo'
       found:
         type: boolean
+  v1TransactionsAtLedgerHashResponse:
+    type: object
+    properties:
+      txs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TransactionInfo'
+      page:
+        type: integer
+        format: int32
+  v1TransactionsAtLedgerSeqResponse:
+    type: object
+    properties:
+      txs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TransactionInfo'
+      page:
+        type: integer
+        format: int32
+  v1TransactionsByAddressResponse:
+    type: object
+    properties:
+      txs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TransactionInfo'
+      page:
+        type: integer
+        format: int32

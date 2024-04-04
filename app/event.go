@@ -21,15 +21,8 @@ func (k Keeper) Event(ctx context.Context, request *types.EventRequest) (*types.
 		}, err
 	}
 
-	eventJson := &structpb.Struct{}
-	eventData, err := converter.MarshalJSONContractEventXdr(event.EventXdr)
+	eventInfo, err := convertToEventInfo(&event)
 	if err != nil {
-		return &types.EventResponse{
-			Found: false,
-			Event: &types.EventInfo{},
-		}, err
-	}
-	if err := json.Unmarshal(eventData, eventJson); err != nil {
 		return &types.EventResponse{
 			Found: false,
 			Event: &types.EventInfo{},
@@ -38,58 +31,41 @@ func (k Keeper) Event(ctx context.Context, request *types.EventRequest) (*types.
 
 	return &types.EventResponse{
 		Found: true,
-		Event: &types.EventInfo{
-			Id:         event.Id,
-			ContractId: event.ContractId,
-			TxHash:     event.TxHash,
-			TxIndex:    event.TxIndex,
-			Event:      eventJson,
-		},
+		Event: eventInfo,
 	}, nil
 }
 
 func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEventsRequest) (*types.ContractEventsResponse, error) {
-	pageSize := 10
-	offset := int(request.Page) * pageSize
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * pageSize
 
 	var events []*types.Event
 	err := k.dbHandler.Table("events").Where("contract_id = ?", request.ContractId).Limit(pageSize).Offset(offset).Find(&events).Error
 	if err != nil {
 		return &types.ContractEventsResponse{
 			Events: []*types.EventInfo{},
-			Page:   request.Page,
+			Page:   int32(page),
 		}, err
 	}
 
 	var infos []*types.EventInfo
-
 	for _, item := range events {
-		eventJson := &structpb.Struct{}
-		eventData, err := converter.MarshalJSONContractEventXdr(item.EventXdr)
+		eventInfo, err := convertToEventInfo(item)
 		if err != nil {
 			return &types.ContractEventsResponse{
 				Events: []*types.EventInfo{},
-				Page:   request.Page,
+				Page:   int32(page),
 			}, err
 		}
-		if err := json.Unmarshal(eventData, eventJson); err != nil {
-			return &types.ContractEventsResponse{
-				Events: []*types.EventInfo{},
-				Page:   request.Page,
-			}, err
-		}
-
-		infos = append(infos, &types.EventInfo{
-			Id:         item.Id,
-			ContractId: item.ContractId,
-			TxHash:     item.TxHash,
-			TxIndex:    item.TxIndex,
-			Event:      eventJson,
-		})
+		infos = append(infos, eventInfo)
 	}
+
 	return &types.ContractEventsResponse{
 		Events: infos,
-		Page:   request.Page,
+		Page:   int32(page),
 	}, nil
 }
 
@@ -103,4 +79,23 @@ func (k Keeper) ContractEventCount(ctx context.Context, request *types.ContractE
 	return &types.ContractEventCountResponse{
 		Total: count,
 	}, nil
+}
+
+func convertToEventInfo(event *types.Event) (*types.EventInfo, error) {
+	eventJson := &structpb.Struct{}
+	eventData, err := converter.MarshalJSONContractEventXdr(event.EventXdr)
+	if err != nil {
+		return &types.EventInfo{}, err
+	}
+	if err := json.Unmarshal(eventData, eventJson); err != nil {
+		return &types.EventInfo{}, err
+	}
+
+	return &types.EventInfo{
+		Id:         event.Id,
+		ContractId: event.ContractId,
+		TxHash:     event.TxHash,
+		TxIndex:    event.TxIndex,
+		Event:      eventJson,
+	}, err
 }

@@ -11,17 +11,20 @@ message Ledger {
   uint32 operations = 5;
 }
 
-message LedgerRequest {
-  uint32 sequence =1; 
-}
+message LedgerRequest { uint32 sequence = 1; }
 
-message LedgerResponse { 
+message LedgerResponse {
   Ledger ledger = 1;
   bool found = 2;
 }
 
 message LedgerCountRequest {}
 
-message LedgerCountResponse {
-  int64 count = 1;
+message LedgerCountResponse { int64 count = 1; }
+
+message LedgerHashRequest { uint32 hash = 1; }
+
+message LedgerHashResponse {
+  Ledger ledger = 1;
+  bool found = 2;
 }

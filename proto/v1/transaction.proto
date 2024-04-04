@@ -27,11 +27,39 @@ message TransactionInfo {
   string source_address = 8;
 }
 
-message TransactionRequest {
-  string hash = 1;
-}
+message TransactionRequest { string hash = 1; }
 
-message TransactionResponse { 
+message TransactionResponse {
   TransactionInfo transaction = 1;
   bool found = 2;
+}
+
+message TransactionsByAddressRequest {
+  string address = 1;
+  int32 page = 2;
+}
+
+message TransactionsByAddressResponse {
+  repeated TransactionInfo txs = 1;
+  int32 page = 2;
+}
+
+message TransactionsAtLedgerSeqRequest {
+  uint32 ledger = 1;
+  int32 page = 2;
+}
+
+message TransactionsAtLedgerSeqResponse {
+  repeated TransactionInfo txs = 1;
+  int32 page = 2;
+}
+
+message TransactionsAtLedgerHashRequest {
+  uint32 ledger_hash = 1;
+  int32 page = 2;
+}
+
+message TransactionsAtLedgerHashResponse {
+  repeated TransactionInfo txs = 1;
+  int32 page = 2;
 }
