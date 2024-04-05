@@ -10,45 +10,54 @@ import "v1/transaction.proto";
 option go_package = "github.com/decentrio/sorobook-api/types";
 
 service Query {
+  // Ledger queries ledger info given ledger sequence.
   rpc Ledger(LedgerRequest) returns (LedgerResponse) {
     option (google.api.http).get = "/v1/ledger-by-seq/{sequence}";
   }
+
+  // LedgerHash queries ledger info given ledger hash.
   rpc LedgerHash(LedgerHashRequest) returns (LedgerHashResponse) {
     option (google.api.http).get = "/v1/ledger-by-hash/{hash}";
   }
+  
+  // LedgerCount queries number of ledgers in database.
   rpc LedgerCount(LedgerCountRequest) returns (LedgerCountResponse) {
     option (google.api.http).get = "/v1/ledgers/count";
   }
+
+  // Transaction queries transaction info given transaction hash.
   rpc Transaction(TransactionRequest) returns (TransactionResponse) {
     option (google.api.http).get = "/v1/transactions/{hash}";
   }
+
+  // TransactionsByAddress queries all transactions that match the given source address.
   rpc TransactionsByAddress(TransactionsByAddressRequest) returns (TransactionsByAddressResponse) {
     option (google.api.http).get = "/v1/transactions-by-address/{address}/{page}";
   }
+
+  // TransactionsAtLedgerSeq queries all transactions that match the given ledger sequence.
   rpc TransactionsAtLedgerSeq(TransactionsAtLedgerSeqRequest) returns (TransactionsAtLedgerSeqResponse) {
     option (google.api.http).get = "/v1/transactions-at-ledger-seq/{ledger}/{page}";
   }
+
+  // TransactionsAtLedgerHash queries all transactions that match the given ledger hash.
   rpc TransactionsAtLedgerHash(TransactionsAtLedgerHashRequest) returns (TransactionsAtLedgerHashResponse) {
     option (google.api.http).get = "/v1/transactions-at-ledger-hash/{ledger_hash}/{page}";
   }
+
+  // Event queries event info given event id.
   rpc Event(EventRequest) returns (EventResponse) {
     option (google.api.http).get = "/v1/events/{id}";
   }
+
+  // ContractEvents queries 10 events that match the given page.
   rpc ContractEvents(ContractEventsRequest) returns (ContractEventsResponse) {
     option (google.api.http).get = "/v1/events/{contract_id}/{page}";
   }
+
+  // ContractEventCount queries number of events that match the given contract id.
   rpc ContractEventCount(ContractEventCountRequest)
       returns (ContractEventCountResponse) {
     option (google.api.http).get = "/v1/events/count/{contract_id}";
-  }
-  rpc ContractEntry(ContractEntryRequest) returns (ContractEntryResponse) {
-    option (google.api.http).get =
-        "/v1/contract-entries/{contract_id}/{key_xdr}";
-  }
-  rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
-    option (google.api.http).get = "/v1/contract-entries/{contract_id}";
-  }
-  rpc ContractKeys(ContractKeysRequest) returns (ContractKeysResponse) {
-    option (google.api.http).get = "/v1/contract-entries/{contract_id}/keys";
   }
 }
