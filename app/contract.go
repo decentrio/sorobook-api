@@ -41,6 +41,7 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 
 	err := k.dbHandler.Table("contracts").
 		Where("contract_id = ?", request.ContractId).
+		Limit(20).
 		Find(&entries).Error
 	if err != nil {
 		return &types.ContractKeysResponse{

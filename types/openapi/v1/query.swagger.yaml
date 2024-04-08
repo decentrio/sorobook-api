@@ -91,8 +91,7 @@ paths:
         - name: hash
           in: path
           required: true
-          type: integer
-          format: int64
+          type: string
       tags:
         - Query
   /v1/ledger-by-seq/{sequence}:
@@ -148,8 +147,7 @@ paths:
         - name: ledgerHash
           in: path
           required: true
-          type: integer
-          format: int64
+          type: string
         - name: page
           in: path
           required: true

@@ -117,7 +117,7 @@ func (k Keeper) TransactionsByAddress(ctx context.Context, request *types.Transa
 	offset := (page - 1) * pageSize
 
 	var txs []*types.Transaction
-	err := k.dbHandler.Table("transactions").Where("source_address = ?", request.Address).Limit(pageSize).Offset(offset).Find(&txs).Error
+	err := k.dbHandler.Table("transactions").Where("source_address = ?", request.Address).Order("ledger DESC").Limit(pageSize).Offset(offset).Find(&txs).Error
 	if err != nil {
 		return &types.TransactionsByAddressResponse{
 			Txs:  []*types.TransactionInfo{},

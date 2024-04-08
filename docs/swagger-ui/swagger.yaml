@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
-  title: Sorobook API
-  version: 1.0.0
+  title: v1/query.proto
+  version: version not set
 tags:
   - name: Query
 consumes:
@@ -9,6 +9,25 @@ consumes:
 produces:
   - application/json
 paths:
+  /v1/contract-entries/{contractId}/keys:
+    get:
+      operationId: Query_ContractKeys
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ContractKeysResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /v1/events/count/{contractId}:
     get:
       summary: ContractEventCount queries number of events that match the given contract id.
@@ -277,6 +296,13 @@ definitions:
       page:
         type: integer
         format: int32
+  v1ContractKeysResponse:
+    type: object
+    properties:
+      keys:
+        type: array
+        items:
+          type: object
   v1EventInfo:
     type: object
     properties:

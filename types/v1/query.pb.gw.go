@@ -99,7 +99,7 @@ func request_Query_LedgerHash_0(ctx context.Context, marshaler runtime.Marshaler
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "hash")
 	}
 
-	protoReq.Hash, err = runtime.Uint32(val)
+	protoReq.Hash, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "hash", err)
 	}
@@ -125,7 +125,7 @@ func local_request_Query_LedgerHash_0(ctx context.Context, marshaler runtime.Mar
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "hash")
 	}
 
-	protoReq.Hash, err = runtime.Uint32(val)
+	protoReq.Hash, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "hash", err)
 	}
@@ -365,7 +365,7 @@ func request_Query_TransactionsAtLedgerHash_0(ctx context.Context, marshaler run
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "ledger_hash")
 	}
 
-	protoReq.LedgerHash, err = runtime.Uint32(val)
+	protoReq.LedgerHash, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "ledger_hash", err)
 	}
@@ -401,7 +401,7 @@ func local_request_Query_TransactionsAtLedgerHash_0(ctx context.Context, marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "ledger_hash")
 	}
 
-	protoReq.LedgerHash, err = runtime.Uint32(val)
+	protoReq.LedgerHash, err = runtime.String(val)
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "ledger_hash", err)
 	}

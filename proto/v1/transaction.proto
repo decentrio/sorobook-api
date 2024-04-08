@@ -55,7 +55,7 @@ message TransactionsAtLedgerSeqResponse {
 }
 
 message TransactionsAtLedgerHashRequest {
-  uint32 ledger_hash = 1;
+  string ledger_hash = 1;
   int32 page = 2;
 }
 

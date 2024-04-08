@@ -22,7 +22,7 @@ message LedgerCountRequest {}
 
 message LedgerCountResponse { int64 count = 1; }
 
-message LedgerHashRequest { uint32 hash = 1; }
+message LedgerHashRequest { string hash = 1; }
 
 message LedgerHashResponse {
   Ledger ledger = 1;
