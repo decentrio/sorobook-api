@@ -10,8 +10,9 @@ message ContractEntry {
   bytes key_xdr = 2;
   bytes value_xdr = 3;
   string durability = 4;
-  uint32 expiration_ledger_seq = 5;
-  uint32 flags = 6;
+  uint32 ledger = 5;
+  bool newest = 6;
+  uint32 flags = 7;
 }
 
 message ContractEntryInfo {
@@ -19,8 +20,8 @@ message ContractEntryInfo {
   string key_xdr = 2;
   string value_xdr = 3;
   string durability = 4;
-  uint32 expiration_ledger_seq = 5;
-  uint32 flags = 6;
+  uint32 ledger = 5;
+  bool newest = 6;
 }
 
 message ContractEntryRequest {

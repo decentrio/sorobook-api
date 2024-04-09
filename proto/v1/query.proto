@@ -60,4 +60,8 @@ service Query {
       returns (ContractEventCountResponse) {
     option (google.api.http).get = "/v1/events/count/{contract_id}";
   }
+
+//   rpc ContractKeys(ContractKeysRequest) returns (ContractKeysResponse) {
+//     option (google.api.http).get = "/v1/contract-entries/{contract_id}/keys";
+//   }
 }
