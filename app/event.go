@@ -43,7 +43,13 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 	offset := (page - 1) * pageSize
 
 	var events []*types.Event
-	err := k.dbHandler.Table("events").Where("contract_id = ?", request.ContractId).Limit(pageSize).Offset(offset).Find(&events).Error
+	err := k.dbHandler.Table("events").
+		Where("contract_id = ?", request.ContractId).
+		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(pageSize).
+		Offset(offset).
+		Find(&events).Error
 	if err != nil {
 		return &types.ContractEventsResponse{
 			Events: []*types.EventInfo{},
@@ -66,6 +72,31 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 	return &types.ContractEventsResponse{
 		Events: infos,
 		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedgerRequest) (*types.EventsAtLedgerResponse, error) {
+	var events []*types.Event
+	err := k.dbHandler.Table("events").
+		Joins("JOIN transactions ON transactions.hash = events.tx_hash").
+		Where("contract_id = ?", request.ContractId).
+		Where("transactions.ledger = ?", request.Ledger).
+		Find(&events).Error
+	if err != nil {
+		return &types.EventsAtLedgerResponse{}, err
+	}
+
+	var infos []*types.EventInfo
+	for _, item := range events {
+		eventInfo, err := convertToEventInfo(item)
+		if err != nil {
+			return &types.EventsAtLedgerResponse{}, err
+		}
+		infos = append(infos, eventInfo)
+	}
+
+	return &types.EventsAtLedgerResponse{
+		Events: infos,
 	}, nil
 }
 

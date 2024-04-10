@@ -9,9 +9,61 @@ consumes:
 produces:
   - application/json
 paths:
+  /v1/contract-entries/{contractId}/{page}:
+    get:
+      summary: ContractData queries list newest data entries of contract
+      operationId: Query_ContractData
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ContractDataResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/events-at-ledger/{contractId}/{ledger}:
+    get:
+      summary: EventsAtLedger queries all events of contract at specific ledger sequence.
+      operationId: Query_EventsAtLedger
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1EventsAtLedgerResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: ledger
+          in: path
+          required: true
+          type: integer
+          format: int64
+      tags:
+        - Query
   /v1/events/count/{contractId}:
     get:
-      summary: ContractEventCount queries number of events that match the given contract id.
+      summary: |-
+        ContractEventCount queries number of events that match the given contract
+        id.
       operationId: Query_ContractEventCount
       responses:
         "200":
@@ -115,24 +167,11 @@ paths:
           format: int64
       tags:
         - Query
-  /v1/ledgers/count:
-    get:
-      summary: LedgerCount queries number of ledgers in database.
-      operationId: Query_LedgerCount
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1LedgerCountResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
-      tags:
-        - Query
   /v1/transactions-at-ledger-hash/{ledgerHash}/{page}:
     get:
-      summary: TransactionsAtLedgerHash queries all transactions that match the given ledger hash.
+      summary: |-
+        TransactionsAtLedgerHash queries all transactions that match the given
+        ledger hash.
       operationId: Query_TransactionsAtLedgerHash
       responses:
         "200":
@@ -157,7 +196,9 @@ paths:
         - Query
   /v1/transactions-at-ledger-seq/{ledger}/{page}:
     get:
-      summary: TransactionsAtLedgerSeq queries all transactions that match the given ledger sequence.
+      summary: |-
+        TransactionsAtLedgerSeq queries all transactions that match the given
+        ledger sequence.
       operationId: Query_TransactionsAtLedgerSeq
       responses:
         "200":
@@ -183,7 +224,9 @@ paths:
         - Query
   /v1/transactions-by-address/{address}/{page}:
     get:
-      summary: TransactionsByAddress queries all transactions that match the given source address.
+      summary: |-
+        TransactionsByAddress queries all transactions that match the given source
+        address.
       operationId: Query_TransactionsByAddress
       responses:
         "200":
@@ -206,6 +249,59 @@ paths:
           format: int32
       tags:
         - Query
+  /v1/transactions-by-contract/{contract}/{page}:
+    get:
+      summary: |-
+        ContractTransactions queries all transactions that match the given
+        contract id.
+      operationId: Query_ContractTransactions
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ContractTransactionsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contract
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/transactions-contract-by-user/{contract}/{address}:
+    get:
+      summary: |-
+        UserContractTransactions queries all transactions that match the given
+        contract id and user address.
+      operationId: Query_UserContractTransactions
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UserContractTransactionsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contract
+          in: path
+          required: true
+          type: string
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /v1/transactions/{hash}:
     get:
       summary: Transaction queries transaction info given transaction hash.
@@ -221,6 +317,26 @@ paths:
             $ref: '#/definitions/rpcStatus'
       parameters:
         - name: hash
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /v1/user-contracts/{address}:
+    get:
+      summary: UserInteractionContracts queries list contracts user has interacted.
+      operationId: Query_UserInteractionContracts
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1UserInteractionContractsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: address
           in: path
           required: true
           type: string
@@ -258,6 +374,24 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/protobufAny'
+  v1ContractDataResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ContractEntryInfo'
+      page:
+        type: integer
+        format: int32
+  v1ContractEntryInfo:
+    type: object
+    properties:
+      key:
+        type: object
+      value:
+        type: object
   v1ContractEventCountResponse:
     type: object
     properties:
@@ -272,6 +406,17 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1EventInfo'
+      page:
+        type: integer
+        format: int32
+  v1ContractTransactionsResponse:
+    type: object
+    properties:
+      txs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TransactionInfo'
       page:
         type: integer
         format: int32
@@ -296,6 +441,14 @@ definitions:
         $ref: '#/definitions/v1EventInfo'
       found:
         type: boolean
+  v1EventsAtLedgerResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1EventInfo'
   v1Ledger:
     type: object
     properties:
@@ -311,12 +464,6 @@ definitions:
         format: int64
       operations:
         type: integer
-        format: int64
-  v1LedgerCountResponse:
-    type: object
-    properties:
-      count:
-        type: string
         format: int64
   v1LedgerHashResponse:
     type: object
@@ -393,3 +540,18 @@ definitions:
       page:
         type: integer
         format: int32
+  v1UserContractTransactionsResponse:
+    type: object
+    properties:
+      txs:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TransactionInfo'
+  v1UserInteractionContractsResponse:
+    type: object
+    properties:
+      contracts:
+        type: array
+        items:
+          type: string

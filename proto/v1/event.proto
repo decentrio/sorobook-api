@@ -41,3 +41,10 @@ message ContractEventsResponse {
 message ContractEventCountRequest { string contract_id = 1; }
 
 message ContractEventCountResponse { int64 total = 1; }
+
+message EventsAtLedgerRequest {
+  string contract_id = 1;
+  uint32 ledger = 2;
+}
+
+message EventsAtLedgerResponse { repeated EventInfo events = 1; }

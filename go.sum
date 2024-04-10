@@ -7,6 +7,8 @@ github.com/decentrio/xdr-converter v0.0.0-20240402072633-de544b2598b8 h1:zd1uSih
 github.com/decentrio/xdr-converter v0.0.0-20240402072633-de544b2598b8/go.mod h1:v1uCNUTn8NAW5FzNYu2C6kU61IDWk7RNMNIfRZhWsWk=
 github.com/decentrio/xdr-converter v0.0.0-20240403073441-3ce9ebb97263 h1:uXVG5oE5C4ClRTIlBXfbif7vkrmQ0ERL69W60hMzurE=
 github.com/decentrio/xdr-converter v0.0.0-20240403073441-3ce9ebb97263/go.mod h1:v1uCNUTn8NAW5FzNYu2C6kU61IDWk7RNMNIfRZhWsWk=
+github.com/decentrio/xdr-converter v0.0.0-20240409050113-50705975d7a7 h1:lzW2AxA6JLeK7MgUfkGTT8LWbIdRjpiZiNl/4rbmyZU=
+github.com/decentrio/xdr-converter v0.0.0-20240409050113-50705975d7a7/go.mod h1:UHTUsan7MhPCGYgvfIqjRDWtPUClM87KneisjZyg8kQ=
 github.com/fsnotify/fsnotify v1.6.0 h1:n+5WquG0fcWoWp6xPWfHdbskMCQaFnG6PfBrh1Ky4HY=
 github.com/fsnotify/fsnotify v1.6.0/go.mod h1:sl3t1tCWJFWoRz9R8WJCbQihKKwmorjAbSClcnxKAGw=
 github.com/golang/protobuf v1.5.0/go.mod h1:FsONVRAS9T7sI+LIUmWTfcYkHO4aIWwzhcaSAoJOfIk=

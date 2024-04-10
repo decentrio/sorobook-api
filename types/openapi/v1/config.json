@@ -1,0 +1,8 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Sorobook openapi",
+      "description": "A REST interface for sorobook queries",
+      "version": "1.0.0"
+    }
+}

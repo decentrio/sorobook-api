@@ -12,16 +12,11 @@ message ContractEntry {
   string durability = 4;
   uint32 ledger = 5;
   bool newest = 6;
-  uint32 flags = 7;
 }
 
 message ContractEntryInfo {
-  string contract_id = 1;
-  string key_xdr = 2;
-  string value_xdr = 3;
-  string durability = 4;
-  uint32 ledger = 5;
-  bool newest = 6;
+  google.protobuf.Struct key = 2;
+  google.protobuf.Struct value = 3;
 }
 
 message ContractEntryRequest {
@@ -34,10 +29,20 @@ message ContractEntryResponse {
   bool found = 2;
 }
 
-message ContractDataRequest { string contract_id = 1; }
+message ContractDataRequest {
+  string contract_id = 1;
+  int32 page = 2;
+}
 
-message ContractDataResponse { repeated ContractEntryInfo data = 1; }
+message ContractDataResponse {
+  repeated ContractEntryInfo data = 1;
+  int32 page = 2;
+}
 
 message ContractKeysRequest { string contract_id = 1; }
 
 message ContractKeysResponse { repeated google.protobuf.Struct keys = 1; }
+
+message UserInteractionContractsRequest { string address = 1; }
+
+message UserInteractionContractsResponse { repeated string contracts = 1; }

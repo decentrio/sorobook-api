@@ -63,3 +63,22 @@ message TransactionsAtLedgerHashResponse {
   repeated TransactionInfo txs = 1;
   int32 page = 2;
 }
+
+message ContractTransactionsRequest {
+  string contract = 1;
+  int32 page = 2;
+}
+
+message ContractTransactionsResponse {
+  repeated TransactionInfo txs = 1;
+  int32 page = 2;
+}
+
+message UserContractTransactionsRequest {
+  string contract = 1;
+  string address = 2;
+}
+
+message UserContractTransactionsResponse {
+  repeated TransactionInfo txs = 1;
+}

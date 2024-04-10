@@ -39,15 +39,3 @@ func (k Keeper) LedgerHash(ctx context.Context, request *types.LedgerHashRequest
 		Found:  true,
 	}, nil
 }
-
-func (k Keeper) LedgerCount(ctx context.Context, request *types.LedgerCountRequest) (*types.LedgerCountResponse, error) {
-	var count int64
-	err := k.dbHandler.Table("ledgers").Count(&count).Error
-	if err != nil {
-		return nil, err
-	}
-
-	return &types.LedgerCountResponse{
-		Count: count,
-	}, nil
-}

@@ -21,14 +21,18 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Query_Ledger_FullMethodName                   = "/v1.Query/Ledger"
 	Query_LedgerHash_FullMethodName               = "/v1.Query/LedgerHash"
-	Query_LedgerCount_FullMethodName              = "/v1.Query/LedgerCount"
 	Query_Transaction_FullMethodName              = "/v1.Query/Transaction"
 	Query_TransactionsByAddress_FullMethodName    = "/v1.Query/TransactionsByAddress"
 	Query_TransactionsAtLedgerSeq_FullMethodName  = "/v1.Query/TransactionsAtLedgerSeq"
 	Query_TransactionsAtLedgerHash_FullMethodName = "/v1.Query/TransactionsAtLedgerHash"
+	Query_ContractTransactions_FullMethodName     = "/v1.Query/ContractTransactions"
+	Query_UserContractTransactions_FullMethodName = "/v1.Query/UserContractTransactions"
 	Query_Event_FullMethodName                    = "/v1.Query/Event"
 	Query_ContractEvents_FullMethodName           = "/v1.Query/ContractEvents"
 	Query_ContractEventCount_FullMethodName       = "/v1.Query/ContractEventCount"
+	Query_EventsAtLedger_FullMethodName           = "/v1.Query/EventsAtLedger"
+	Query_UserInteractionContracts_FullMethodName = "/v1.Query/UserInteractionContracts"
+	Query_ContractData_FullMethodName             = "/v1.Query/ContractData"
 )
 
 // QueryClient is the client API for Query service.
@@ -39,22 +43,36 @@ type QueryClient interface {
 	Ledger(ctx context.Context, in *LedgerRequest, opts ...grpc.CallOption) (*LedgerResponse, error)
 	// LedgerHash queries ledger info given ledger hash.
 	LedgerHash(ctx context.Context, in *LedgerHashRequest, opts ...grpc.CallOption) (*LedgerHashResponse, error)
-	// LedgerCount queries number of ledgers in database.
-	LedgerCount(ctx context.Context, in *LedgerCountRequest, opts ...grpc.CallOption) (*LedgerCountResponse, error)
 	// Transaction queries transaction info given transaction hash.
 	Transaction(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption) (*TransactionResponse, error)
-	// TransactionsByAddress queries all transactions that match the given source address.
+	// TransactionsByAddress queries all transactions that match the given source
+	// address.
 	TransactionsByAddress(ctx context.Context, in *TransactionsByAddressRequest, opts ...grpc.CallOption) (*TransactionsByAddressResponse, error)
-	// TransactionsAtLedgerSeq queries all transactions that match the given ledger sequence.
+	// TransactionsAtLedgerSeq queries all transactions that match the given
+	// ledger sequence.
 	TransactionsAtLedgerSeq(ctx context.Context, in *TransactionsAtLedgerSeqRequest, opts ...grpc.CallOption) (*TransactionsAtLedgerSeqResponse, error)
-	// TransactionsAtLedgerHash queries all transactions that match the given ledger hash.
+	// TransactionsAtLedgerHash queries all transactions that match the given
+	// ledger hash.
 	TransactionsAtLedgerHash(ctx context.Context, in *TransactionsAtLedgerHashRequest, opts ...grpc.CallOption) (*TransactionsAtLedgerHashResponse, error)
+	// ContractTransactions queries all transactions that match the given
+	// contract id.
+	ContractTransactions(ctx context.Context, in *ContractTransactionsRequest, opts ...grpc.CallOption) (*ContractTransactionsResponse, error)
+	// UserContractTransactions queries all transactions that match the given
+	// contract id and user address.
+	UserContractTransactions(ctx context.Context, in *UserContractTransactionsRequest, opts ...grpc.CallOption) (*UserContractTransactionsResponse, error)
 	// Event queries event info given event id.
 	Event(ctx context.Context, in *EventRequest, opts ...grpc.CallOption) (*EventResponse, error)
 	// ContractEvents queries 10 events that match the given page.
 	ContractEvents(ctx context.Context, in *ContractEventsRequest, opts ...grpc.CallOption) (*ContractEventsResponse, error)
-	// ContractEventCount queries number of events that match the given contract id.
+	// ContractEventCount queries number of events that match the given contract
+	// id.
 	ContractEventCount(ctx context.Context, in *ContractEventCountRequest, opts ...grpc.CallOption) (*ContractEventCountResponse, error)
+	// EventsAtLedger queries all events of contract at specific ledger sequence.
+	EventsAtLedger(ctx context.Context, in *EventsAtLedgerRequest, opts ...grpc.CallOption) (*EventsAtLedgerResponse, error)
+	// UserInteractionContracts queries list contracts user has interacted.
+	UserInteractionContracts(ctx context.Context, in *UserInteractionContractsRequest, opts ...grpc.CallOption) (*UserInteractionContractsResponse, error)
+	// ContractData queries list newest data entries of contract
+	ContractData(ctx context.Context, in *ContractDataRequest, opts ...grpc.CallOption) (*ContractDataResponse, error)
 }
 
 type queryClient struct {
@@ -77,15 +95,6 @@ func (c *queryClient) Ledger(ctx context.Context, in *LedgerRequest, opts ...grp
 func (c *queryClient) LedgerHash(ctx context.Context, in *LedgerHashRequest, opts ...grpc.CallOption) (*LedgerHashResponse, error) {
 	out := new(LedgerHashResponse)
 	err := c.cc.Invoke(ctx, Query_LedgerHash_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryClient) LedgerCount(ctx context.Context, in *LedgerCountRequest, opts ...grpc.CallOption) (*LedgerCountResponse, error) {
-	out := new(LedgerCountResponse)
-	err := c.cc.Invoke(ctx, Query_LedgerCount_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -128,6 +137,24 @@ func (c *queryClient) TransactionsAtLedgerHash(ctx context.Context, in *Transact
 	return out, nil
 }
 
+func (c *queryClient) ContractTransactions(ctx context.Context, in *ContractTransactionsRequest, opts ...grpc.CallOption) (*ContractTransactionsResponse, error) {
+	out := new(ContractTransactionsResponse)
+	err := c.cc.Invoke(ctx, Query_ContractTransactions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) UserContractTransactions(ctx context.Context, in *UserContractTransactionsRequest, opts ...grpc.CallOption) (*UserContractTransactionsResponse, error) {
+	out := new(UserContractTransactionsResponse)
+	err := c.cc.Invoke(ctx, Query_UserContractTransactions_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *queryClient) Event(ctx context.Context, in *EventRequest, opts ...grpc.CallOption) (*EventResponse, error) {
 	out := new(EventResponse)
 	err := c.cc.Invoke(ctx, Query_Event_FullMethodName, in, out, opts...)
@@ -155,6 +182,33 @@ func (c *queryClient) ContractEventCount(ctx context.Context, in *ContractEventC
 	return out, nil
 }
 
+func (c *queryClient) EventsAtLedger(ctx context.Context, in *EventsAtLedgerRequest, opts ...grpc.CallOption) (*EventsAtLedgerResponse, error) {
+	out := new(EventsAtLedgerResponse)
+	err := c.cc.Invoke(ctx, Query_EventsAtLedger_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) UserInteractionContracts(ctx context.Context, in *UserInteractionContractsRequest, opts ...grpc.CallOption) (*UserInteractionContractsResponse, error) {
+	out := new(UserInteractionContractsResponse)
+	err := c.cc.Invoke(ctx, Query_UserInteractionContracts_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ContractData(ctx context.Context, in *ContractDataRequest, opts ...grpc.CallOption) (*ContractDataResponse, error) {
+	out := new(ContractDataResponse)
+	err := c.cc.Invoke(ctx, Query_ContractData_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -163,22 +217,36 @@ type QueryServer interface {
 	Ledger(context.Context, *LedgerRequest) (*LedgerResponse, error)
 	// LedgerHash queries ledger info given ledger hash.
 	LedgerHash(context.Context, *LedgerHashRequest) (*LedgerHashResponse, error)
-	// LedgerCount queries number of ledgers in database.
-	LedgerCount(context.Context, *LedgerCountRequest) (*LedgerCountResponse, error)
 	// Transaction queries transaction info given transaction hash.
 	Transaction(context.Context, *TransactionRequest) (*TransactionResponse, error)
-	// TransactionsByAddress queries all transactions that match the given source address.
+	// TransactionsByAddress queries all transactions that match the given source
+	// address.
 	TransactionsByAddress(context.Context, *TransactionsByAddressRequest) (*TransactionsByAddressResponse, error)
-	// TransactionsAtLedgerSeq queries all transactions that match the given ledger sequence.
+	// TransactionsAtLedgerSeq queries all transactions that match the given
+	// ledger sequence.
 	TransactionsAtLedgerSeq(context.Context, *TransactionsAtLedgerSeqRequest) (*TransactionsAtLedgerSeqResponse, error)
-	// TransactionsAtLedgerHash queries all transactions that match the given ledger hash.
+	// TransactionsAtLedgerHash queries all transactions that match the given
+	// ledger hash.
 	TransactionsAtLedgerHash(context.Context, *TransactionsAtLedgerHashRequest) (*TransactionsAtLedgerHashResponse, error)
+	// ContractTransactions queries all transactions that match the given
+	// contract id.
+	ContractTransactions(context.Context, *ContractTransactionsRequest) (*ContractTransactionsResponse, error)
+	// UserContractTransactions queries all transactions that match the given
+	// contract id and user address.
+	UserContractTransactions(context.Context, *UserContractTransactionsRequest) (*UserContractTransactionsResponse, error)
 	// Event queries event info given event id.
 	Event(context.Context, *EventRequest) (*EventResponse, error)
 	// ContractEvents queries 10 events that match the given page.
 	ContractEvents(context.Context, *ContractEventsRequest) (*ContractEventsResponse, error)
-	// ContractEventCount queries number of events that match the given contract id.
+	// ContractEventCount queries number of events that match the given contract
+	// id.
 	ContractEventCount(context.Context, *ContractEventCountRequest) (*ContractEventCountResponse, error)
+	// EventsAtLedger queries all events of contract at specific ledger sequence.
+	EventsAtLedger(context.Context, *EventsAtLedgerRequest) (*EventsAtLedgerResponse, error)
+	// UserInteractionContracts queries list contracts user has interacted.
+	UserInteractionContracts(context.Context, *UserInteractionContractsRequest) (*UserInteractionContractsResponse, error)
+	// ContractData queries list newest data entries of contract
+	ContractData(context.Context, *ContractDataRequest) (*ContractDataResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -192,9 +260,6 @@ func (UnimplementedQueryServer) Ledger(context.Context, *LedgerRequest) (*Ledger
 func (UnimplementedQueryServer) LedgerHash(context.Context, *LedgerHashRequest) (*LedgerHashResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LedgerHash not implemented")
 }
-func (UnimplementedQueryServer) LedgerCount(context.Context, *LedgerCountRequest) (*LedgerCountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method LedgerCount not implemented")
-}
 func (UnimplementedQueryServer) Transaction(context.Context, *TransactionRequest) (*TransactionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Transaction not implemented")
 }
@@ -207,6 +272,12 @@ func (UnimplementedQueryServer) TransactionsAtLedgerSeq(context.Context, *Transa
 func (UnimplementedQueryServer) TransactionsAtLedgerHash(context.Context, *TransactionsAtLedgerHashRequest) (*TransactionsAtLedgerHashResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransactionsAtLedgerHash not implemented")
 }
+func (UnimplementedQueryServer) ContractTransactions(context.Context, *ContractTransactionsRequest) (*ContractTransactionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractTransactions not implemented")
+}
+func (UnimplementedQueryServer) UserContractTransactions(context.Context, *UserContractTransactionsRequest) (*UserContractTransactionsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserContractTransactions not implemented")
+}
 func (UnimplementedQueryServer) Event(context.Context, *EventRequest) (*EventResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Event not implemented")
 }
@@ -215,6 +286,15 @@ func (UnimplementedQueryServer) ContractEvents(context.Context, *ContractEventsR
 }
 func (UnimplementedQueryServer) ContractEventCount(context.Context, *ContractEventCountRequest) (*ContractEventCountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ContractEventCount not implemented")
+}
+func (UnimplementedQueryServer) EventsAtLedger(context.Context, *EventsAtLedgerRequest) (*EventsAtLedgerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EventsAtLedger not implemented")
+}
+func (UnimplementedQueryServer) UserInteractionContracts(context.Context, *UserInteractionContractsRequest) (*UserInteractionContractsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserInteractionContracts not implemented")
+}
+func (UnimplementedQueryServer) ContractData(context.Context, *ContractDataRequest) (*ContractDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractData not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -261,24 +341,6 @@ func _Query_LedgerHash_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).LedgerHash(ctx, req.(*LedgerHashRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Query_LedgerCount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LedgerCountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).LedgerCount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Query_LedgerCount_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).LedgerCount(ctx, req.(*LedgerCountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -355,6 +417,42 @@ func _Query_TransactionsAtLedgerHash_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ContractTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractTransactionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ContractTransactions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ContractTransactions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ContractTransactions(ctx, req.(*ContractTransactionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_UserContractTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserContractTransactionsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).UserContractTransactions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_UserContractTransactions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).UserContractTransactions(ctx, req.(*UserContractTransactionsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Query_Event_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EventRequest)
 	if err := dec(in); err != nil {
@@ -409,6 +507,60 @@ func _Query_ContractEventCount_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_EventsAtLedger_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EventsAtLedgerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).EventsAtLedger(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_EventsAtLedger_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).EventsAtLedger(ctx, req.(*EventsAtLedgerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_UserInteractionContracts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserInteractionContractsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).UserInteractionContracts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_UserInteractionContracts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).UserInteractionContracts(ctx, req.(*UserInteractionContractsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ContractData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractDataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ContractData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ContractData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ContractData(ctx, req.(*ContractDataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -423,10 +575,6 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LedgerHash",
 			Handler:    _Query_LedgerHash_Handler,
-		},
-		{
-			MethodName: "LedgerCount",
-			Handler:    _Query_LedgerCount_Handler,
 		},
 		{
 			MethodName: "Transaction",
@@ -445,6 +593,14 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Query_TransactionsAtLedgerHash_Handler,
 		},
 		{
+			MethodName: "ContractTransactions",
+			Handler:    _Query_ContractTransactions_Handler,
+		},
+		{
+			MethodName: "UserContractTransactions",
+			Handler:    _Query_UserContractTransactions_Handler,
+		},
+		{
 			MethodName: "Event",
 			Handler:    _Query_Event_Handler,
 		},
@@ -455,6 +611,18 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ContractEventCount",
 			Handler:    _Query_ContractEventCount_Handler,
+		},
+		{
+			MethodName: "EventsAtLedger",
+			Handler:    _Query_EventsAtLedger_Handler,
+		},
+		{
+			MethodName: "UserInteractionContracts",
+			Handler:    _Query_UserInteractionContracts_Handler,
+		},
+		{
+			MethodName: "ContractData",
+			Handler:    _Query_ContractData_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

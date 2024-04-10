@@ -32,7 +32,39 @@ func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryR
 }
 
 func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataRequest) (*types.ContractDataResponse, error) {
-	return nil, nil
+	var entries []*types.ContractEntry
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * pageSize * 2
+
+	err := k.dbHandler.Table("contracts").
+		Where("contract_id = ?", request.ContractId).
+		Where("newest = ?", true).
+		Limit(pageSize * 2).
+		Offset(offset).
+		Find(&entries).Error
+
+	if err != nil {
+		return &types.ContractDataResponse{}, err
+	}
+
+	var infos []*types.ContractEntryInfo
+
+	for _, entry := range entries {
+		info, err := convertToEntryInfo(entry)
+		if err != nil {
+			return &types.ContractDataResponse{}, err
+		}
+
+		infos = append(infos, info)
+	}
+
+	return &types.ContractDataResponse{
+		Data: infos,
+		Page: int32(page),
+	}, nil
 }
 
 func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysRequest) (*types.ContractKeysResponse, error) {
@@ -68,5 +100,49 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 
 	return &types.ContractKeysResponse{
 		Keys: keys,
+	}, nil
+}
+
+
+func (k Keeper) UserInteractionContracts(ctx context.Context, request *types.UserInteractionContractsRequest) (*types.UserInteractionContractsResponse, error) {
+	var contracts []string
+
+	err := k.dbHandler.Table("contracts").
+		Select("contracts.contract_id").
+		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
+		Where("source_address = ?", request.Address).
+		Find(&contracts).Error
+
+	if err != nil {
+		return &types.UserInteractionContractsResponse{}, err
+	}
+
+	return &types.UserInteractionContractsResponse{
+		Contracts: contracts,
+	}, nil
+}
+
+func convertToEntryInfo(entry *types.ContractEntry) (*types.ContractEntryInfo, error) {
+	keyJson := &structpb.Struct{}
+	keyData, err := converter.MarshalJSONContractKeyXdr(entry.KeyXdr)
+	if err != nil {
+		return &types.ContractEntryInfo{}, err
+	}
+	if err := json.Unmarshal(keyData, keyJson); err != nil {
+		return &types.ContractEntryInfo{}, err
+	}
+
+	valueJson := &structpb.Struct{}
+	valueData, err := converter.MarshalJSONContractValueXdr(entry.ValueXdr)
+	if err != nil {
+		return &types.ContractEntryInfo{}, err
+	}
+	if err := json.Unmarshal(valueData, valueJson); err != nil {
+		return &types.ContractEntryInfo{}, err
+	}
+
+	return &types.ContractEntryInfo{
+		Key: keyJson,
+		Value: valueJson,
 	}, nil
 }

@@ -659,6 +659,218 @@ func (x *TransactionsAtLedgerHashResponse) GetPage() int32 {
 	return 0
 }
 
+type ContractTransactionsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Contract string `protobuf:"bytes,1,opt,name=contract,proto3" json:"contract,omitempty"`
+	Page     int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ContractTransactionsRequest) Reset() {
+	*x = ContractTransactionsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_transaction_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContractTransactionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContractTransactionsRequest) ProtoMessage() {}
+
+func (x *ContractTransactionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_transaction_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContractTransactionsRequest.ProtoReflect.Descriptor instead.
+func (*ContractTransactionsRequest) Descriptor() ([]byte, []int) {
+	return file_v1_transaction_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ContractTransactionsRequest) GetContract() string {
+	if x != nil {
+		return x.Contract
+	}
+	return ""
+}
+
+func (x *ContractTransactionsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type ContractTransactionsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Txs  []*TransactionInfo `protobuf:"bytes,1,rep,name=txs,proto3" json:"txs,omitempty"`
+	Page int32              `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ContractTransactionsResponse) Reset() {
+	*x = ContractTransactionsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_transaction_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ContractTransactionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContractTransactionsResponse) ProtoMessage() {}
+
+func (x *ContractTransactionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_transaction_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContractTransactionsResponse.ProtoReflect.Descriptor instead.
+func (*ContractTransactionsResponse) Descriptor() ([]byte, []int) {
+	return file_v1_transaction_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ContractTransactionsResponse) GetTxs() []*TransactionInfo {
+	if x != nil {
+		return x.Txs
+	}
+	return nil
+}
+
+func (x *ContractTransactionsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type UserContractTransactionsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Contract string `protobuf:"bytes,1,opt,name=contract,proto3" json:"contract,omitempty"`
+	Address  string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+}
+
+func (x *UserContractTransactionsRequest) Reset() {
+	*x = UserContractTransactionsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_transaction_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserContractTransactionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserContractTransactionsRequest) ProtoMessage() {}
+
+func (x *UserContractTransactionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_transaction_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserContractTransactionsRequest.ProtoReflect.Descriptor instead.
+func (*UserContractTransactionsRequest) Descriptor() ([]byte, []int) {
+	return file_v1_transaction_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *UserContractTransactionsRequest) GetContract() string {
+	if x != nil {
+		return x.Contract
+	}
+	return ""
+}
+
+func (x *UserContractTransactionsRequest) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+type UserContractTransactionsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Txs []*TransactionInfo `protobuf:"bytes,1,rep,name=txs,proto3" json:"txs,omitempty"`
+}
+
+func (x *UserContractTransactionsResponse) Reset() {
+	*x = UserContractTransactionsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_transaction_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UserContractTransactionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserContractTransactionsResponse) ProtoMessage() {}
+
+func (x *UserContractTransactionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_transaction_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserContractTransactionsResponse.ProtoReflect.Descriptor instead.
+func (*UserContractTransactionsResponse) Descriptor() ([]byte, []int) {
+	return file_v1_transaction_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *UserContractTransactionsResponse) GetTxs() []*TransactionInfo {
+	if x != nil {
+		return x.Txs
+	}
+	return nil
+}
+
 var File_v1_transaction_proto protoreflect.FileDescriptor
 
 var file_v1_transaction_proto_rawDesc = []byte{
@@ -745,14 +957,35 @@ var file_v1_transaction_proto_rawDesc = []byte{
 	0x03, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63,
 	0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x03, 0x74, 0x78, 0x73, 0x12, 0x12, 0x0a,
 	0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67,
-	0x65, 0x42, 0x6b, 0x0a, 0x06, 0x63, 0x6f, 0x6d, 0x2e, 0x76, 0x31, 0x42, 0x10, 0x54, 0x72, 0x61,
-	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x27, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x65, 0x63, 0x65,
-	0x6e, 0x74, 0x72, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x72, 0x6f, 0x62, 0x6f, 0x6f, 0x6b, 0x2d, 0x61,
-	0x70, 0x69, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x73, 0xa2, 0x02, 0x03, 0x56, 0x58, 0x58, 0xaa, 0x02,
-	0x02, 0x56, 0x31, 0xca, 0x02, 0x02, 0x56, 0x31, 0xe2, 0x02, 0x0e, 0x56, 0x31, 0x5c, 0x47, 0x50,
-	0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x02, 0x56, 0x31, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x22, 0x4d, 0x0a, 0x1b, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x54, 0x72, 0x61,
+	0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x1a, 0x0a, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x12, 0x0a, 0x04,
+	0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65,
+	0x22, 0x59, 0x0a, 0x1c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x54, 0x72, 0x61, 0x6e,
+	0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x25, 0x0a, 0x03, 0x74, 0x78, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x13, 0x2e,
+	0x76, 0x31, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e,
+	0x66, 0x6f, 0x52, 0x03, 0x74, 0x78, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x57, 0x0a, 0x1f, 0x55,
+	0x73, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a,
+	0x0a, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x08, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64,
+	0x72, 0x65, 0x73, 0x73, 0x22, 0x49, 0x0a, 0x20, 0x55, 0x73, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x03, 0x74, 0x78, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x03, 0x74, 0x78, 0x73, 0x42,
+	0x6b, 0x0a, 0x06, 0x63, 0x6f, 0x6d, 0x2e, 0x76, 0x31, 0x42, 0x10, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x27, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x65, 0x63, 0x65, 0x6e, 0x74,
+	0x72, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x72, 0x6f, 0x62, 0x6f, 0x6f, 0x6b, 0x2d, 0x61, 0x70, 0x69,
+	0x2f, 0x74, 0x79, 0x70, 0x65, 0x73, 0xa2, 0x02, 0x03, 0x56, 0x58, 0x58, 0xaa, 0x02, 0x02, 0x56,
+	0x31, 0xca, 0x02, 0x02, 0x56, 0x31, 0xe2, 0x02, 0x0e, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d,
+	0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x02, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -767,7 +1000,7 @@ func file_v1_transaction_proto_rawDescGZIP() []byte {
 	return file_v1_transaction_proto_rawDescData
 }
 
-var file_v1_transaction_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_v1_transaction_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_v1_transaction_proto_goTypes = []interface{}{
 	(*Transaction)(nil),                      // 0: v1.Transaction
 	(*TransactionInfo)(nil),                  // 1: v1.TransactionInfo
@@ -779,21 +1012,27 @@ var file_v1_transaction_proto_goTypes = []interface{}{
 	(*TransactionsAtLedgerSeqResponse)(nil),  // 7: v1.TransactionsAtLedgerSeqResponse
 	(*TransactionsAtLedgerHashRequest)(nil),  // 8: v1.TransactionsAtLedgerHashRequest
 	(*TransactionsAtLedgerHashResponse)(nil), // 9: v1.TransactionsAtLedgerHashResponse
-	(*structpb.Struct)(nil),                  // 10: google.protobuf.Struct
+	(*ContractTransactionsRequest)(nil),      // 10: v1.ContractTransactionsRequest
+	(*ContractTransactionsResponse)(nil),     // 11: v1.ContractTransactionsResponse
+	(*UserContractTransactionsRequest)(nil),  // 12: v1.UserContractTransactionsRequest
+	(*UserContractTransactionsResponse)(nil), // 13: v1.UserContractTransactionsResponse
+	(*structpb.Struct)(nil),                  // 14: google.protobuf.Struct
 }
 var file_v1_transaction_proto_depIdxs = []int32{
-	10, // 0: v1.TransactionInfo.envelope:type_name -> google.protobuf.Struct
-	10, // 1: v1.TransactionInfo.result:type_name -> google.protobuf.Struct
-	10, // 2: v1.TransactionInfo.result_meta:type_name -> google.protobuf.Struct
+	14, // 0: v1.TransactionInfo.envelope:type_name -> google.protobuf.Struct
+	14, // 1: v1.TransactionInfo.result:type_name -> google.protobuf.Struct
+	14, // 2: v1.TransactionInfo.result_meta:type_name -> google.protobuf.Struct
 	1,  // 3: v1.TransactionResponse.transaction:type_name -> v1.TransactionInfo
 	1,  // 4: v1.TransactionsByAddressResponse.txs:type_name -> v1.TransactionInfo
 	1,  // 5: v1.TransactionsAtLedgerSeqResponse.txs:type_name -> v1.TransactionInfo
 	1,  // 6: v1.TransactionsAtLedgerHashResponse.txs:type_name -> v1.TransactionInfo
-	7,  // [7:7] is the sub-list for method output_type
-	7,  // [7:7] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	1,  // 7: v1.ContractTransactionsResponse.txs:type_name -> v1.TransactionInfo
+	1,  // 8: v1.UserContractTransactionsResponse.txs:type_name -> v1.TransactionInfo
+	9,  // [9:9] is the sub-list for method output_type
+	9,  // [9:9] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_v1_transaction_proto_init() }
@@ -922,6 +1161,54 @@ func file_v1_transaction_proto_init() {
 				return nil
 			}
 		}
+		file_v1_transaction_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContractTransactionsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_transaction_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ContractTransactionsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_transaction_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserContractTransactionsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_transaction_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserContractTransactionsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -929,7 +1216,7 @@ func file_v1_transaction_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_v1_transaction_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

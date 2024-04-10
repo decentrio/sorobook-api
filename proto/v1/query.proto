@@ -19,30 +19,50 @@ service Query {
   rpc LedgerHash(LedgerHashRequest) returns (LedgerHashResponse) {
     option (google.api.http).get = "/v1/ledger-by-hash/{hash}";
   }
-  
-  // LedgerCount queries number of ledgers in database.
-  rpc LedgerCount(LedgerCountRequest) returns (LedgerCountResponse) {
-    option (google.api.http).get = "/v1/ledgers/count";
-  }
 
   // Transaction queries transaction info given transaction hash.
   rpc Transaction(TransactionRequest) returns (TransactionResponse) {
     option (google.api.http).get = "/v1/transactions/{hash}";
   }
 
-  // TransactionsByAddress queries all transactions that match the given source address.
-  rpc TransactionsByAddress(TransactionsByAddressRequest) returns (TransactionsByAddressResponse) {
-    option (google.api.http).get = "/v1/transactions-by-address/{address}/{page}";
+  // TransactionsByAddress queries all transactions that match the given source
+  // address.
+  rpc TransactionsByAddress(TransactionsByAddressRequest)
+      returns (TransactionsByAddressResponse) {
+    option (google.api.http).get =
+        "/v1/transactions-by-address/{address}/{page}";
   }
 
-  // TransactionsAtLedgerSeq queries all transactions that match the given ledger sequence.
-  rpc TransactionsAtLedgerSeq(TransactionsAtLedgerSeqRequest) returns (TransactionsAtLedgerSeqResponse) {
-    option (google.api.http).get = "/v1/transactions-at-ledger-seq/{ledger}/{page}";
+  // TransactionsAtLedgerSeq queries all transactions that match the given
+  // ledger sequence.
+  rpc TransactionsAtLedgerSeq(TransactionsAtLedgerSeqRequest)
+      returns (TransactionsAtLedgerSeqResponse) {
+    option (google.api.http).get =
+        "/v1/transactions-at-ledger-seq/{ledger}/{page}";
   }
 
-  // TransactionsAtLedgerHash queries all transactions that match the given ledger hash.
-  rpc TransactionsAtLedgerHash(TransactionsAtLedgerHashRequest) returns (TransactionsAtLedgerHashResponse) {
-    option (google.api.http).get = "/v1/transactions-at-ledger-hash/{ledger_hash}/{page}";
+  // TransactionsAtLedgerHash queries all transactions that match the given
+  // ledger hash.
+  rpc TransactionsAtLedgerHash(TransactionsAtLedgerHashRequest)
+      returns (TransactionsAtLedgerHashResponse) {
+    option (google.api.http).get =
+        "/v1/transactions-at-ledger-hash/{ledger_hash}/{page}";
+  }
+
+  // ContractTransactions queries all transactions that match the given
+  // contract id.
+  rpc ContractTransactions(ContractTransactionsRequest)
+      returns (ContractTransactionsResponse) {
+    option (google.api.http).get =
+        "/v1/transactions-by-contract/{contract}/{page}";
+  }
+
+  // UserContractTransactions queries all transactions that match the given
+  // contract id and user address.
+  rpc UserContractTransactions(UserContractTransactionsRequest)
+      returns (UserContractTransactionsResponse) {
+    option (google.api.http).get =
+        "/v1/transactions-contract-by-user/{contract}/{address}";
   }
 
   // Event queries event info given event id.
@@ -55,13 +75,27 @@ service Query {
     option (google.api.http).get = "/v1/events/{contract_id}/{page}";
   }
 
-  // ContractEventCount queries number of events that match the given contract id.
+  // ContractEventCount queries number of events that match the given contract
+  // id.
   rpc ContractEventCount(ContractEventCountRequest)
       returns (ContractEventCountResponse) {
     option (google.api.http).get = "/v1/events/count/{contract_id}";
   }
 
-//   rpc ContractKeys(ContractKeysRequest) returns (ContractKeysResponse) {
-//     option (google.api.http).get = "/v1/contract-entries/{contract_id}/keys";
-//   }
+  // EventsAtLedger queries all events of contract at specific ledger sequence.
+  rpc EventsAtLedger(EventsAtLedgerRequest) returns (EventsAtLedgerResponse) {
+    option (google.api.http).get =
+        "/v1/events-at-ledger/{contract_id}/{ledger}";
+  }
+
+  // UserInteractionContracts queries list contracts user has interacted.
+  rpc UserInteractionContracts(UserInteractionContractsRequest)
+      returns (UserInteractionContractsResponse) {
+    option (google.api.http).get = "/v1/user-contracts/{address}";
+  }
+
+  // ContractData queries list newest data entries of contract
+  rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
+    option (google.api.http).get = "/v1/contract-entries/{contract_id}/{page}";
+  }
 }
