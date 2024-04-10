@@ -45,7 +45,7 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 	var events []*types.Event
 	err := k.dbHandler.Table("wasm_contract_events").
 		Where("contract_id = ?", request.ContractId).
-		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
+		Joins("JOIN transactions ON transactions.hash = wasm_contract_events.tx_hash").
 		Order("transactions.ledger DESC").
 		Limit(pageSize).
 		Offset(offset).
