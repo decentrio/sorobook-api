@@ -9,7 +9,7 @@ import (
 func (k Keeper) Ledger(ctx context.Context, request *types.LedgerRequest) (*types.LedgerResponse, error) {
 	var ledger types.Ledger
 
-	err := k.dbHandler.Table("ledgers").Where("sequence = ?", request.Sequence).First(&ledger).Error
+	err := k.dbHandler.Table(LEDGER_TABLE).Where("sequence = ?", request.Sequence).First(&ledger).Error
 	if err != nil {
 		return &types.LedgerResponse{
 			Found:  false,
@@ -26,7 +26,7 @@ func (k Keeper) Ledger(ctx context.Context, request *types.LedgerRequest) (*type
 func (k Keeper) LedgerHash(ctx context.Context, request *types.LedgerHashRequest) (*types.LedgerHashResponse, error) {
 	var ledger types.Ledger
 
-	err := k.dbHandler.Table("ledgers").Where("hash = ?", request.Hash).First(&ledger).Error
+	err := k.dbHandler.Table(LEDGER_TABLE).Where("hash = ?", request.Hash).First(&ledger).Error
 	if err != nil {
 		return &types.LedgerHashResponse{
 			Found:  false,

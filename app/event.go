@@ -13,7 +13,7 @@ import (
 func (k Keeper) Event(ctx context.Context, request *types.EventRequest) (*types.EventResponse, error) {
 	var event types.Event
 
-	err := k.dbHandler.Table("wasm_contract_events").Where("id = ?", request.Id).First(&event).Error
+	err := k.dbHandler.Table(EVENT_TABLE).Where("id = ?", request.Id).First(&event).Error
 	if err != nil {
 		return &types.EventResponse{
 			Found: false,
@@ -40,14 +40,14 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * pageSize
+	offset := (page - 1) * PAGE_SIZE
 
 	var events []*types.Event
-	err := k.dbHandler.Table("wasm_contract_events").
+	err := k.dbHandler.Table(EVENT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = wasm_contract_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(pageSize).
+		Limit(PAGE_SIZE).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -77,7 +77,7 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 
 func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedgerRequest) (*types.EventsAtLedgerResponse, error) {
 	var events []*types.Event
-	err := k.dbHandler.Table("wasm_contract_events").
+	err := k.dbHandler.Table(EVENT_TABLE).
 		Joins("JOIN transactions ON transactions.hash = events.tx_hash").
 		Where("contract_id = ?", request.ContractId).
 		Where("transactions.ledger = ?", request.Ledger).
@@ -102,7 +102,7 @@ func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedge
 
 func (k Keeper) ContractEventCount(ctx context.Context, request *types.ContractEventCountRequest) (*types.ContractEventCountResponse, error) {
 	var count int64
-	err := k.dbHandler.Table("wasm_contract_events").Where("contract_id = ?", request.ContractId).Count(&count).Error
+	err := k.dbHandler.Table(EVENT_TABLE).Where("contract_id = ?", request.ContractId).Count(&count).Error
 	if err != nil {
 		return nil, err
 	}

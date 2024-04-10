@@ -13,7 +13,7 @@ import (
 func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryRequest) (*types.ContractEntryResponse, error) {
 	var entry types.ContractEntryInfo
 
-	err := k.dbHandler.Table("contracts").
+	err := k.dbHandler.Table(CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Where("key_xdr = ?", request.KeyXdr).
 		First(&entry).Error
@@ -37,12 +37,12 @@ func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataReq
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * pageSize * 2
+	offset := (page - 1) * PAGE_SIZE * 2
 
-	err := k.dbHandler.Table("contracts").
+	err := k.dbHandler.Table(CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Where("newest = ?", true).
-		Limit(pageSize * 2).
+		Limit(PAGE_SIZE * 2).
 		Offset(offset).
 		Find(&entries).Error
 
@@ -71,7 +71,7 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 	var entries []*types.ContractEntry
 	var keys []*structpb.Struct
 
-	err := k.dbHandler.Table("contracts").
+	err := k.dbHandler.Table(CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Limit(20).
 		Find(&entries).Error
@@ -103,11 +103,10 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 	}, nil
 }
 
-
 func (k Keeper) UserInteractionContracts(ctx context.Context, request *types.UserInteractionContractsRequest) (*types.UserInteractionContractsResponse, error) {
 	var contracts []string
 
-	err := k.dbHandler.Table("contracts").
+	err := k.dbHandler.Table(CONTRACT_TABLE).
 		Select("contracts.contract_id").
 		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
 		Where("source_address = ?", request.Address).
@@ -142,7 +141,7 @@ func convertToEntryInfo(entry *types.ContractEntry) (*types.ContractEntryInfo, e
 	}
 
 	return &types.ContractEntryInfo{
-		Key: keyJson,
+		Key:   keyJson,
 		Value: valueJson,
 	}, nil
 }

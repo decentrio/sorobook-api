@@ -7,7 +7,13 @@ import (
 	types "github.com/decentrio/sorobook-api/types/v1"
 )
 
-var pageSize = 10 
+const (
+	PAGE_SIZE = 10
+	LEDGER_TABLE = "ledgers"
+	TRANSACTION_TABLE = "transactions"
+	CONTRACT_TABLE = "contracts"
+	EVENT_TABLE = "wasm_contract_events"
+)
 
 type Keeper struct {
 	dbHandler *gorm.DB

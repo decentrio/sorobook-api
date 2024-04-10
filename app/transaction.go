@@ -13,7 +13,7 @@ import (
 func (k Keeper) Transaction(ctx context.Context, request *types.TransactionRequest) (*types.TransactionResponse, error) {
 	var transaction types.Transaction
 
-	err := k.dbHandler.Table("transactions").Where("hash = ?", request.Hash).First(&transaction).Error
+	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("hash = ?", request.Hash).First(&transaction).Error
 	if err != nil {
 		return &types.TransactionResponse{
 			Found:       false,
@@ -40,10 +40,10 @@ func (k Keeper) TransactionsAtLedgerSeq(ctx context.Context, request *types.Tran
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * pageSize
+	offset := (page - 1) * PAGE_SIZE
 
 	var txs []*types.Transaction
-	err := k.dbHandler.Table("transactions").Where("ledger = ?", request.Ledger).Limit(pageSize).Offset(offset).Find(&txs).Error
+	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("ledger = ?", request.Ledger).Limit(PAGE_SIZE).Offset(offset).Find(&txs).Error
 	if err != nil {
 		return &types.TransactionsAtLedgerSeqResponse{
 			Txs:  []*types.TransactionInfo{},
@@ -75,12 +75,12 @@ func (k Keeper) TransactionsAtLedgerHash(ctx context.Context, request *types.Tra
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * pageSize
+	offset := (page - 1) * PAGE_SIZE
 
 	var txs []*types.Transaction
 	err := k.dbHandler.Joins("JOIN ledgers ON transactions.ledger = ledgers.sequence").
 		Where("ledger = ?", request.LedgerHash).
-		Limit(pageSize).
+		Limit(PAGE_SIZE).
 		Offset(offset).
 		Find(&txs).Error
 	if err != nil {
@@ -114,10 +114,10 @@ func (k Keeper) TransactionsByAddress(ctx context.Context, request *types.Transa
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * pageSize
+	offset := (page - 1) * PAGE_SIZE
 
 	var txs []*types.Transaction
-	err := k.dbHandler.Table("transactions").Where("source_address = ?", request.Address).Order("ledger DESC").Limit(pageSize).Offset(offset).Find(&txs).Error
+	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("source_address = ?", request.Address).Order("ledger DESC").Limit(PAGE_SIZE).Offset(offset).Find(&txs).Error
 	if err != nil {
 		return &types.TransactionsByAddressResponse{
 			Txs:  []*types.TransactionInfo{},
@@ -149,14 +149,14 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * pageSize
+	offset := (page - 1) * PAGE_SIZE
 
 	var txs []*types.Transaction
-	err := k.dbHandler.Table("contracts").
+	err := k.dbHandler.Table(CONTRACT_TABLE).
 		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
 		Where("contract_id = ?", request.Contract).
 		Order("ledger DESC").
-		Limit(pageSize).
+		Limit(PAGE_SIZE).
 		Offset(offset).
 		Find(&txs).Error
 	if err != nil {
@@ -187,7 +187,7 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 
 func (k Keeper) UserContractTransactions(ctx context.Context, request *types.UserContractTransactionsRequest) (*types.UserContractTransactionsResponse, error) {
 	var txs []*types.Transaction
-	err := k.dbHandler.Table("contracts").
+	err := k.dbHandler.Table(CONTRACT_TABLE).
 		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
 		Where("contract_id = ?", request.Contract).
 		Where("source_address = ?", request.Address).
@@ -195,7 +195,7 @@ func (k Keeper) UserContractTransactions(ctx context.Context, request *types.Use
 		Find(&txs).Error
 	if err != nil {
 		return &types.UserContractTransactionsResponse{
-			Txs:  []*types.TransactionInfo{},
+			Txs: []*types.TransactionInfo{},
 		}, err
 	}
 
@@ -205,17 +205,16 @@ func (k Keeper) UserContractTransactions(ctx context.Context, request *types.Use
 		txInfo, err := convertToTxInfo(item)
 		if err != nil {
 			return &types.UserContractTransactionsResponse{
-				Txs:  []*types.TransactionInfo{},
+				Txs: []*types.TransactionInfo{},
 			}, err
 		}
 		infos = append(infos, txInfo)
 	}
 
 	return &types.UserContractTransactionsResponse{
-		Txs:  infos,
+		Txs: infos,
 	}, nil
 }
-
 
 func convertToTxInfo(tx *types.Transaction) (*types.TransactionInfo, error) {
 	envelopeJson := &structpb.Struct{}
