@@ -9,15 +9,13 @@ message Event {
   string id = 1;
   string contract_id = 2;
   string tx_hash = 3;
-  uint32 tx_index = 4;
-  bytes event_xdr = 5;
+  bytes event_body_xdr = 5;
 }
 
 message EventInfo {
   string id = 1;
   string contract_id = 2;
   string tx_hash = 3;
-  uint32 tx_index = 4;
   google.protobuf.Struct event = 5;
 }
 

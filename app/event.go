@@ -13,7 +13,7 @@ import (
 func (k Keeper) Event(ctx context.Context, request *types.EventRequest) (*types.EventResponse, error) {
 	var event types.Event
 
-	err := k.dbHandler.Table("events").Where("id = ?", request.Id).First(&event).Error
+	err := k.dbHandler.Table("wasm_contract_events").Where("id = ?", request.Id).First(&event).Error
 	if err != nil {
 		return &types.EventResponse{
 			Found: false,
@@ -43,7 +43,7 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 	offset := (page - 1) * pageSize
 
 	var events []*types.Event
-	err := k.dbHandler.Table("events").
+	err := k.dbHandler.Table("wasm_contract_events").
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
 		Order("transactions.ledger DESC").
@@ -77,7 +77,7 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 
 func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedgerRequest) (*types.EventsAtLedgerResponse, error) {
 	var events []*types.Event
-	err := k.dbHandler.Table("events").
+	err := k.dbHandler.Table("wasm_contract_events").
 		Joins("JOIN transactions ON transactions.hash = events.tx_hash").
 		Where("contract_id = ?", request.ContractId).
 		Where("transactions.ledger = ?", request.Ledger).
@@ -102,7 +102,7 @@ func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedge
 
 func (k Keeper) ContractEventCount(ctx context.Context, request *types.ContractEventCountRequest) (*types.ContractEventCountResponse, error) {
 	var count int64
-	err := k.dbHandler.Table("events").Where("contract_id = ?", request.ContractId).Count(&count).Error
+	err := k.dbHandler.Table("wasm_contract_events").Where("contract_id = ?", request.ContractId).Count(&count).Error
 	if err != nil {
 		return nil, err
 	}
@@ -114,7 +114,7 @@ func (k Keeper) ContractEventCount(ctx context.Context, request *types.ContractE
 
 func convertToEventInfo(event *types.Event) (*types.EventInfo, error) {
 	eventJson := &structpb.Struct{}
-	eventData, err := converter.MarshalJSONContractEventXdr(event.EventXdr)
+	eventData, err := converter.MarshalJSONContractEventBodyXdr(event.EventBodyXdr)
 	if err != nil {
 		return &types.EventInfo{}, err
 	}
@@ -126,7 +126,6 @@ func convertToEventInfo(event *types.Event) (*types.EventInfo, error) {
 		Id:         event.Id,
 		ContractId: event.ContractId,
 		TxHash:     event.TxHash,
-		TxIndex:    event.TxIndex,
 		Event:      eventJson,
 	}, err
 }

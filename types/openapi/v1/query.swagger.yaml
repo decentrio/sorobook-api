@@ -429,9 +429,6 @@ definitions:
         type: string
       txHash:
         type: string
-      txIndex:
-        type: integer
-        format: int64
       event:
         type: object
   v1EventResponse:
