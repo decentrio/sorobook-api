@@ -85,3 +85,113 @@ message EventsAtLedgerRequest {
 }
 
 message EventsAtLedgerResponse { repeated EventInfo events = 1; }
+
+message TransferEventsRequest {
+  string contract_id = 1;
+  int32 page = 2;
+}
+
+message TransferEventsResponse {
+  repeated TranferEvent events = 1;
+  int32 page = 2;
+}
+
+message TransferEventsFromRequest {
+  string from = 1;
+  int32 page = 2;
+}
+
+message TransferEventsFromResponse {
+  repeated TranferEvent events = 1;
+  int32 page = 2;
+}
+
+message TransferEventsToRequest {
+  string to = 1;
+  int32 page = 2;
+}
+
+message TransferEventsToResponse {
+  repeated TranferEvent events = 1;
+  int32 page = 2;
+}
+
+message MintEventsRequest {
+  string contract_id = 1;
+  int32 page = 2;
+}
+
+message MintEventsResponse {
+  repeated MintEvent events = 1;
+  int32 page = 2;
+}
+
+message MintEventsAdminRequest {
+  string admin = 1;
+  int32 page = 2;
+}
+
+message MintEventsAdminResponse {
+  repeated MintEvent events = 1;
+  int32 page = 2;
+}
+
+message MintEventsToRequest {
+  string to = 1;
+  int32 page = 2;
+}
+
+message MintEventsToResponse {
+  repeated MintEvent events = 1;
+  int32 page = 2;
+}
+
+message BurnEventsRequest {
+  string contract_id = 1;
+  int32 page = 2;
+}
+
+message BurnEventsResponse {
+  repeated BurnEvent events = 1;
+  int32 page = 2;
+}
+
+message BurnEventsFromRequest {
+  string from = 1;
+  int32 page = 2;
+}
+
+message BurnEventsFromResponse {
+  repeated BurnEvent events = 1;
+  int32 page = 2;
+}
+
+message ClawbackEventsRequest {
+  string contract_id = 1;
+  int32 page = 2;
+}
+
+message ClawbackEventsResponse {
+  repeated ClawbackEvent events = 1;
+  int32 page = 2;
+}
+
+message ClawbackEventsFromRequest {
+  string from = 1;
+  int32 page = 2;
+}
+
+message ClawbackEventsFromResponse {
+  repeated ClawbackEvent events = 1;
+  int32 page = 2;
+}
+
+message ClawbackEventsAdminRequest {
+  string admin = 1;
+  int32 page = 2;
+}
+
+message ClawbackEventsAdminResponse {
+  repeated ClawbackEvent events = 1;
+  int32 page = 2;
+}

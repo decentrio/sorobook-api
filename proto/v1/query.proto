@@ -98,4 +98,59 @@ service Query {
   rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
     option (google.api.http).get = "/v1/contract-entries/{contract_id}/{page}";
   }
+
+  // TransferEvents queries 10 events that match the given contract id and page.
+  rpc TransferEvents(TransferEventsRequest) returns (TransferEventsResponse) {
+    option (google.api.http).get = "/v1/transfer-events/{contract_id}/{page}";
+  }
+
+  // TransferEventsFrom queries 10 events that match the given from address and page.
+  rpc TransferEventsFrom(TransferEventsFromRequest) returns (TransferEventsFromResponse) {
+    option (google.api.http).get = "/v1/transfer-events/from/{from}/{page}";
+  }
+
+  // TransferEventsTo queries 10 events that match the given from address and page.
+  rpc TransferEventsTo(TransferEventsToRequest) returns (TransferEventsToResponse) {
+    option (google.api.http).get = "/v1/transfer-events/to/{to}/{page}";
+  }
+
+  // MintEvents queries 10 events that match the given contract id and page.
+  rpc MintEvents(MintEventsRequest) returns (MintEventsResponse) {
+    option (google.api.http).get = "/v1/mint-events/{contract_id}/{page}";
+  }
+
+  // MintEventsAdmin queries 10 events that match the given admin and page.
+  rpc MintEventsAdmin(MintEventsAdminRequest) returns (MintEventsAdminResponse) {
+    option (google.api.http).get = "/v1/mint-events/admin/{admin}/{page}";
+  }
+
+  // MintEventsTo queries 10 events that match the given to address and page.
+  rpc MintEventsTo(MintEventsToRequest) returns (MintEventsToResponse) {
+    option (google.api.http).get = "/v1/mint-events/to/{to}/{page}";
+  }
+
+  // BurnEvents queries 10 events that match the given contract id and page.
+  rpc BurnEvents(BurnEventsRequest) returns (BurnEventsResponse) {
+    option (google.api.http).get = "/v1/burn-events/{contract_id}/{page}";
+  }
+
+  // BurnEventsFrom queries 10 events that match the given from address and page.
+  rpc BurnEventsFrom(BurnEventsFromRequest) returns (BurnEventsFromResponse) {
+    option (google.api.http).get = "/v1/burn-events/from/{from}/{page}";
+  }
+
+  // ClawbackEvents queries 10 events that match the given contract id and page.
+  rpc ClawbackEvents(ClawbackEventsRequest) returns (ClawbackEventsResponse) {
+    option (google.api.http).get = "/v1/clawback-events/{contract_id}/{page}";
+  }
+
+  // ClawbackEventsAdmin queries 10 events that match the given admin address and page.
+  rpc ClawbackEventsAdmin(ClawbackEventsAdminRequest) returns (ClawbackEventsAdminResponse) {
+    option (google.api.http).get = "/v1/clawback-events/admin/{admin}/{page}";
+  }
+
+  // ClawbackEventsFrom queries 10 events that match the given drom address and page.
+  rpc ClawbackEventsFrom(ClawbackEventsFromRequest) returns (ClawbackEventsFromResponse) {
+    option (google.api.http).get = "/v1/clawback-events/from/{from}/{page}";
+  }
 }

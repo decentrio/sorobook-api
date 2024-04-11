@@ -112,6 +112,281 @@ func (k Keeper) ContractEventCount(ctx context.Context, request *types.ContractE
 	}, nil
 }
 
+func (k Keeper) TransferEvents(ctx context.Context, request *types.TransferEventsRequest) (*types.TransferEventsResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.TranferEvent
+	err := k.dbHandler.Table(TRANSFER_TABLE).
+		Where("contract_id = ?", request.ContractId).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.TransferEventsResponse{}, err
+	}
+
+	return &types.TransferEventsResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) TransferEventsFrom(ctx context.Context, request *types.TransferEventsFromRequest) (*types.TransferEventsFromResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.TranferEvent
+	err := k.dbHandler.Table(TRANSFER_TABLE).
+		Where("from_addr = ?", request.From).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.TransferEventsFromResponse{}, err
+	}
+
+	return &types.TransferEventsFromResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) TransferEventsTo(ctx context.Context, request *types.TransferEventsToRequest) (*types.TransferEventsToResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.TranferEvent
+	err := k.dbHandler.Table(TRANSFER_TABLE).
+		Where("to_addr = ?", request.To).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.TransferEventsToResponse{}, err
+	}
+
+	return &types.TransferEventsToResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) MintEvents(ctx context.Context, request *types.MintEventsRequest) (*types.MintEventsResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.MintEvent
+	err := k.dbHandler.Table(MINT_TABLE).
+		Where("contract_id = ?", request.ContractId).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_mint_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.MintEventsResponse{}, err
+	}
+
+	return &types.MintEventsResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) MintEventsAdmin(ctx context.Context, request *types.MintEventsAdminRequest) (*types.MintEventsAdminResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.MintEvent
+	err := k.dbHandler.Table(MINT_TABLE).
+		Where("admin_addr = ?", request.Admin).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_mint_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.MintEventsAdminResponse{}, err
+	}
+
+	return &types.MintEventsAdminResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) MintEventsTo(ctx context.Context, request *types.MintEventsToRequest) (*types.MintEventsToResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.MintEvent
+	err := k.dbHandler.Table(MINT_TABLE).
+		Where("to_addr = ?", request.To).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_mint_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.MintEventsToResponse{}, err
+	}
+
+	return &types.MintEventsToResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) BurnEvents(ctx context.Context, request *types.BurnEventsRequest) (*types.BurnEventsResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.BurnEvent
+	err := k.dbHandler.Table(BURN_TABLE).
+		Where("contract_id = ?", request.ContractId).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.BurnEventsResponse{}, err
+	}
+
+	return &types.BurnEventsResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) BurnEventsFrom(ctx context.Context, request *types.BurnEventsFromRequest) (*types.BurnEventsFromResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.BurnEvent
+	err := k.dbHandler.Table(BURN_TABLE).
+		Where("from_addr = ?", request.From).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.BurnEventsFromResponse{}, err
+	}
+
+	return &types.BurnEventsFromResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) ClawbackEvents(ctx context.Context, request *types.ClawbackEventsRequest) (*types.ClawbackEventsResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.ClawbackEvent
+	err := k.dbHandler.Table(CLAWBACK_TABLE).
+		Where("contract_id = ?", request.ContractId).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.ClawbackEventsResponse{}, err
+	}
+
+	return &types.ClawbackEventsResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) ClawbackEventsAdmin(ctx context.Context, request *types.ClawbackEventsAdminRequest) (*types.ClawbackEventsAdminResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.ClawbackEvent
+	err := k.dbHandler.Table(CLAWBACK_TABLE).
+		Where("admin_addr = ?", request.Admin).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.ClawbackEventsAdminResponse{}, err
+	}
+
+	return &types.ClawbackEventsAdminResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
+func (k Keeper) ClawbackEventsFrom(ctx context.Context, request *types.ClawbackEventsFromRequest) (*types.ClawbackEventsFromResponse, error) {
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	offset := (page - 1) * PAGE_SIZE
+
+	var events []*types.ClawbackEvent
+	err := k.dbHandler.Table(CLAWBACK_TABLE).
+		Where("from_addr = ?", request.From).
+		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
+		Order("transactions.ledger DESC").
+		Limit(PAGE_SIZE).
+		Offset(offset).
+		Find(&events).Error
+	if err != nil {
+		return &types.ClawbackEventsFromResponse{}, err
+	}
+
+	return &types.ClawbackEventsFromResponse{
+		Events: events,
+		Page:   int32(page),
+	}, nil
+}
+
 func convertToEventInfo(event *types.Event) (*types.EventInfo, error) {
 	eventJson := &structpb.Struct{}
 	eventData, err := converter.MarshalJSONContractEventBodyXdr(event.EventBodyXdr)

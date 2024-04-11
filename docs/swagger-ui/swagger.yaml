@@ -9,6 +9,131 @@ consumes:
 produces:
   - application/json
 paths:
+  /v1/burn-events/from/{from}/{page}:
+    get:
+      summary: BurnEventsFrom queries 10 events that match the given from address and page.
+      operationId: Query_BurnEventsFrom
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1BurnEventsFromResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: from
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/burn-events/{contractId}/{page}:
+    get:
+      summary: BurnEvents queries 10 events that match the given contract id and page.
+      operationId: Query_BurnEvents
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1BurnEventsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/clawback-events/admin/{admin}/{page}:
+    get:
+      summary: ClawbackEventsAdmin queries 10 events that match the given admin address and page.
+      operationId: Query_ClawbackEventsAdmin
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ClawbackEventsAdminResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: admin
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/clawback-events/from/{from}/{page}:
+    get:
+      summary: ClawbackEventsFrom queries 10 events that match the given drom address and page.
+      operationId: Query_ClawbackEventsFrom
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ClawbackEventsFromResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: from
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/clawback-events/{contractId}/{page}:
+    get:
+      summary: ClawbackEvents queries 10 events that match the given contract id and page.
+      operationId: Query_ClawbackEvents
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ClawbackEventsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
   /v1/contract-entries/{contractId}/{page}:
     get:
       summary: ContractData queries list newest data entries of contract
@@ -167,6 +292,81 @@ paths:
           format: int64
       tags:
         - Query
+  /v1/mint-events/admin/{admin}/{page}:
+    get:
+      summary: MintEventsAdmin queries 10 events that match the given admin and page.
+      operationId: Query_MintEventsAdmin
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1MintEventsAdminResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: admin
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/mint-events/to/{to}/{page}:
+    get:
+      summary: MintEventsTo queries 10 events that match the given to address and page.
+      operationId: Query_MintEventsTo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1MintEventsToResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: to
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/mint-events/{contractId}/{page}:
+    get:
+      summary: MintEvents queries 10 events that match the given contract id and page.
+      operationId: Query_MintEvents
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1MintEventsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
   /v1/transactions-at-ledger-hash/{ledgerHash}/{page}:
     get:
       summary: |-
@@ -322,6 +522,81 @@ paths:
           type: string
       tags:
         - Query
+  /v1/transfer-events/from/{from}/{page}:
+    get:
+      summary: TransferEventsFrom queries 10 events that match the given from address and page.
+      operationId: Query_TransferEventsFrom
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1TransferEventsFromResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: from
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/transfer-events/to/{to}/{page}:
+    get:
+      summary: TransferEventsTo queries 10 events that match the given from address and page.
+      operationId: Query_TransferEventsTo
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1TransferEventsToResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: to
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
+  /v1/transfer-events/{contractId}/{page}:
+    get:
+      summary: TransferEvents queries 10 events that match the given contract id and page.
+      operationId: Query_TransferEvents
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1TransferEventsResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: path
+          required: true
+          type: integer
+          format: int32
+      tags:
+        - Query
   /v1/user-contracts/{address}:
     get:
       summary: UserInteractionContracts queries list contracts user has interacted.
@@ -374,6 +649,97 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/protobufAny'
+  v1BurnEvent:
+    type: object
+    properties:
+      id:
+        type: string
+      contractId:
+        type: string
+      txHash:
+        type: string
+      fromAddr:
+        type: string
+      amountHi:
+        type: string
+        format: int64
+      amountLo:
+        type: string
+        format: uint64
+  v1BurnEventsFromResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1BurnEvent'
+      page:
+        type: integer
+        format: int32
+  v1BurnEventsResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1BurnEvent'
+      page:
+        type: integer
+        format: int32
+  v1ClawbackEvent:
+    type: object
+    properties:
+      id:
+        type: string
+      contractId:
+        type: string
+      txHash:
+        type: string
+      adminAddr:
+        type: string
+      fromAddr:
+        type: string
+      amountHi:
+        type: string
+        format: int64
+      amountLo:
+        type: string
+        format: uint64
+  v1ClawbackEventsAdminResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ClawbackEvent'
+      page:
+        type: integer
+        format: int32
+  v1ClawbackEventsFromResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ClawbackEvent'
+      page:
+        type: integer
+        format: int32
+  v1ClawbackEventsResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1ClawbackEvent'
+      page:
+        type: integer
+        format: int32
   v1ContractDataResponse:
     type: object
     properties:
@@ -476,6 +842,77 @@ definitions:
         $ref: '#/definitions/v1Ledger'
       found:
         type: boolean
+  v1MintEvent:
+    type: object
+    properties:
+      id:
+        type: string
+      contractId:
+        type: string
+      txHash:
+        type: string
+      adminAddr:
+        type: string
+      toAddr:
+        type: string
+      amountHi:
+        type: string
+        format: int64
+      amountLo:
+        type: string
+        format: uint64
+  v1MintEventsAdminResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1MintEvent'
+      page:
+        type: integer
+        format: int32
+  v1MintEventsResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1MintEvent'
+      page:
+        type: integer
+        format: int32
+  v1MintEventsToResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1MintEvent'
+      page:
+        type: integer
+        format: int32
+  v1TranferEvent:
+    type: object
+    properties:
+      id:
+        type: string
+      contractId:
+        type: string
+      txHash:
+        type: string
+      fromAddr:
+        type: string
+      toAddr:
+        type: string
+      amountHi:
+        type: string
+        format: int64
+      amountLo:
+        type: string
+        format: uint64
   v1TransactionInfo:
     type: object
     properties:
@@ -534,6 +971,39 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1TransactionInfo'
+      page:
+        type: integer
+        format: int32
+  v1TransferEventsFromResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TranferEvent'
+      page:
+        type: integer
+        format: int32
+  v1TransferEventsResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TranferEvent'
+      page:
+        type: integer
+        format: int32
+  v1TransferEventsToResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          $ref: '#/definitions/v1TranferEvent'
       page:
         type: integer
         format: int32

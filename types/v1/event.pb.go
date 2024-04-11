@@ -943,6 +943,1216 @@ func (x *EventsAtLedgerResponse) GetEvents() []*EventInfo {
 	return nil
 }
 
+type TransferEventsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ContractId string `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
+	Page       int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *TransferEventsRequest) Reset() {
+	*x = TransferEventsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TransferEventsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferEventsRequest) ProtoMessage() {}
+
+func (x *TransferEventsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferEventsRequest.ProtoReflect.Descriptor instead.
+func (*TransferEventsRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *TransferEventsRequest) GetContractId() string {
+	if x != nil {
+		return x.ContractId
+	}
+	return ""
+}
+
+func (x *TransferEventsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type TransferEventsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*TranferEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32           `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *TransferEventsResponse) Reset() {
+	*x = TransferEventsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TransferEventsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferEventsResponse) ProtoMessage() {}
+
+func (x *TransferEventsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferEventsResponse.ProtoReflect.Descriptor instead.
+func (*TransferEventsResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *TransferEventsResponse) GetEvents() []*TranferEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *TransferEventsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type TransferEventsFromRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	From string `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	Page int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *TransferEventsFromRequest) Reset() {
+	*x = TransferEventsFromRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TransferEventsFromRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferEventsFromRequest) ProtoMessage() {}
+
+func (x *TransferEventsFromRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferEventsFromRequest.ProtoReflect.Descriptor instead.
+func (*TransferEventsFromRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *TransferEventsFromRequest) GetFrom() string {
+	if x != nil {
+		return x.From
+	}
+	return ""
+}
+
+func (x *TransferEventsFromRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type TransferEventsFromResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*TranferEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32           `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *TransferEventsFromResponse) Reset() {
+	*x = TransferEventsFromResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[17]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TransferEventsFromResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferEventsFromResponse) ProtoMessage() {}
+
+func (x *TransferEventsFromResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[17]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferEventsFromResponse.ProtoReflect.Descriptor instead.
+func (*TransferEventsFromResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *TransferEventsFromResponse) GetEvents() []*TranferEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *TransferEventsFromResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type TransferEventsToRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	To   string `protobuf:"bytes,1,opt,name=to,proto3" json:"to,omitempty"`
+	Page int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *TransferEventsToRequest) Reset() {
+	*x = TransferEventsToRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[18]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TransferEventsToRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferEventsToRequest) ProtoMessage() {}
+
+func (x *TransferEventsToRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[18]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferEventsToRequest.ProtoReflect.Descriptor instead.
+func (*TransferEventsToRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *TransferEventsToRequest) GetTo() string {
+	if x != nil {
+		return x.To
+	}
+	return ""
+}
+
+func (x *TransferEventsToRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type TransferEventsToResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*TranferEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32           `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *TransferEventsToResponse) Reset() {
+	*x = TransferEventsToResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[19]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TransferEventsToResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TransferEventsToResponse) ProtoMessage() {}
+
+func (x *TransferEventsToResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[19]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TransferEventsToResponse.ProtoReflect.Descriptor instead.
+func (*TransferEventsToResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *TransferEventsToResponse) GetEvents() []*TranferEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *TransferEventsToResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type MintEventsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ContractId string `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
+	Page       int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *MintEventsRequest) Reset() {
+	*x = MintEventsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[20]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MintEventsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MintEventsRequest) ProtoMessage() {}
+
+func (x *MintEventsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[20]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MintEventsRequest.ProtoReflect.Descriptor instead.
+func (*MintEventsRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *MintEventsRequest) GetContractId() string {
+	if x != nil {
+		return x.ContractId
+	}
+	return ""
+}
+
+func (x *MintEventsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type MintEventsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*MintEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32        `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *MintEventsResponse) Reset() {
+	*x = MintEventsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[21]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MintEventsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MintEventsResponse) ProtoMessage() {}
+
+func (x *MintEventsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[21]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MintEventsResponse.ProtoReflect.Descriptor instead.
+func (*MintEventsResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *MintEventsResponse) GetEvents() []*MintEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *MintEventsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type MintEventsAdminRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Admin string `protobuf:"bytes,1,opt,name=admin,proto3" json:"admin,omitempty"`
+	Page  int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *MintEventsAdminRequest) Reset() {
+	*x = MintEventsAdminRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MintEventsAdminRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MintEventsAdminRequest) ProtoMessage() {}
+
+func (x *MintEventsAdminRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[22]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MintEventsAdminRequest.ProtoReflect.Descriptor instead.
+func (*MintEventsAdminRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *MintEventsAdminRequest) GetAdmin() string {
+	if x != nil {
+		return x.Admin
+	}
+	return ""
+}
+
+func (x *MintEventsAdminRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type MintEventsAdminResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*MintEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32        `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *MintEventsAdminResponse) Reset() {
+	*x = MintEventsAdminResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MintEventsAdminResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MintEventsAdminResponse) ProtoMessage() {}
+
+func (x *MintEventsAdminResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MintEventsAdminResponse.ProtoReflect.Descriptor instead.
+func (*MintEventsAdminResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *MintEventsAdminResponse) GetEvents() []*MintEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *MintEventsAdminResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type MintEventsToRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	To   string `protobuf:"bytes,1,opt,name=to,proto3" json:"to,omitempty"`
+	Page int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *MintEventsToRequest) Reset() {
+	*x = MintEventsToRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[24]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MintEventsToRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MintEventsToRequest) ProtoMessage() {}
+
+func (x *MintEventsToRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[24]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MintEventsToRequest.ProtoReflect.Descriptor instead.
+func (*MintEventsToRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *MintEventsToRequest) GetTo() string {
+	if x != nil {
+		return x.To
+	}
+	return ""
+}
+
+func (x *MintEventsToRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type MintEventsToResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*MintEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32        `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *MintEventsToResponse) Reset() {
+	*x = MintEventsToResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[25]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MintEventsToResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MintEventsToResponse) ProtoMessage() {}
+
+func (x *MintEventsToResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[25]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MintEventsToResponse.ProtoReflect.Descriptor instead.
+func (*MintEventsToResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *MintEventsToResponse) GetEvents() []*MintEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *MintEventsToResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type BurnEventsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ContractId string `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
+	Page       int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *BurnEventsRequest) Reset() {
+	*x = BurnEventsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[26]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BurnEventsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BurnEventsRequest) ProtoMessage() {}
+
+func (x *BurnEventsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[26]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BurnEventsRequest.ProtoReflect.Descriptor instead.
+func (*BurnEventsRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *BurnEventsRequest) GetContractId() string {
+	if x != nil {
+		return x.ContractId
+	}
+	return ""
+}
+
+func (x *BurnEventsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type BurnEventsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*BurnEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32        `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *BurnEventsResponse) Reset() {
+	*x = BurnEventsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[27]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BurnEventsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BurnEventsResponse) ProtoMessage() {}
+
+func (x *BurnEventsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[27]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BurnEventsResponse.ProtoReflect.Descriptor instead.
+func (*BurnEventsResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *BurnEventsResponse) GetEvents() []*BurnEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *BurnEventsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type BurnEventsFromRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	From string `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	Page int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *BurnEventsFromRequest) Reset() {
+	*x = BurnEventsFromRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[28]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BurnEventsFromRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BurnEventsFromRequest) ProtoMessage() {}
+
+func (x *BurnEventsFromRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[28]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BurnEventsFromRequest.ProtoReflect.Descriptor instead.
+func (*BurnEventsFromRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *BurnEventsFromRequest) GetFrom() string {
+	if x != nil {
+		return x.From
+	}
+	return ""
+}
+
+func (x *BurnEventsFromRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type BurnEventsFromResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*BurnEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32        `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *BurnEventsFromResponse) Reset() {
+	*x = BurnEventsFromResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[29]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BurnEventsFromResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BurnEventsFromResponse) ProtoMessage() {}
+
+func (x *BurnEventsFromResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[29]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BurnEventsFromResponse.ProtoReflect.Descriptor instead.
+func (*BurnEventsFromResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *BurnEventsFromResponse) GetEvents() []*BurnEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *BurnEventsFromResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type ClawbackEventsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ContractId string `protobuf:"bytes,1,opt,name=contract_id,json=contractId,proto3" json:"contract_id,omitempty"`
+	Page       int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ClawbackEventsRequest) Reset() {
+	*x = ClawbackEventsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[30]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ClawbackEventsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClawbackEventsRequest) ProtoMessage() {}
+
+func (x *ClawbackEventsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[30]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClawbackEventsRequest.ProtoReflect.Descriptor instead.
+func (*ClawbackEventsRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *ClawbackEventsRequest) GetContractId() string {
+	if x != nil {
+		return x.ContractId
+	}
+	return ""
+}
+
+func (x *ClawbackEventsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type ClawbackEventsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*ClawbackEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32            `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ClawbackEventsResponse) Reset() {
+	*x = ClawbackEventsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[31]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ClawbackEventsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClawbackEventsResponse) ProtoMessage() {}
+
+func (x *ClawbackEventsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[31]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClawbackEventsResponse.ProtoReflect.Descriptor instead.
+func (*ClawbackEventsResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *ClawbackEventsResponse) GetEvents() []*ClawbackEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *ClawbackEventsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type ClawbackEventsFromRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	From string `protobuf:"bytes,1,opt,name=from,proto3" json:"from,omitempty"`
+	Page int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ClawbackEventsFromRequest) Reset() {
+	*x = ClawbackEventsFromRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[32]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ClawbackEventsFromRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClawbackEventsFromRequest) ProtoMessage() {}
+
+func (x *ClawbackEventsFromRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[32]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClawbackEventsFromRequest.ProtoReflect.Descriptor instead.
+func (*ClawbackEventsFromRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *ClawbackEventsFromRequest) GetFrom() string {
+	if x != nil {
+		return x.From
+	}
+	return ""
+}
+
+func (x *ClawbackEventsFromRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type ClawbackEventsFromResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*ClawbackEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32            `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ClawbackEventsFromResponse) Reset() {
+	*x = ClawbackEventsFromResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[33]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ClawbackEventsFromResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClawbackEventsFromResponse) ProtoMessage() {}
+
+func (x *ClawbackEventsFromResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[33]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClawbackEventsFromResponse.ProtoReflect.Descriptor instead.
+func (*ClawbackEventsFromResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *ClawbackEventsFromResponse) GetEvents() []*ClawbackEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *ClawbackEventsFromResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type ClawbackEventsAdminRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Admin string `protobuf:"bytes,1,opt,name=admin,proto3" json:"admin,omitempty"`
+	Page  int32  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ClawbackEventsAdminRequest) Reset() {
+	*x = ClawbackEventsAdminRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[34]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ClawbackEventsAdminRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClawbackEventsAdminRequest) ProtoMessage() {}
+
+func (x *ClawbackEventsAdminRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[34]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClawbackEventsAdminRequest.ProtoReflect.Descriptor instead.
+func (*ClawbackEventsAdminRequest) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *ClawbackEventsAdminRequest) GetAdmin() string {
+	if x != nil {
+		return x.Admin
+	}
+	return ""
+}
+
+func (x *ClawbackEventsAdminRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type ClawbackEventsAdminResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Events []*ClawbackEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Page   int32            `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+}
+
+func (x *ClawbackEventsAdminResponse) Reset() {
+	*x = ClawbackEventsAdminResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_event_proto_msgTypes[35]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ClawbackEventsAdminResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClawbackEventsAdminResponse) ProtoMessage() {}
+
+func (x *ClawbackEventsAdminResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_event_proto_msgTypes[35]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClawbackEventsAdminResponse.ProtoReflect.Descriptor instead.
+func (*ClawbackEventsAdminResponse) Descriptor() ([]byte, []int) {
+	return file_v1_event_proto_rawDescGZIP(), []int{35}
+}
+
+func (x *ClawbackEventsAdminResponse) GetEvents() []*ClawbackEvent {
+	if x != nil {
+		return x.Events
+	}
+	return nil
+}
+
+func (x *ClawbackEventsAdminResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
 var File_v1_event_proto protoreflect.FileDescriptor
 
 var file_v1_event_proto_rawDesc = []byte{
@@ -1047,14 +2257,122 @@ var file_v1_event_proto_rawDesc = []byte{
 	0x76, 0x65, 0x6e, 0x74, 0x73, 0x41, 0x74, 0x4c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x52, 0x65, 0x73,
 	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18,
 	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x76, 0x65, 0x6e, 0x74,
-	0x49, 0x6e, 0x66, 0x6f, 0x52, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x42, 0x65, 0x0a, 0x06,
-	0x63, 0x6f, 0x6d, 0x2e, 0x76, 0x31, 0x42, 0x0a, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x50, 0x72, 0x6f,
-	0x74, 0x6f, 0x50, 0x01, 0x5a, 0x27, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
-	0x2f, 0x64, 0x65, 0x63, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x6f, 0x2f, 0x73, 0x6f, 0x72, 0x6f, 0x62,
-	0x6f, 0x6f, 0x6b, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x73, 0xa2, 0x02, 0x03,
-	0x56, 0x58, 0x58, 0xaa, 0x02, 0x02, 0x56, 0x31, 0xca, 0x02, 0x02, 0x56, 0x31, 0xe2, 0x02, 0x0e,
-	0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
-	0x02, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x49, 0x6e, 0x66, 0x6f, 0x52, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x22, 0x4c, 0x0a, 0x15,
+	0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63,
+	0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x56, 0x0a, 0x16, 0x54, 0x72,
+	0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x28, 0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x66, 0x65,
+	0x72, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x12,
+	0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61,
+	0x67, 0x65, 0x22, 0x43, 0x0a, 0x19, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x46, 0x72, 0x6f, 0x6d, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x12, 0x0a, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x66,
+	0x72, 0x6f, 0x6d, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x5a, 0x0a, 0x1a, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x66, 0x65, 0x72, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x46, 0x72, 0x6f, 0x6d, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x28, 0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x66,
+	0x65, 0x72, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x12,
+	0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70,
+	0x61, 0x67, 0x65, 0x22, 0x3d, 0x0a, 0x17, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x73, 0x54, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e,
+	0x0a, 0x02, 0x74, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x74, 0x6f, 0x12, 0x12,
+	0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61,
+	0x67, 0x65, 0x22, 0x58, 0x0a, 0x18, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x66, 0x65, 0x72, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x54, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x28,
+	0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x10,
+	0x2e, 0x76, 0x31, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x66, 0x65, 0x72, 0x45, 0x76, 0x65, 0x6e, 0x74,
+	0x52, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x48, 0x0a, 0x11,
+	0x4d, 0x69, 0x6e, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x69, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05,
+	0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x4f, 0x0a, 0x12, 0x4d, 0x69, 0x6e, 0x74, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x06,
+	0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x76,
+	0x31, 0x2e, 0x4d, 0x69, 0x6e, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x06, 0x65, 0x76, 0x65,
+	0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x42, 0x0a, 0x16, 0x4d, 0x69, 0x6e, 0x74, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x14, 0x0a, 0x05, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x54, 0x0a, 0x17, 0x4d,
+	0x69, 0x6e, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x69, 0x6e, 0x74,
+	0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a,
+	0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67,
+	0x65, 0x22, 0x39, 0x0a, 0x13, 0x4d, 0x69, 0x6e, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x54,
+	0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x74, 0x6f, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x74, 0x6f, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x51, 0x0a, 0x14,
+	0x4d, 0x69, 0x6e, 0x74, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x54, 0x6f, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x76, 0x31, 0x2e, 0x4d, 0x69, 0x6e, 0x74, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x52, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x70,
+	0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22,
+	0x48, 0x0a, 0x11, 0x42, 0x75, 0x72, 0x6e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
+	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x63, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x4f, 0x0a, 0x12, 0x42, 0x75, 0x72,
+	0x6e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x25, 0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x0d, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x75, 0x72, 0x6e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x06,
+	0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x3f, 0x0a, 0x15, 0x42, 0x75,
+	0x72, 0x6e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x46, 0x72, 0x6f, 0x6d, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x53, 0x0a, 0x16, 0x42,
+	0x75, 0x72, 0x6e, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x46, 0x72, 0x6f, 0x6d, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x76, 0x31, 0x2e, 0x42, 0x75, 0x72, 0x6e, 0x45,
+	0x76, 0x65, 0x6e, 0x74, 0x52, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a, 0x04,
+	0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65,
+	0x22, 0x4c, 0x0a, 0x15, 0x43, 0x6c, 0x61, 0x77, 0x62, 0x61, 0x63, 0x6b, 0x45, 0x76, 0x65, 0x6e,
+	0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x63, 0x6f, 0x6e,
+	0x74, 0x72, 0x61, 0x63, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a,
+	0x63, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61,
+	0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x57,
+	0x0a, 0x16, 0x43, 0x6c, 0x61, 0x77, 0x62, 0x61, 0x63, 0x6b, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x29, 0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e,
+	0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c,
+	0x61, 0x77, 0x62, 0x61, 0x63, 0x6b, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x06, 0x65, 0x76, 0x65,
+	0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x43, 0x0a, 0x19, 0x43, 0x6c, 0x61, 0x77, 0x62,
+	0x61, 0x63, 0x6b, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x46, 0x72, 0x6f, 0x6d, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x66, 0x72, 0x6f, 0x6d, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x5b, 0x0a, 0x1a,
+	0x43, 0x6c, 0x61, 0x77, 0x62, 0x61, 0x63, 0x6b, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x46, 0x72,
+	0x6f, 0x6d, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x29, 0x0a, 0x06, 0x65, 0x76,
+	0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x76, 0x31, 0x2e,
+	0x43, 0x6c, 0x61, 0x77, 0x62, 0x61, 0x63, 0x6b, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x52, 0x06, 0x65,
+	0x76, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x22, 0x46, 0x0a, 0x1a, 0x43, 0x6c, 0x61,
+	0x77, 0x62, 0x61, 0x63, 0x6b, 0x45, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x61, 0x64, 0x6d, 0x69, 0x6e,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x12, 0x0a,
+	0x04, 0x70, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67,
+	0x65, 0x22, 0x5c, 0x0a, 0x1b, 0x43, 0x6c, 0x61, 0x77, 0x62, 0x61, 0x63, 0x6b, 0x45, 0x76, 0x65,
+	0x6e, 0x74, 0x73, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x29, 0x0a, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x11, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x6c, 0x61, 0x77, 0x62, 0x61, 0x63, 0x6b, 0x45, 0x76,
+	0x65, 0x6e, 0x74, 0x52, 0x06, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x70,
+	0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x70, 0x61, 0x67, 0x65, 0x42,
+	0x65, 0x0a, 0x06, 0x63, 0x6f, 0x6d, 0x2e, 0x76, 0x31, 0x42, 0x0a, 0x45, 0x76, 0x65, 0x6e, 0x74,
+	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x27, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x64, 0x65, 0x63, 0x65, 0x6e, 0x74, 0x72, 0x69, 0x6f, 0x2f, 0x73, 0x6f,
+	0x72, 0x6f, 0x62, 0x6f, 0x6f, 0x6b, 0x2d, 0x61, 0x70, 0x69, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x73,
+	0xa2, 0x02, 0x03, 0x56, 0x58, 0x58, 0xaa, 0x02, 0x02, 0x56, 0x31, 0xca, 0x02, 0x02, 0x56, 0x31,
+	0xe2, 0x02, 0x0e, 0x56, 0x31, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0xea, 0x02, 0x02, 0x56, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1069,34 +2387,67 @@ func file_v1_event_proto_rawDescGZIP() []byte {
 	return file_v1_event_proto_rawDescData
 }
 
-var file_v1_event_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_v1_event_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
 var file_v1_event_proto_goTypes = []interface{}{
-	(*Event)(nil),                      // 0: v1.Event
-	(*EventInfo)(nil),                  // 1: v1.EventInfo
-	(*TranferEvent)(nil),               // 2: v1.TranferEvent
-	(*MintEvent)(nil),                  // 3: v1.MintEvent
-	(*BurnEvent)(nil),                  // 4: v1.BurnEvent
-	(*ClawbackEvent)(nil),              // 5: v1.ClawbackEvent
-	(*EventRequest)(nil),               // 6: v1.EventRequest
-	(*EventResponse)(nil),              // 7: v1.EventResponse
-	(*ContractEventsRequest)(nil),      // 8: v1.ContractEventsRequest
-	(*ContractEventsResponse)(nil),     // 9: v1.ContractEventsResponse
-	(*ContractEventCountRequest)(nil),  // 10: v1.ContractEventCountRequest
-	(*ContractEventCountResponse)(nil), // 11: v1.ContractEventCountResponse
-	(*EventsAtLedgerRequest)(nil),      // 12: v1.EventsAtLedgerRequest
-	(*EventsAtLedgerResponse)(nil),     // 13: v1.EventsAtLedgerResponse
-	(*structpb.Struct)(nil),            // 14: google.protobuf.Struct
+	(*Event)(nil),                       // 0: v1.Event
+	(*EventInfo)(nil),                   // 1: v1.EventInfo
+	(*TranferEvent)(nil),                // 2: v1.TranferEvent
+	(*MintEvent)(nil),                   // 3: v1.MintEvent
+	(*BurnEvent)(nil),                   // 4: v1.BurnEvent
+	(*ClawbackEvent)(nil),               // 5: v1.ClawbackEvent
+	(*EventRequest)(nil),                // 6: v1.EventRequest
+	(*EventResponse)(nil),               // 7: v1.EventResponse
+	(*ContractEventsRequest)(nil),       // 8: v1.ContractEventsRequest
+	(*ContractEventsResponse)(nil),      // 9: v1.ContractEventsResponse
+	(*ContractEventCountRequest)(nil),   // 10: v1.ContractEventCountRequest
+	(*ContractEventCountResponse)(nil),  // 11: v1.ContractEventCountResponse
+	(*EventsAtLedgerRequest)(nil),       // 12: v1.EventsAtLedgerRequest
+	(*EventsAtLedgerResponse)(nil),      // 13: v1.EventsAtLedgerResponse
+	(*TransferEventsRequest)(nil),       // 14: v1.TransferEventsRequest
+	(*TransferEventsResponse)(nil),      // 15: v1.TransferEventsResponse
+	(*TransferEventsFromRequest)(nil),   // 16: v1.TransferEventsFromRequest
+	(*TransferEventsFromResponse)(nil),  // 17: v1.TransferEventsFromResponse
+	(*TransferEventsToRequest)(nil),     // 18: v1.TransferEventsToRequest
+	(*TransferEventsToResponse)(nil),    // 19: v1.TransferEventsToResponse
+	(*MintEventsRequest)(nil),           // 20: v1.MintEventsRequest
+	(*MintEventsResponse)(nil),          // 21: v1.MintEventsResponse
+	(*MintEventsAdminRequest)(nil),      // 22: v1.MintEventsAdminRequest
+	(*MintEventsAdminResponse)(nil),     // 23: v1.MintEventsAdminResponse
+	(*MintEventsToRequest)(nil),         // 24: v1.MintEventsToRequest
+	(*MintEventsToResponse)(nil),        // 25: v1.MintEventsToResponse
+	(*BurnEventsRequest)(nil),           // 26: v1.BurnEventsRequest
+	(*BurnEventsResponse)(nil),          // 27: v1.BurnEventsResponse
+	(*BurnEventsFromRequest)(nil),       // 28: v1.BurnEventsFromRequest
+	(*BurnEventsFromResponse)(nil),      // 29: v1.BurnEventsFromResponse
+	(*ClawbackEventsRequest)(nil),       // 30: v1.ClawbackEventsRequest
+	(*ClawbackEventsResponse)(nil),      // 31: v1.ClawbackEventsResponse
+	(*ClawbackEventsFromRequest)(nil),   // 32: v1.ClawbackEventsFromRequest
+	(*ClawbackEventsFromResponse)(nil),  // 33: v1.ClawbackEventsFromResponse
+	(*ClawbackEventsAdminRequest)(nil),  // 34: v1.ClawbackEventsAdminRequest
+	(*ClawbackEventsAdminResponse)(nil), // 35: v1.ClawbackEventsAdminResponse
+	(*structpb.Struct)(nil),             // 36: google.protobuf.Struct
 }
 var file_v1_event_proto_depIdxs = []int32{
-	14, // 0: v1.EventInfo.event:type_name -> google.protobuf.Struct
+	36, // 0: v1.EventInfo.event:type_name -> google.protobuf.Struct
 	1,  // 1: v1.EventResponse.event:type_name -> v1.EventInfo
 	1,  // 2: v1.ContractEventsResponse.events:type_name -> v1.EventInfo
 	1,  // 3: v1.EventsAtLedgerResponse.events:type_name -> v1.EventInfo
-	4,  // [4:4] is the sub-list for method output_type
-	4,  // [4:4] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	2,  // 4: v1.TransferEventsResponse.events:type_name -> v1.TranferEvent
+	2,  // 5: v1.TransferEventsFromResponse.events:type_name -> v1.TranferEvent
+	2,  // 6: v1.TransferEventsToResponse.events:type_name -> v1.TranferEvent
+	3,  // 7: v1.MintEventsResponse.events:type_name -> v1.MintEvent
+	3,  // 8: v1.MintEventsAdminResponse.events:type_name -> v1.MintEvent
+	3,  // 9: v1.MintEventsToResponse.events:type_name -> v1.MintEvent
+	4,  // 10: v1.BurnEventsResponse.events:type_name -> v1.BurnEvent
+	4,  // 11: v1.BurnEventsFromResponse.events:type_name -> v1.BurnEvent
+	5,  // 12: v1.ClawbackEventsResponse.events:type_name -> v1.ClawbackEvent
+	5,  // 13: v1.ClawbackEventsFromResponse.events:type_name -> v1.ClawbackEvent
+	5,  // 14: v1.ClawbackEventsAdminResponse.events:type_name -> v1.ClawbackEvent
+	15, // [15:15] is the sub-list for method output_type
+	15, // [15:15] is the sub-list for method input_type
+	15, // [15:15] is the sub-list for extension type_name
+	15, // [15:15] is the sub-list for extension extendee
+	0,  // [0:15] is the sub-list for field type_name
 }
 
 func init() { file_v1_event_proto_init() }
@@ -1273,6 +2624,270 @@ func file_v1_event_proto_init() {
 				return nil
 			}
 		}
+		file_v1_event_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TransferEventsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TransferEventsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TransferEventsFromRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TransferEventsFromResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TransferEventsToRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TransferEventsToResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MintEventsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MintEventsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MintEventsAdminRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MintEventsAdminResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MintEventsToRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MintEventsToResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BurnEventsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BurnEventsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BurnEventsFromRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BurnEventsFromResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ClawbackEventsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ClawbackEventsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ClawbackEventsFromRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ClawbackEventsFromResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ClawbackEventsAdminRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_event_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ClawbackEventsAdminResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1280,7 +2895,7 @@ func file_v1_event_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_v1_event_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   36,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -33,6 +33,17 @@ const (
 	Query_EventsAtLedger_FullMethodName           = "/v1.Query/EventsAtLedger"
 	Query_UserInteractionContracts_FullMethodName = "/v1.Query/UserInteractionContracts"
 	Query_ContractData_FullMethodName             = "/v1.Query/ContractData"
+	Query_TransferEvents_FullMethodName           = "/v1.Query/TransferEvents"
+	Query_TransferEventsFrom_FullMethodName       = "/v1.Query/TransferEventsFrom"
+	Query_TransferEventsTo_FullMethodName         = "/v1.Query/TransferEventsTo"
+	Query_MintEvents_FullMethodName               = "/v1.Query/MintEvents"
+	Query_MintEventsAdmin_FullMethodName          = "/v1.Query/MintEventsAdmin"
+	Query_MintEventsTo_FullMethodName             = "/v1.Query/MintEventsTo"
+	Query_BurnEvents_FullMethodName               = "/v1.Query/BurnEvents"
+	Query_BurnEventsFrom_FullMethodName           = "/v1.Query/BurnEventsFrom"
+	Query_ClawbackEvents_FullMethodName           = "/v1.Query/ClawbackEvents"
+	Query_ClawbackEventsAdmin_FullMethodName      = "/v1.Query/ClawbackEventsAdmin"
+	Query_ClawbackEventsFrom_FullMethodName       = "/v1.Query/ClawbackEventsFrom"
 )
 
 // QueryClient is the client API for Query service.
@@ -73,6 +84,28 @@ type QueryClient interface {
 	UserInteractionContracts(ctx context.Context, in *UserInteractionContractsRequest, opts ...grpc.CallOption) (*UserInteractionContractsResponse, error)
 	// ContractData queries list newest data entries of contract
 	ContractData(ctx context.Context, in *ContractDataRequest, opts ...grpc.CallOption) (*ContractDataResponse, error)
+	// TransferEvents queries 10 events that match the given contract id and page.
+	TransferEvents(ctx context.Context, in *TransferEventsRequest, opts ...grpc.CallOption) (*TransferEventsResponse, error)
+	// TransferEventsFrom queries 10 events that match the given from address and page.
+	TransferEventsFrom(ctx context.Context, in *TransferEventsFromRequest, opts ...grpc.CallOption) (*TransferEventsFromResponse, error)
+	// TransferEventsTo queries 10 events that match the given from address and page.
+	TransferEventsTo(ctx context.Context, in *TransferEventsToRequest, opts ...grpc.CallOption) (*TransferEventsToResponse, error)
+	// MintEvents queries 10 events that match the given contract id and page.
+	MintEvents(ctx context.Context, in *MintEventsRequest, opts ...grpc.CallOption) (*MintEventsResponse, error)
+	// MintEventsAdmin queries 10 events that match the given admin and page.
+	MintEventsAdmin(ctx context.Context, in *MintEventsAdminRequest, opts ...grpc.CallOption) (*MintEventsAdminResponse, error)
+	// MintEventsTo queries 10 events that match the given to address and page.
+	MintEventsTo(ctx context.Context, in *MintEventsToRequest, opts ...grpc.CallOption) (*MintEventsToResponse, error)
+	// BurnEvents queries 10 events that match the given contract id and page.
+	BurnEvents(ctx context.Context, in *BurnEventsRequest, opts ...grpc.CallOption) (*BurnEventsResponse, error)
+	// BurnEventsFrom queries 10 events that match the given from address and page.
+	BurnEventsFrom(ctx context.Context, in *BurnEventsFromRequest, opts ...grpc.CallOption) (*BurnEventsFromResponse, error)
+	// ClawbackEvents queries 10 events that match the given contract id and page.
+	ClawbackEvents(ctx context.Context, in *ClawbackEventsRequest, opts ...grpc.CallOption) (*ClawbackEventsResponse, error)
+	// ClawbackEventsAdmin queries 10 events that match the given admin address and page.
+	ClawbackEventsAdmin(ctx context.Context, in *ClawbackEventsAdminRequest, opts ...grpc.CallOption) (*ClawbackEventsAdminResponse, error)
+	// ClawbackEventsFrom queries 10 events that match the given drom address and page.
+	ClawbackEventsFrom(ctx context.Context, in *ClawbackEventsFromRequest, opts ...grpc.CallOption) (*ClawbackEventsFromResponse, error)
 }
 
 type queryClient struct {
@@ -209,6 +242,105 @@ func (c *queryClient) ContractData(ctx context.Context, in *ContractDataRequest,
 	return out, nil
 }
 
+func (c *queryClient) TransferEvents(ctx context.Context, in *TransferEventsRequest, opts ...grpc.CallOption) (*TransferEventsResponse, error) {
+	out := new(TransferEventsResponse)
+	err := c.cc.Invoke(ctx, Query_TransferEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) TransferEventsFrom(ctx context.Context, in *TransferEventsFromRequest, opts ...grpc.CallOption) (*TransferEventsFromResponse, error) {
+	out := new(TransferEventsFromResponse)
+	err := c.cc.Invoke(ctx, Query_TransferEventsFrom_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) TransferEventsTo(ctx context.Context, in *TransferEventsToRequest, opts ...grpc.CallOption) (*TransferEventsToResponse, error) {
+	out := new(TransferEventsToResponse)
+	err := c.cc.Invoke(ctx, Query_TransferEventsTo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) MintEvents(ctx context.Context, in *MintEventsRequest, opts ...grpc.CallOption) (*MintEventsResponse, error) {
+	out := new(MintEventsResponse)
+	err := c.cc.Invoke(ctx, Query_MintEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) MintEventsAdmin(ctx context.Context, in *MintEventsAdminRequest, opts ...grpc.CallOption) (*MintEventsAdminResponse, error) {
+	out := new(MintEventsAdminResponse)
+	err := c.cc.Invoke(ctx, Query_MintEventsAdmin_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) MintEventsTo(ctx context.Context, in *MintEventsToRequest, opts ...grpc.CallOption) (*MintEventsToResponse, error) {
+	out := new(MintEventsToResponse)
+	err := c.cc.Invoke(ctx, Query_MintEventsTo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) BurnEvents(ctx context.Context, in *BurnEventsRequest, opts ...grpc.CallOption) (*BurnEventsResponse, error) {
+	out := new(BurnEventsResponse)
+	err := c.cc.Invoke(ctx, Query_BurnEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) BurnEventsFrom(ctx context.Context, in *BurnEventsFromRequest, opts ...grpc.CallOption) (*BurnEventsFromResponse, error) {
+	out := new(BurnEventsFromResponse)
+	err := c.cc.Invoke(ctx, Query_BurnEventsFrom_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ClawbackEvents(ctx context.Context, in *ClawbackEventsRequest, opts ...grpc.CallOption) (*ClawbackEventsResponse, error) {
+	out := new(ClawbackEventsResponse)
+	err := c.cc.Invoke(ctx, Query_ClawbackEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ClawbackEventsAdmin(ctx context.Context, in *ClawbackEventsAdminRequest, opts ...grpc.CallOption) (*ClawbackEventsAdminResponse, error) {
+	out := new(ClawbackEventsAdminResponse)
+	err := c.cc.Invoke(ctx, Query_ClawbackEventsAdmin_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) ClawbackEventsFrom(ctx context.Context, in *ClawbackEventsFromRequest, opts ...grpc.CallOption) (*ClawbackEventsFromResponse, error) {
+	out := new(ClawbackEventsFromResponse)
+	err := c.cc.Invoke(ctx, Query_ClawbackEventsFrom_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -247,6 +379,28 @@ type QueryServer interface {
 	UserInteractionContracts(context.Context, *UserInteractionContractsRequest) (*UserInteractionContractsResponse, error)
 	// ContractData queries list newest data entries of contract
 	ContractData(context.Context, *ContractDataRequest) (*ContractDataResponse, error)
+	// TransferEvents queries 10 events that match the given contract id and page.
+	TransferEvents(context.Context, *TransferEventsRequest) (*TransferEventsResponse, error)
+	// TransferEventsFrom queries 10 events that match the given from address and page.
+	TransferEventsFrom(context.Context, *TransferEventsFromRequest) (*TransferEventsFromResponse, error)
+	// TransferEventsTo queries 10 events that match the given from address and page.
+	TransferEventsTo(context.Context, *TransferEventsToRequest) (*TransferEventsToResponse, error)
+	// MintEvents queries 10 events that match the given contract id and page.
+	MintEvents(context.Context, *MintEventsRequest) (*MintEventsResponse, error)
+	// MintEventsAdmin queries 10 events that match the given admin and page.
+	MintEventsAdmin(context.Context, *MintEventsAdminRequest) (*MintEventsAdminResponse, error)
+	// MintEventsTo queries 10 events that match the given to address and page.
+	MintEventsTo(context.Context, *MintEventsToRequest) (*MintEventsToResponse, error)
+	// BurnEvents queries 10 events that match the given contract id and page.
+	BurnEvents(context.Context, *BurnEventsRequest) (*BurnEventsResponse, error)
+	// BurnEventsFrom queries 10 events that match the given from address and page.
+	BurnEventsFrom(context.Context, *BurnEventsFromRequest) (*BurnEventsFromResponse, error)
+	// ClawbackEvents queries 10 events that match the given contract id and page.
+	ClawbackEvents(context.Context, *ClawbackEventsRequest) (*ClawbackEventsResponse, error)
+	// ClawbackEventsAdmin queries 10 events that match the given admin address and page.
+	ClawbackEventsAdmin(context.Context, *ClawbackEventsAdminRequest) (*ClawbackEventsAdminResponse, error)
+	// ClawbackEventsFrom queries 10 events that match the given drom address and page.
+	ClawbackEventsFrom(context.Context, *ClawbackEventsFromRequest) (*ClawbackEventsFromResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -295,6 +449,39 @@ func (UnimplementedQueryServer) UserInteractionContracts(context.Context, *UserI
 }
 func (UnimplementedQueryServer) ContractData(context.Context, *ContractDataRequest) (*ContractDataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ContractData not implemented")
+}
+func (UnimplementedQueryServer) TransferEvents(context.Context, *TransferEventsRequest) (*TransferEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TransferEvents not implemented")
+}
+func (UnimplementedQueryServer) TransferEventsFrom(context.Context, *TransferEventsFromRequest) (*TransferEventsFromResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TransferEventsFrom not implemented")
+}
+func (UnimplementedQueryServer) TransferEventsTo(context.Context, *TransferEventsToRequest) (*TransferEventsToResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TransferEventsTo not implemented")
+}
+func (UnimplementedQueryServer) MintEvents(context.Context, *MintEventsRequest) (*MintEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MintEvents not implemented")
+}
+func (UnimplementedQueryServer) MintEventsAdmin(context.Context, *MintEventsAdminRequest) (*MintEventsAdminResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MintEventsAdmin not implemented")
+}
+func (UnimplementedQueryServer) MintEventsTo(context.Context, *MintEventsToRequest) (*MintEventsToResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MintEventsTo not implemented")
+}
+func (UnimplementedQueryServer) BurnEvents(context.Context, *BurnEventsRequest) (*BurnEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BurnEvents not implemented")
+}
+func (UnimplementedQueryServer) BurnEventsFrom(context.Context, *BurnEventsFromRequest) (*BurnEventsFromResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BurnEventsFrom not implemented")
+}
+func (UnimplementedQueryServer) ClawbackEvents(context.Context, *ClawbackEventsRequest) (*ClawbackEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClawbackEvents not implemented")
+}
+func (UnimplementedQueryServer) ClawbackEventsAdmin(context.Context, *ClawbackEventsAdminRequest) (*ClawbackEventsAdminResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClawbackEventsAdmin not implemented")
+}
+func (UnimplementedQueryServer) ClawbackEventsFrom(context.Context, *ClawbackEventsFromRequest) (*ClawbackEventsFromResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClawbackEventsFrom not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -561,6 +748,204 @@ func _Query_ContractData_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_TransferEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).TransferEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_TransferEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).TransferEvents(ctx, req.(*TransferEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_TransferEventsFrom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferEventsFromRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).TransferEventsFrom(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_TransferEventsFrom_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).TransferEventsFrom(ctx, req.(*TransferEventsFromRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_TransferEventsTo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferEventsToRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).TransferEventsTo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_TransferEventsTo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).TransferEventsTo(ctx, req.(*TransferEventsToRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_MintEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MintEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).MintEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_MintEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).MintEvents(ctx, req.(*MintEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_MintEventsAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MintEventsAdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).MintEventsAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_MintEventsAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).MintEventsAdmin(ctx, req.(*MintEventsAdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_MintEventsTo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MintEventsToRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).MintEventsTo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_MintEventsTo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).MintEventsTo(ctx, req.(*MintEventsToRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_BurnEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BurnEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BurnEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_BurnEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BurnEvents(ctx, req.(*BurnEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_BurnEventsFrom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BurnEventsFromRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).BurnEventsFrom(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_BurnEventsFrom_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).BurnEventsFrom(ctx, req.(*BurnEventsFromRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ClawbackEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClawbackEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ClawbackEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ClawbackEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ClawbackEvents(ctx, req.(*ClawbackEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ClawbackEventsAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClawbackEventsAdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ClawbackEventsAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ClawbackEventsAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ClawbackEventsAdmin(ctx, req.(*ClawbackEventsAdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_ClawbackEventsFrom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClawbackEventsFromRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ClawbackEventsFrom(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ClawbackEventsFrom_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ClawbackEventsFrom(ctx, req.(*ClawbackEventsFromRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -623,6 +1008,50 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ContractData",
 			Handler:    _Query_ContractData_Handler,
+		},
+		{
+			MethodName: "TransferEvents",
+			Handler:    _Query_TransferEvents_Handler,
+		},
+		{
+			MethodName: "TransferEventsFrom",
+			Handler:    _Query_TransferEventsFrom_Handler,
+		},
+		{
+			MethodName: "TransferEventsTo",
+			Handler:    _Query_TransferEventsTo_Handler,
+		},
+		{
+			MethodName: "MintEvents",
+			Handler:    _Query_MintEvents_Handler,
+		},
+		{
+			MethodName: "MintEventsAdmin",
+			Handler:    _Query_MintEventsAdmin_Handler,
+		},
+		{
+			MethodName: "MintEventsTo",
+			Handler:    _Query_MintEventsTo_Handler,
+		},
+		{
+			MethodName: "BurnEvents",
+			Handler:    _Query_BurnEvents_Handler,
+		},
+		{
+			MethodName: "BurnEventsFrom",
+			Handler:    _Query_BurnEventsFrom_Handler,
+		},
+		{
+			MethodName: "ClawbackEvents",
+			Handler:    _Query_ClawbackEvents_Handler,
+		},
+		{
+			MethodName: "ClawbackEventsAdmin",
+			Handler:    _Query_ClawbackEventsAdmin_Handler,
+		},
+		{
+			MethodName: "ClawbackEventsFrom",
+			Handler:    _Query_ClawbackEventsFrom_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
