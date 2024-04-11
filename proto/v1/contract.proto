@@ -7,11 +7,14 @@ option go_package = "github.com/decentrio/sorobook-api/types";
 
 message ContractEntry {
   string contract_id = 1;
-  bytes key_xdr = 2;
-  bytes value_xdr = 3;
-  string durability = 4;
-  uint32 ledger = 5;
-  bool newest = 6;
+  string account_id = 2;
+  string entry_type = 3;
+  bytes key_xdr = 4;
+  bytes value_xdr = 5;
+  string durability = 6;
+  uint32 ledger = 7;
+  string tx_hash = 8;
+  bool is_newest = 9;
 }
 
 message ContractEntryInfo {

@@ -41,7 +41,7 @@ func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataReq
 
 	err := k.dbHandler.Table(CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
-		Where("newest = ?", true).
+		Where("is_newest = ?", true).
 		Limit(PAGE_SIZE * 2).
 		Offset(offset).
 		Find(&entries).Error

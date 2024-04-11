@@ -9,7 +9,7 @@ import (
 func (k Keeper) Ledger(ctx context.Context, request *types.LedgerRequest) (*types.LedgerResponse, error) {
 	var ledger types.Ledger
 
-	err := k.dbHandler.Table(LEDGER_TABLE).Where("sequence = ?", request.Sequence).First(&ledger).Error
+	err := k.dbHandler.Table(LEDGER_TABLE).Where("seq = ?", request.Seq).First(&ledger).Error
 	if err != nil {
 		return &types.LedgerResponse{
 			Found:  false,

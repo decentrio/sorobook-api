@@ -42,14 +42,14 @@ func request_Query_Ledger_0(ctx context.Context, marshaler runtime.Marshaler, cl
 		_   = err
 	)
 
-	val, ok = pathParams["sequence"]
+	val, ok = pathParams["seq"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sequence")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "seq")
 	}
 
-	protoReq.Sequence, err = runtime.Uint32(val)
+	protoReq.Seq, err = runtime.Uint32(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sequence", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "seq", err)
 	}
 
 	msg, err := client.Ledger(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -68,14 +68,14 @@ func local_request_Query_Ledger_0(ctx context.Context, marshaler runtime.Marshal
 		_   = err
 	)
 
-	val, ok = pathParams["sequence"]
+	val, ok = pathParams["seq"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "sequence")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "seq")
 	}
 
-	protoReq.Sequence, err = runtime.Uint32(val)
+	protoReq.Seq, err = runtime.Uint32(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "sequence", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "seq", err)
 	}
 
 	msg, err := server.Ledger(ctx, &protoReq)
@@ -933,7 +933,7 @@ func RegisterQueryHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.Query/Ledger", runtime.WithHTTPPathPattern("/v1/ledger-by-seq/{sequence}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/v1.Query/Ledger", runtime.WithHTTPPathPattern("/v1/ledger-by-seq/{seq}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1322,7 +1322,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/v1.Query/Ledger", runtime.WithHTTPPathPattern("/v1/ledger-by-seq/{sequence}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/v1.Query/Ledger", runtime.WithHTTPPathPattern("/v1/ledger-by-seq/{seq}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1628,7 +1628,7 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_Ledger_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "ledger-by-seq", "sequence"}, ""))
+	pattern_Query_Ledger_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "ledger-by-seq", "seq"}, ""))
 
 	pattern_Query_LedgerHash_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"v1", "ledger-by-hash", "hash"}, ""))
 

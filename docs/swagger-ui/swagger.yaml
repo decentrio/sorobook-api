@@ -146,7 +146,7 @@ paths:
           type: string
       tags:
         - Query
-  /v1/ledger-by-seq/{sequence}:
+  /v1/ledger-by-seq/{seq}:
     get:
       summary: Ledger queries ledger info given ledger sequence.
       operationId: Query_Ledger
@@ -160,7 +160,7 @@ paths:
           schema:
             $ref: '#/definitions/rpcStatus'
       parameters:
-        - name: sequence
+        - name: seq
           in: path
           required: true
           type: integer
@@ -449,7 +449,7 @@ definitions:
   v1Ledger:
     type: object
     properties:
-      sequence:
+      seq:
         type: integer
         format: int64
       hash:

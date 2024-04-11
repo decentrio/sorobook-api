@@ -9,14 +9,53 @@ message Event {
   string id = 1;
   string contract_id = 2;
   string tx_hash = 3;
-  bytes event_body_xdr = 5;
+  bytes event_body_xdr = 4;
 }
 
 message EventInfo {
   string id = 1;
   string contract_id = 2;
   string tx_hash = 3;
-  google.protobuf.Struct event = 5;
+  google.protobuf.Struct event = 4;
+}
+
+message TranferEvent {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  string from_addr = 4;
+  string to_addr = 5;
+  int64 amount_hi = 6;
+  uint64 amount_lo = 7;
+}
+
+message MintEvent {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  string admin_addr = 4;
+  string to_addr = 5;
+  int64 amount_hi = 6;
+  uint64 amount_lo = 7;
+}
+
+message BurnEvent {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  string from_addr = 4;
+  int64 amount_hi = 5;
+  uint64 amount_lo = 6;
+}
+
+message ClawbackEvent {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  string admin_addr = 4;
+  string from_addr = 5;
+  int64 amount_hi = 6;
+  uint64 amount_lo = 7;
 }
 
 message EventRequest { string id = 1; }

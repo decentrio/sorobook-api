@@ -12,7 +12,7 @@ option go_package = "github.com/decentrio/sorobook-api/types";
 service Query {
   // Ledger queries ledger info given ledger sequence.
   rpc Ledger(LedgerRequest) returns (LedgerResponse) {
-    option (google.api.http).get = "/v1/ledger-by-seq/{sequence}";
+    option (google.api.http).get = "/v1/ledger-by-seq/{seq}";
   }
 
   // LedgerHash queries ledger info given ledger hash.
