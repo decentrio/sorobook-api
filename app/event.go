@@ -322,7 +322,7 @@ func (k Keeper) ClawbackEvents(ctx context.Context, request *types.ClawbackEvent
 	var events []*types.ClawbackEvent
 	err := k.dbHandler.Table(CLAWBACK_TABLE).
 		Where("contract_id = ?", request.ContractId).
-		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
+		Joins("JOIN transactions ON transactions.hash = asset_contract_clawback_events.tx_hash").
 		Order("transactions.ledger DESC").
 		Limit(PAGE_SIZE).
 		Offset(offset).
@@ -347,7 +347,7 @@ func (k Keeper) ClawbackEventsAdmin(ctx context.Context, request *types.Clawback
 	var events []*types.ClawbackEvent
 	err := k.dbHandler.Table(CLAWBACK_TABLE).
 		Where("admin_addr = ?", request.Admin).
-		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
+		Joins("JOIN transactions ON transactions.hash = asset_contract_clawback_events.tx_hash").
 		Order("transactions.ledger DESC").
 		Limit(PAGE_SIZE).
 		Offset(offset).
@@ -372,7 +372,7 @@ func (k Keeper) ClawbackEventsFrom(ctx context.Context, request *types.ClawbackE
 	var events []*types.ClawbackEvent
 	err := k.dbHandler.Table(CLAWBACK_TABLE).
 		Where("from_addr = ?", request.From).
-		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
+		Joins("JOIN transactions ON transactions.hash = asset_contract_clawback_events.tx_hash").
 		Order("transactions.ledger DESC").
 		Limit(PAGE_SIZE).
 		Offset(offset).
