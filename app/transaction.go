@@ -78,7 +78,7 @@ func (k Keeper) TransactionsAtLedgerHash(ctx context.Context, request *types.Tra
 	offset := (page - 1) * PAGE_SIZE
 
 	var txs []*types.Transaction
-	err := k.dbHandler.Joins("JOIN ledgers ON transactions.ledger = ledgers.seq").
+	err := k.dbHandler.Table(TRANSACTION_TABLE).Joins("JOIN ledgers ON transactions.ledger = ledgers.seq").
 		Where("ledger = ?", request.LedgerHash).
 		Limit(PAGE_SIZE).
 		Offset(offset).
@@ -152,8 +152,8 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 	offset := (page - 1) * PAGE_SIZE
 
 	var txs []*types.Transaction
-	err := k.dbHandler.Table(CONTRACT_TABLE).
-		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
+	err := k.dbHandler.Table(TRANSACTION_TABLE).
+		Joins("JOIN contracts ON transactions.hash = contracts.tx_hash").
 		Where("contract_id = ?", request.Contract).
 		Order("ledger DESC").
 		Limit(PAGE_SIZE).
@@ -187,8 +187,8 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 
 func (k Keeper) UserContractTransactions(ctx context.Context, request *types.UserContractTransactionsRequest) (*types.UserContractTransactionsResponse, error) {
 	var txs []*types.Transaction
-	err := k.dbHandler.Table(CONTRACT_TABLE).
-		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
+	err := k.dbHandler.Table(TRANSACTION_TABLE).
+		Joins("JOIN contracts ON transactions.hash = contracts.tx_hash").
 		Where("contract_id = ?", request.Contract).
 		Where("source_address = ?", request.Address).
 		Order("ledger DESC").
