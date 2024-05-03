@@ -67,7 +67,7 @@ service Query {
 
   // Event queries event info given event id.
   rpc Event(EventRequest) returns (EventResponse) {
-    option (google.api.http).get = "/v1/events/{id}";
+    option (google.api.http).get = "/v1/event/{id}";
   }
 
   // ContractEvents queries 10 events that match the given page.

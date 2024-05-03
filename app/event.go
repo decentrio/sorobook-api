@@ -12,7 +12,6 @@ import (
 
 func (k Keeper) Event(ctx context.Context, request *types.EventRequest) (*types.EventResponse, error) {
 	var event types.Event
-
 	err := k.dbHandler.Table(EVENT_TABLE).Where("id = ?", request.Id).First(&event).Error
 	if err != nil {
 		return &types.EventResponse{
@@ -76,7 +75,7 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedgerRequest) (*types.EventsAtLedgerResponse, error) {
 	var events []*types.Event
 	err := k.dbHandler.Table(EVENT_TABLE).
-		Joins("JOIN transactions ON transactions.hash = events.tx_hash").
+		Joins("JOIN transactions ON transactions.hash = wasm_contract_events.tx_hash").
 		Where("contract_id = ?", request.ContractId).
 		Where("transactions.ledger = ?", request.Ledger).
 		Find(&events).Error

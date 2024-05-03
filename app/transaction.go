@@ -80,7 +80,7 @@ func (k Keeper) TransactionsAtLedgerHash(ctx context.Context, request *types.Tra
 	offset := (page - 1) * pageSize
 	var txs []*types.Transaction
 	err := k.dbHandler.Table(TRANSACTION_TABLE).Joins("JOIN ledgers ON transactions.ledger = ledgers.seq").
-		Where("ledger = ?", request.LedgerHash).
+		Where("ledgers.hash = ?", request.LedgerHash).
 		Limit(pageSize).
 		Offset(offset).
 		Find(&txs).Error

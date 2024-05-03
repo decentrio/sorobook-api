@@ -112,6 +112,7 @@ func (k Keeper) UserInteractionContracts(ctx context.Context, request *types.Use
 
 	err := k.dbHandler.Table(CONTRACT_TABLE).
 		Select("contracts.contract_id").
+		Distinct().
 		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
 		Where("source_address = ?", request.Address).
 		Find(&contracts).Error

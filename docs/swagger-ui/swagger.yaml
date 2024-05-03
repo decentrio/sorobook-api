@@ -189,6 +189,26 @@ paths:
           format: int32
       tags:
         - Query
+  /v1/event/{id}:
+    get:
+      summary: Event queries event info given event id.
+      operationId: Query_Event
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1EventResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /v1/events-at-ledger/{contractId}/{ledger}:
     get:
       summary: EventsAtLedger queries all events of contract at specific ledger sequence.
@@ -264,26 +284,6 @@ paths:
           required: false
           type: integer
           format: int32
-      tags:
-        - Query
-  /v1/events/{id}:
-    get:
-      summary: Event queries event info given event id.
-      operationId: Query_Event
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1EventResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
-      parameters:
-        - name: id
-          in: path
-          required: true
-          type: string
       tags:
         - Query
   /v1/ledger-by-hash/{hash}:
