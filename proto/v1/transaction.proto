@@ -37,41 +37,41 @@ message TransactionResponse {
 message TransactionsByAddressRequest {
   string address = 1;
   int32 page = 2;
+  int32 page_size = 3;
 }
 
 message TransactionsByAddressResponse {
   repeated TransactionInfo txs = 1;
-  int32 page = 2;
 }
 
 message TransactionsAtLedgerSeqRequest {
   uint32 ledger = 1;
   int32 page = 2;
+  int32 page_size = 3;
 }
 
 message TransactionsAtLedgerSeqResponse {
   repeated TransactionInfo txs = 1;
-  int32 page = 2;
 }
 
 message TransactionsAtLedgerHashRequest {
   string ledger_hash = 1;
   int32 page = 2;
+  int32 page_size = 3;
 }
 
 message TransactionsAtLedgerHashResponse {
   repeated TransactionInfo txs = 1;
-  int32 page = 2;
 }
 
 message ContractTransactionsRequest {
   string contract = 1;
   int32 page = 2;
+  int32 page_size = 3;
 }
 
 message ContractTransactionsResponse {
   repeated TransactionInfo txs = 1;
-  int32 page = 2;
 }
 
 message UserContractTransactionsRequest {

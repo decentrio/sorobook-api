@@ -35,11 +35,11 @@ message ContractEntryResponse {
 message ContractDataRequest {
   string contract_id = 1;
   int32 page = 2;
+  int32 page_size = 3;
 }
 
 message ContractDataResponse {
   repeated ContractEntryInfo data = 1;
-  int32 page = 2;
 }
 
 message ContractKeysRequest { string contract_id = 1; }

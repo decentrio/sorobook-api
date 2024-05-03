@@ -37,12 +37,17 @@ func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataReq
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE * 2
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
+
+	offset := (page - 1) * pageSize
 
 	err := k.dbHandler.Table(CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Where("is_newest = ?", true).
-		Limit(PAGE_SIZE * 2).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&entries).Error
 
@@ -63,7 +68,6 @@ func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataReq
 
 	return &types.ContractDataResponse{
 		Data: infos,
-		Page: int32(page),
 	}, nil
 }
 

@@ -9,7 +9,7 @@ consumes:
 produces:
   - application/json
 paths:
-  /v1/burn-events/from/{from}/{page}:
+  /v1/burn-events/from/{from}:
     get:
       summary: BurnEventsFrom queries 10 events that match the given from address and page.
       operationId: Query_BurnEventsFrom
@@ -28,13 +28,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/burn-events/{contractId}/{page}:
+  /v1/burn-events/{contractId}:
     get:
       summary: BurnEvents queries 10 events that match the given contract id and page.
       operationId: Query_BurnEvents
@@ -53,13 +58,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/clawback-events/admin/{admin}/{page}:
+  /v1/clawback-events/admin/{admin}:
     get:
       summary: ClawbackEventsAdmin queries 10 events that match the given admin address and page.
       operationId: Query_ClawbackEventsAdmin
@@ -78,13 +88,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/clawback-events/from/{from}/{page}:
+  /v1/clawback-events/from/{from}:
     get:
       summary: ClawbackEventsFrom queries 10 events that match the given drom address and page.
       operationId: Query_ClawbackEventsFrom
@@ -103,13 +118,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/clawback-events/{contractId}/{page}:
+  /v1/clawback-events/{contractId}:
     get:
       summary: ClawbackEvents queries 10 events that match the given contract id and page.
       operationId: Query_ClawbackEvents
@@ -128,13 +148,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/contract-entries/{contractId}/{page}:
+  /v1/contract-entries/{contractId}:
     get:
       summary: ContractData queries list newest data entries of contract
       operationId: Query_ContractData
@@ -153,8 +178,13 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
@@ -206,7 +236,7 @@ paths:
           type: string
       tags:
         - Query
-  /v1/events/{contractId}/{page}:
+  /v1/events/{contractId}:
     get:
       summary: ContractEvents queries 10 events that match the given page.
       operationId: Query_ContractEvents
@@ -225,8 +255,13 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
@@ -292,7 +327,7 @@ paths:
           format: int64
       tags:
         - Query
-  /v1/mint-events/admin/{admin}/{page}:
+  /v1/mint-events/admin/{admin}:
     get:
       summary: MintEventsAdmin queries 10 events that match the given admin and page.
       operationId: Query_MintEventsAdmin
@@ -311,13 +346,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/mint-events/to/{to}/{page}:
+  /v1/mint-events/to/{to}:
     get:
       summary: MintEventsTo queries 10 events that match the given to address and page.
       operationId: Query_MintEventsTo
@@ -336,13 +376,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/mint-events/{contractId}/{page}:
+  /v1/mint-events/{contractId}:
     get:
       summary: MintEvents queries 10 events that match the given contract id and page.
       operationId: Query_MintEvents
@@ -361,13 +406,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/transactions-at-ledger-hash/{ledgerHash}/{page}:
+  /v1/transactions-at-ledger-hash/{ledgerHash}:
     get:
       summary: |-
         TransactionsAtLedgerHash queries all transactions that match the given
@@ -388,13 +438,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/transactions-at-ledger-seq/{ledger}/{page}:
+  /v1/transactions-at-ledger-seq/{ledger}:
     get:
       summary: |-
         TransactionsAtLedgerSeq queries all transactions that match the given
@@ -416,13 +471,18 @@ paths:
           type: integer
           format: int64
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/transactions-by-address/{address}/{page}:
+  /v1/transactions-by-address/{address}:
     get:
       summary: |-
         TransactionsByAddress queries all transactions that match the given source
@@ -443,13 +503,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/transactions-by-contract/{contract}/{page}:
+  /v1/transactions-by-contract/{contract}:
     get:
       summary: |-
         ContractTransactions queries all transactions that match the given
@@ -470,8 +535,13 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
@@ -522,7 +592,7 @@ paths:
           type: string
       tags:
         - Query
-  /v1/transfer-events/from/{from}/{page}:
+  /v1/transfer-events/from/{from}:
     get:
       summary: TransferEventsFrom queries 10 events that match the given from address and page.
       operationId: Query_TransferEventsFrom
@@ -541,13 +611,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/transfer-events/to/{to}/{page}:
+  /v1/transfer-events/to/{to}:
     get:
       summary: TransferEventsTo queries 10 events that match the given from address and page.
       operationId: Query_TransferEventsTo
@@ -566,13 +641,18 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
         - Query
-  /v1/transfer-events/{contractId}/{page}:
+  /v1/transfer-events/{contractId}:
     get:
       summary: TransferEvents queries 10 events that match the given contract id and page.
       operationId: Query_TransferEvents
@@ -591,8 +671,13 @@ paths:
           required: true
           type: string
         - name: page
-          in: path
-          required: true
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
           type: integer
           format: int32
       tags:
@@ -674,9 +759,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1BurnEvent'
-      page:
-        type: integer
-        format: int32
   v1BurnEventsResponse:
     type: object
     properties:
@@ -685,9 +767,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1BurnEvent'
-      page:
-        type: integer
-        format: int32
   v1ClawbackEvent:
     type: object
     properties:
@@ -715,9 +794,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1ClawbackEvent'
-      page:
-        type: integer
-        format: int32
   v1ClawbackEventsFromResponse:
     type: object
     properties:
@@ -726,9 +802,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1ClawbackEvent'
-      page:
-        type: integer
-        format: int32
   v1ClawbackEventsResponse:
     type: object
     properties:
@@ -737,9 +810,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1ClawbackEvent'
-      page:
-        type: integer
-        format: int32
   v1ContractDataResponse:
     type: object
     properties:
@@ -748,9 +818,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1ContractEntryInfo'
-      page:
-        type: integer
-        format: int32
   v1ContractEntryInfo:
     type: object
     properties:
@@ -772,9 +839,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1EventInfo'
-      page:
-        type: integer
-        format: int32
   v1ContractTransactionsResponse:
     type: object
     properties:
@@ -783,9 +847,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1TransactionInfo'
-      page:
-        type: integer
-        format: int32
   v1EventInfo:
     type: object
     properties:
@@ -869,9 +930,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1MintEvent'
-      page:
-        type: integer
-        format: int32
   v1MintEventsResponse:
     type: object
     properties:
@@ -880,9 +938,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1MintEvent'
-      page:
-        type: integer
-        format: int32
   v1MintEventsToResponse:
     type: object
     properties:
@@ -891,9 +946,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1MintEvent'
-      page:
-        type: integer
-        format: int32
   v1TranferEvent:
     type: object
     properties:
@@ -949,9 +1001,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1TransactionInfo'
-      page:
-        type: integer
-        format: int32
   v1TransactionsAtLedgerSeqResponse:
     type: object
     properties:
@@ -960,9 +1009,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1TransactionInfo'
-      page:
-        type: integer
-        format: int32
   v1TransactionsByAddressResponse:
     type: object
     properties:
@@ -971,9 +1017,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1TransactionInfo'
-      page:
-        type: integer
-        format: int32
   v1TransferEventsFromResponse:
     type: object
     properties:
@@ -982,9 +1025,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1TranferEvent'
-      page:
-        type: integer
-        format: int32
   v1TransferEventsResponse:
     type: object
     properties:
@@ -993,9 +1033,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1TranferEvent'
-      page:
-        type: integer
-        format: int32
   v1TransferEventsToResponse:
     type: object
     properties:
@@ -1004,9 +1041,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1TranferEvent'
-      page:
-        type: integer
-        format: int32
   v1UserContractTransactionsResponse:
     type: object
     properties:

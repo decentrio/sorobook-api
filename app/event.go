@@ -40,38 +40,36 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
+
+	offset := (page - 1) * pageSize
 
 	var events []*types.Event
 	err := k.dbHandler.Table(EVENT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = wasm_contract_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
-		return &types.ContractEventsResponse{
-			Events: []*types.EventInfo{},
-			Page:   int32(page),
-		}, err
+		return &types.ContractEventsResponse{}, err
 	}
 
 	var infos []*types.EventInfo
 	for _, item := range events {
 		eventInfo, err := convertToEventInfo(item)
 		if err != nil {
-			return &types.ContractEventsResponse{
-				Events: []*types.EventInfo{},
-				Page:   int32(page),
-			}, err
+			return &types.ContractEventsResponse{}, err
 		}
 		infos = append(infos, eventInfo)
 	}
 
 	return &types.ContractEventsResponse{
 		Events: infos,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -117,14 +115,18 @@ func (k Keeper) TransferEvents(ctx context.Context, request *types.TransferEvent
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.TranferEvent
 	err := k.dbHandler.Table(TRANSFER_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -133,7 +135,6 @@ func (k Keeper) TransferEvents(ctx context.Context, request *types.TransferEvent
 
 	return &types.TransferEventsResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -142,14 +143,18 @@ func (k Keeper) TransferEventsFrom(ctx context.Context, request *types.TransferE
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.TranferEvent
 	err := k.dbHandler.Table(TRANSFER_TABLE).
 		Where("from_addr = ?", request.From).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -158,7 +163,6 @@ func (k Keeper) TransferEventsFrom(ctx context.Context, request *types.TransferE
 
 	return &types.TransferEventsFromResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -167,14 +171,18 @@ func (k Keeper) TransferEventsTo(ctx context.Context, request *types.TransferEve
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.TranferEvent
 	err := k.dbHandler.Table(TRANSFER_TABLE).
 		Where("to_addr = ?", request.To).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -183,7 +191,6 @@ func (k Keeper) TransferEventsTo(ctx context.Context, request *types.TransferEve
 
 	return &types.TransferEventsToResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -192,14 +199,18 @@ func (k Keeper) MintEvents(ctx context.Context, request *types.MintEventsRequest
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.MintEvent
 	err := k.dbHandler.Table(MINT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_mint_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -208,7 +219,6 @@ func (k Keeper) MintEvents(ctx context.Context, request *types.MintEventsRequest
 
 	return &types.MintEventsResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -217,14 +227,18 @@ func (k Keeper) MintEventsAdmin(ctx context.Context, request *types.MintEventsAd
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.MintEvent
 	err := k.dbHandler.Table(MINT_TABLE).
 		Where("admin_addr = ?", request.Admin).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_mint_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -233,7 +247,6 @@ func (k Keeper) MintEventsAdmin(ctx context.Context, request *types.MintEventsAd
 
 	return &types.MintEventsAdminResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -242,14 +255,18 @@ func (k Keeper) MintEventsTo(ctx context.Context, request *types.MintEventsToReq
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.MintEvent
 	err := k.dbHandler.Table(MINT_TABLE).
 		Where("to_addr = ?", request.To).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_mint_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -258,7 +275,6 @@ func (k Keeper) MintEventsTo(ctx context.Context, request *types.MintEventsToReq
 
 	return &types.MintEventsToResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -267,14 +283,18 @@ func (k Keeper) BurnEvents(ctx context.Context, request *types.BurnEventsRequest
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.BurnEvent
 	err := k.dbHandler.Table(BURN_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -283,7 +303,6 @@ func (k Keeper) BurnEvents(ctx context.Context, request *types.BurnEventsRequest
 
 	return &types.BurnEventsResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -292,14 +311,18 @@ func (k Keeper) BurnEventsFrom(ctx context.Context, request *types.BurnEventsFro
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.BurnEvent
 	err := k.dbHandler.Table(BURN_TABLE).
 		Where("from_addr = ?", request.From).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -308,7 +331,6 @@ func (k Keeper) BurnEventsFrom(ctx context.Context, request *types.BurnEventsFro
 
 	return &types.BurnEventsFromResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -317,14 +339,18 @@ func (k Keeper) ClawbackEvents(ctx context.Context, request *types.ClawbackEvent
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.ClawbackEvent
 	err := k.dbHandler.Table(CLAWBACK_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_clawback_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -333,7 +359,6 @@ func (k Keeper) ClawbackEvents(ctx context.Context, request *types.ClawbackEvent
 
 	return &types.ClawbackEventsResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -342,14 +367,18 @@ func (k Keeper) ClawbackEventsAdmin(ctx context.Context, request *types.Clawback
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.ClawbackEvent
 	err := k.dbHandler.Table(CLAWBACK_TABLE).
 		Where("admin_addr = ?", request.Admin).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_clawback_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -358,7 +387,6 @@ func (k Keeper) ClawbackEventsAdmin(ctx context.Context, request *types.Clawback
 
 	return &types.ClawbackEventsAdminResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 
@@ -367,14 +395,18 @@ func (k Keeper) ClawbackEventsFrom(ctx context.Context, request *types.ClawbackE
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var events []*types.ClawbackEvent
 	err := k.dbHandler.Table(CLAWBACK_TABLE).
 		Where("from_addr = ?", request.From).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_clawback_events.tx_hash").
 		Order("transactions.ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&events).Error
 	if err != nil {
@@ -383,7 +415,6 @@ func (k Keeper) ClawbackEventsFrom(ctx context.Context, request *types.ClawbackE
 
 	return &types.ClawbackEventsFromResponse{
 		Events: events,
-		Page:   int32(page),
 	}, nil
 }
 

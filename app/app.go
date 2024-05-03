@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	PAGE_SIZE         = 10
+	PAGE_SIZE         = 20
 	LEDGER_TABLE      = "ledgers"
 	TRANSACTION_TABLE = "transactions"
 	CONTRACT_TABLE    = "contracts"

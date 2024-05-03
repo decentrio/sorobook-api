@@ -40,15 +40,16 @@ func (k Keeper) TransactionsAtLedgerSeq(ctx context.Context, request *types.Tran
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var txs []*types.Transaction
-	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("ledger = ?", request.Ledger).Limit(PAGE_SIZE).Offset(offset).Find(&txs).Error
+	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("ledger = ?", request.Ledger).Limit(pageSize).Offset(offset).Find(&txs).Error
 	if err != nil {
-		return &types.TransactionsAtLedgerSeqResponse{
-			Txs:  []*types.TransactionInfo{},
-			Page: int32(page),
-		}, err
+		return &types.TransactionsAtLedgerSeqResponse{}, err
 	}
 
 	var infos []*types.TransactionInfo
@@ -56,17 +57,13 @@ func (k Keeper) TransactionsAtLedgerSeq(ctx context.Context, request *types.Tran
 	for _, item := range txs {
 		txInfo, err := convertToTxInfo(item)
 		if err != nil {
-			return &types.TransactionsAtLedgerSeqResponse{
-				Txs:  []*types.TransactionInfo{},
-				Page: int32(page),
-			}, err
+			return &types.TransactionsAtLedgerSeqResponse{}, err
 		}
 		infos = append(infos, txInfo)
 	}
 
 	return &types.TransactionsAtLedgerSeqResponse{
 		Txs:  infos,
-		Page: int32(page),
 	}, nil
 }
 
@@ -75,19 +72,20 @@ func (k Keeper) TransactionsAtLedgerHash(ctx context.Context, request *types.Tra
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var txs []*types.Transaction
 	err := k.dbHandler.Table(TRANSACTION_TABLE).Joins("JOIN ledgers ON transactions.ledger = ledgers.seq").
 		Where("ledger = ?", request.LedgerHash).
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&txs).Error
 	if err != nil {
-		return &types.TransactionsAtLedgerHashResponse{
-			Txs:  []*types.TransactionInfo{},
-			Page: int32(page),
-		}, err
+		return &types.TransactionsAtLedgerHashResponse{}, err
 	}
 
 	var infos []*types.TransactionInfo
@@ -95,17 +93,13 @@ func (k Keeper) TransactionsAtLedgerHash(ctx context.Context, request *types.Tra
 	for _, item := range txs {
 		txInfo, err := convertToTxInfo(item)
 		if err != nil {
-			return &types.TransactionsAtLedgerHashResponse{
-				Txs:  []*types.TransactionInfo{},
-				Page: int32(page),
-			}, err
+			return &types.TransactionsAtLedgerHashResponse{}, err
 		}
 		infos = append(infos, txInfo)
 	}
 
 	return &types.TransactionsAtLedgerHashResponse{
 		Txs:  infos,
-		Page: int32(page),
 	}, nil
 }
 
@@ -114,14 +108,17 @@ func (k Keeper) TransactionsByAddress(ctx context.Context, request *types.Transa
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var txs []*types.Transaction
-	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("source_address = ?", request.Address).Order("ledger DESC").Limit(PAGE_SIZE).Offset(offset).Find(&txs).Error
+	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("source_address = ?", request.Address).Order("ledger DESC").Limit(pageSize).Offset(offset).Find(&txs).Error
 	if err != nil {
 		return &types.TransactionsByAddressResponse{
 			Txs:  []*types.TransactionInfo{},
-			Page: int32(page),
 		}, err
 	}
 
@@ -130,17 +127,13 @@ func (k Keeper) TransactionsByAddress(ctx context.Context, request *types.Transa
 	for _, item := range txs {
 		txInfo, err := convertToTxInfo(item)
 		if err != nil {
-			return &types.TransactionsByAddressResponse{
-				Txs:  []*types.TransactionInfo{},
-				Page: int32(page),
-			}, err
+			return &types.TransactionsByAddressResponse{}, err
 		}
 		infos = append(infos, txInfo)
 	}
 
 	return &types.TransactionsByAddressResponse{
 		Txs:  infos,
-		Page: int32(page),
 	}, nil
 }
 
@@ -149,21 +142,22 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 	if request.Page < 1 {
 		page = 1
 	}
-	offset := (page - 1) * PAGE_SIZE
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = PAGE_SIZE
+	}
 
+	offset := (page - 1) * pageSize
 	var txs []*types.Transaction
 	err := k.dbHandler.Table(TRANSACTION_TABLE).
 		Joins("JOIN contracts ON transactions.hash = contracts.tx_hash").
 		Where("contract_id = ?", request.Contract).
 		Order("ledger DESC").
-		Limit(PAGE_SIZE).
+		Limit(pageSize).
 		Offset(offset).
 		Find(&txs).Error
 	if err != nil {
-		return &types.ContractTransactionsResponse{
-			Txs:  []*types.TransactionInfo{},
-			Page: int32(page),
-		}, err
+		return &types.ContractTransactionsResponse{}, err
 	}
 
 	var infos []*types.TransactionInfo
@@ -171,17 +165,13 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 	for _, item := range txs {
 		txInfo, err := convertToTxInfo(item)
 		if err != nil {
-			return &types.ContractTransactionsResponse{
-				Txs:  []*types.TransactionInfo{},
-				Page: int32(page),
-			}, err
+			return &types.ContractTransactionsResponse{}, err
 		}
 		infos = append(infos, txInfo)
 	}
 
 	return &types.ContractTransactionsResponse{
 		Txs:  infos,
-		Page: int32(page),
 	}, nil
 }
 
