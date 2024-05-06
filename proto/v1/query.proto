@@ -95,9 +95,9 @@ service Query {
   }
 
   // ContractData queries list newest data entries of contract
-  rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
-    option (google.api.http).get = "/v1/contract-entries/{contract_id}";
-  }
+  // rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
+  //   option (google.api.http).get = "/v1/contract-entries/{contract_id}";
+  // }
 
   // TransferEvents queries 10 events that match the given contract id and page.
   rpc TransferEvents(TransferEventsRequest) returns (TransferEventsResponse) {

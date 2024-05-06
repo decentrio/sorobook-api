@@ -32,7 +32,6 @@ const (
 	Query_ContractEventCount_FullMethodName       = "/v1.Query/ContractEventCount"
 	Query_EventsAtLedger_FullMethodName           = "/v1.Query/EventsAtLedger"
 	Query_UserInteractionContracts_FullMethodName = "/v1.Query/UserInteractionContracts"
-	Query_ContractData_FullMethodName             = "/v1.Query/ContractData"
 	Query_TransferEvents_FullMethodName           = "/v1.Query/TransferEvents"
 	Query_TransferEventsFrom_FullMethodName       = "/v1.Query/TransferEventsFrom"
 	Query_TransferEventsTo_FullMethodName         = "/v1.Query/TransferEventsTo"
@@ -82,8 +81,6 @@ type QueryClient interface {
 	EventsAtLedger(ctx context.Context, in *EventsAtLedgerRequest, opts ...grpc.CallOption) (*EventsAtLedgerResponse, error)
 	// UserInteractionContracts queries list contracts user has interacted.
 	UserInteractionContracts(ctx context.Context, in *UserInteractionContractsRequest, opts ...grpc.CallOption) (*UserInteractionContractsResponse, error)
-	// ContractData queries list newest data entries of contract
-	ContractData(ctx context.Context, in *ContractDataRequest, opts ...grpc.CallOption) (*ContractDataResponse, error)
 	// TransferEvents queries 10 events that match the given contract id and page.
 	TransferEvents(ctx context.Context, in *TransferEventsRequest, opts ...grpc.CallOption) (*TransferEventsResponse, error)
 	// TransferEventsFrom queries 10 events that match the given from address and page.
@@ -233,15 +230,6 @@ func (c *queryClient) UserInteractionContracts(ctx context.Context, in *UserInte
 	return out, nil
 }
 
-func (c *queryClient) ContractData(ctx context.Context, in *ContractDataRequest, opts ...grpc.CallOption) (*ContractDataResponse, error) {
-	out := new(ContractDataResponse)
-	err := c.cc.Invoke(ctx, Query_ContractData_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *queryClient) TransferEvents(ctx context.Context, in *TransferEventsRequest, opts ...grpc.CallOption) (*TransferEventsResponse, error) {
 	out := new(TransferEventsResponse)
 	err := c.cc.Invoke(ctx, Query_TransferEvents_FullMethodName, in, out, opts...)
@@ -377,8 +365,6 @@ type QueryServer interface {
 	EventsAtLedger(context.Context, *EventsAtLedgerRequest) (*EventsAtLedgerResponse, error)
 	// UserInteractionContracts queries list contracts user has interacted.
 	UserInteractionContracts(context.Context, *UserInteractionContractsRequest) (*UserInteractionContractsResponse, error)
-	// ContractData queries list newest data entries of contract
-	ContractData(context.Context, *ContractDataRequest) (*ContractDataResponse, error)
 	// TransferEvents queries 10 events that match the given contract id and page.
 	TransferEvents(context.Context, *TransferEventsRequest) (*TransferEventsResponse, error)
 	// TransferEventsFrom queries 10 events that match the given from address and page.
@@ -446,9 +432,6 @@ func (UnimplementedQueryServer) EventsAtLedger(context.Context, *EventsAtLedgerR
 }
 func (UnimplementedQueryServer) UserInteractionContracts(context.Context, *UserInteractionContractsRequest) (*UserInteractionContractsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserInteractionContracts not implemented")
-}
-func (UnimplementedQueryServer) ContractData(context.Context, *ContractDataRequest) (*ContractDataResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ContractData not implemented")
 }
 func (UnimplementedQueryServer) TransferEvents(context.Context, *TransferEventsRequest) (*TransferEventsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferEvents not implemented")
@@ -730,24 +713,6 @@ func _Query_UserInteractionContracts_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_ContractData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ContractDataRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).ContractData(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Query_ContractData_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).ContractData(ctx, req.(*ContractDataRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Query_TransferEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TransferEventsRequest)
 	if err := dec(in); err != nil {
@@ -1004,10 +969,6 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserInteractionContracts",
 			Handler:    _Query_UserInteractionContracts_Handler,
-		},
-		{
-			MethodName: "ContractData",
-			Handler:    _Query_ContractData_Handler,
 		},
 		{
 			MethodName: "TransferEvents",

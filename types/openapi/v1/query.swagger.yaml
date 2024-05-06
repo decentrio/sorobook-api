@@ -159,36 +159,6 @@ paths:
           format: int32
       tags:
         - Query
-  /v1/contract-entries/{contractId}:
-    get:
-      summary: ContractData queries list newest data entries of contract
-      operationId: Query_ContractData
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1ContractDataResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
-      parameters:
-        - name: contractId
-          in: path
-          required: true
-          type: string
-        - name: page
-          in: query
-          required: false
-          type: integer
-          format: int32
-        - name: pageSize
-          in: query
-          required: false
-          type: integer
-          format: int32
-      tags:
-        - Query
   /v1/event/{id}:
     get:
       summary: Event queries event info given event id.
@@ -810,21 +780,6 @@ definitions:
         items:
           type: object
           $ref: '#/definitions/v1ClawbackEvent'
-  v1ContractDataResponse:
-    type: object
-    properties:
-      data:
-        type: array
-        items:
-          type: object
-          $ref: '#/definitions/v1ContractEntryInfo'
-  v1ContractEntryInfo:
-    type: object
-    properties:
-      key:
-        type: object
-      value:
-        type: object
   v1ContractEventCountResponse:
     type: object
     properties:
