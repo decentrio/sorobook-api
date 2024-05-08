@@ -1,6 +1,33 @@
 # Sorobook API
 
-This repository offers a comprehensive solution for building high-performance APIs with a gRPC server seamlessly integrated with a public OpenAPI specification, all powered by PostgreSQL for efficient data querying. Designed with scalability, reliability, and ease of use in mind, this project empowers developers to create robust and efficient systems.
+This repository offers a high-performance APIs with a gRPC server seamlessly integrated with sorobook backend which powered by PostgresSQL for efficient data querying. It serves many types of soroban data in friendly json format.
+
+### Features
+
+We support apis for querying events, transactions and ledger 
+
+**1. Events**
+
+- Stellar asset contract events
+    - from or to and address
+    - trigger by a contract
+- Event by ID
+- Event by contract
+- Event at ledger
+- Count of events by contract
+
+**2. Ledger**
+- Ledger by hash
+- Ledger by seq
+
+**3. Transaction**
+- Transaction at ledger
+- Transaction by address
+- Transaction by contract 
+- Transaction by contract and address
+- Transaction by hash
+
+For details, visit this testing endpoint: https://sorobook-api.decentrio.ventures/public/#/
 
 ### Deployment
 Follow below instructions:
