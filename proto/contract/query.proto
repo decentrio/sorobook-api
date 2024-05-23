@@ -1,0 +1,20 @@
+syntax = "proto3";
+package contract;
+
+import "google/api/annotations.proto";
+import "contract/contract.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types/contract";
+
+service ContractQuery {
+  // UserInteractionContracts queries list contracts user has interacted.
+  rpc UserInteractionContracts(UserInteractionContractsRequest)
+      returns (UserInteractionContractsResponse) {
+    option (google.api.http).get = "/user-contracts/{address}";
+  }
+
+  //ContractData queries list newest data entries of contract
+  rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
+    option (google.api.http).get = "/contract-entries/{contract_id}";
+  }
+}

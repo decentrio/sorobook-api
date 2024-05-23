@@ -1,57 +1,46 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  title: Sorobook
+  title: Sorobook - gRPC Gateway docs
+  description: A REST interface for state queries and transactions
   version: 1.0.0
-tags:
-  - name: Query
-consumes:
-  - application/json
-produces:
-  - application/json
 paths:
-  /v1/burn-events/from/{from}:
+  /contract-entries/{contractId}:
     get:
-      summary: BurnEventsFrom queries 10 events that match the given from address and page.
-      operationId: Query_BurnEventsFrom
+      summary: ContractData queries list newest data entries of contract
+      operationId: ContractData
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1BurnEventsFromResponse'
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: object
+                    value:
+                      type: object
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
-      parameters:
-        - name: from
-          in: path
-          required: true
-          type: string
-        - name: page
-          in: query
-          required: false
-          type: integer
-          format: int32
-        - name: pageSize
-          in: query
-          required: false
-          type: integer
-          format: int32
-      tags:
-        - Query
-  /v1/burn-events/{contractId}:
-    get:
-      summary: BurnEvents queries 10 events that match the given contract id and page.
-      operationId: Query_BurnEvents
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1BurnEventsResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: contractId
           in: path
@@ -68,20 +57,227 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/clawback-events/admin/{admin}:
+        - ContractQuery
+  /user-contracts/{address}:
     get:
-      summary: ClawbackEventsAdmin queries 10 events that match the given admin address and page.
-      operationId: Query_ClawbackEventsAdmin
+      summary: UserInteractionContracts queries list contracts user has interacted.
+      operationId: UserInteractionContracts
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1ClawbackEventsAdminResponse'
+            type: object
+            properties:
+              contracts:
+                type: array
+                items:
+                  type: string
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - ContractQuery
+  /burn-events/from/{from}:
+    get:
+      summary: >-
+        BurnEventsFrom queries 10 events that match the given from address and
+        page.
+      operationId: BurnEventsFrom
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    fromAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: from
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - EventQuery
+  /burn-events/{contractId}:
+    get:
+      summary: BurnEvents queries 10 events that match the given contract id and page.
+      operationId: BurnEvents
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    fromAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - EventQuery
+  /clawback-events/admin/{admin}:
+    get:
+      summary: >-
+        ClawbackEventsAdmin queries 10 events that match the given admin address
+        and page.
+      operationId: ClawbackEventsAdmin
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    adminAddr:
+                      type: string
+                    fromAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: admin
           in: path
@@ -98,20 +294,58 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/clawback-events/from/{from}:
+        - EventQuery
+  /clawback-events/from/{from}:
     get:
-      summary: ClawbackEventsFrom queries 10 events that match the given drom address and page.
-      operationId: Query_ClawbackEventsFrom
+      summary: >-
+        ClawbackEventsFrom queries 10 events that match the given drom address
+        and page.
+      operationId: ClawbackEventsFrom
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1ClawbackEventsFromResponse'
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    adminAddr:
+                      type: string
+                    fromAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: from
           in: path
@@ -128,20 +362,58 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/clawback-events/{contractId}:
+        - EventQuery
+  /clawback-events/{contractId}:
     get:
-      summary: ClawbackEvents queries 10 events that match the given contract id and page.
-      operationId: Query_ClawbackEvents
+      summary: >-
+        ClawbackEvents queries 10 events that match the given contract id and
+        page.
+      operationId: ClawbackEvents
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1ClawbackEventsResponse'
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    adminAddr:
+                      type: string
+                    fromAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: contractId
           in: path
@@ -158,40 +430,98 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/event/{id}:
+        - EventQuery
+  /event/{id}:
     get:
       summary: Event queries event info given event id.
-      operationId: Query_Event
+      operationId: Event
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1EventResponse'
+            type: object
+            properties:
+              event:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  contractId:
+                    type: string
+                  txHash:
+                    type: string
+                  event:
+                    type: object
+              found:
+                type: boolean
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: id
           in: path
           required: true
           type: string
       tags:
-        - Query
-  /v1/events-at-ledger/{contractId}/{ledger}:
+        - EventQuery
+  /events-at-ledger/{contractId}/{ledger}:
     get:
-      summary: EventsAtLedger queries all events of contract at specific ledger sequence.
-      operationId: Query_EventsAtLedger
+      summary: >-
+        EventsAtLedger queries all events of contract at specific ledger
+        sequence.
+      operationId: EventsAtLedger
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1EventsAtLedgerResponse'
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    event:
+                      type: object
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: contractId
           in: path
@@ -203,42 +533,90 @@ paths:
           type: integer
           format: int64
       tags:
-        - Query
-  /v1/events/count/{contractId}:
+        - EventQuery
+  /events/count/{contractId}:
     get:
-      summary: |-
-        ContractEventCount queries number of events that match the given contract
+      summary: >-
+        ContractEventCount queries number of events that match the given
+        contract
+
         id.
-      operationId: Query_ContractEventCount
+      operationId: ContractEventCount
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1ContractEventCountResponse'
+            type: object
+            properties:
+              total:
+                type: string
+                format: int64
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: contractId
           in: path
           required: true
           type: string
       tags:
-        - Query
-  /v1/events/{contractId}:
+        - EventQuery
+  /events/{contractId}:
     get:
       summary: ContractEvents queries 10 events that match the given page.
-      operationId: Query_ContractEvents
+      operationId: ContractEvents
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1ContractEventsResponse'
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    event:
+                      type: object
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: contractId
           in: path
@@ -255,61 +633,56 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/ledger-by-hash/{hash}:
-    get:
-      summary: LedgerHash queries ledger info given ledger hash.
-      operationId: Query_LedgerHash
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1LedgerHashResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
-      parameters:
-        - name: hash
-          in: path
-          required: true
-          type: string
-      tags:
-        - Query
-  /v1/ledger-by-seq/{seq}:
-    get:
-      summary: Ledger queries ledger info given ledger sequence.
-      operationId: Query_Ledger
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1LedgerResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
-      parameters:
-        - name: seq
-          in: path
-          required: true
-          type: integer
-          format: int64
-      tags:
-        - Query
-  /v1/mint-events/admin/{admin}:
+        - EventQuery
+  /mint-events/admin/{admin}:
     get:
       summary: MintEventsAdmin queries 10 events that match the given admin and page.
-      operationId: Query_MintEventsAdmin
+      operationId: MintEventsAdmin
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1MintEventsAdminResponse'
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    adminAddr:
+                      type: string
+                    toAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: admin
           in: path
@@ -326,20 +699,56 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/mint-events/to/{to}:
+        - EventQuery
+  /mint-events/to/{to}:
     get:
       summary: MintEventsTo queries 10 events that match the given to address and page.
-      operationId: Query_MintEventsTo
+      operationId: MintEventsTo
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1MintEventsToResponse'
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    adminAddr:
+                      type: string
+                    toAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: to
           in: path
@@ -356,20 +765,56 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/mint-events/{contractId}:
+        - EventQuery
+  /mint-events/{contractId}:
     get:
       summary: MintEvents queries 10 events that match the given contract id and page.
-      operationId: Query_MintEvents
+      operationId: MintEvents
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1MintEventsResponse'
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    adminAddr:
+                      type: string
+                    toAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: contractId
           in: path
@@ -386,22 +831,371 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/transactions-at-ledger-hash/{ledgerHash}:
+        - EventQuery
+  /transfer-events/from/{from}:
+    get:
+      summary: >-
+        TransferEventsFrom queries 10 events that match the given from address
+        and page.
+      operationId: TransferEventsFrom
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    fromAddr:
+                      type: string
+                    toAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: from
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - EventQuery
+  /transfer-events/to/{to}:
+    get:
+      summary: >-
+        TransferEventsTo queries 10 events that match the given from address and
+        page.
+      operationId: TransferEventsTo
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    fromAddr:
+                      type: string
+                    toAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: to
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - EventQuery
+  /transfer-events/{contractId}:
+    get:
+      summary: >-
+        TransferEvents queries 10 events that match the given contract id and
+        page.
+      operationId: TransferEvents
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              events:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    contractId:
+                      type: string
+                    txHash:
+                      type: string
+                    fromAddr:
+                      type: string
+                    toAddr:
+                      type: string
+                    amountHi:
+                      type: string
+                      format: int64
+                    amountLo:
+                      type: string
+                      format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - EventQuery
+  /ledger-by-hash/{hash}:
+    get:
+      summary: LedgerHash queries ledger info given ledger hash.
+      operationId: LedgerHash
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              ledger:
+                type: object
+                properties:
+                  seq:
+                    type: integer
+                    format: int64
+                  hash:
+                    type: string
+                  prevHash:
+                    type: string
+                  transactions:
+                    type: integer
+                    format: int64
+                  operations:
+                    type: integer
+                    format: int64
+              found:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: hash
+          in: path
+          required: true
+          type: string
+      tags:
+        - LedgerQuery
+  /ledger-by-seq/{seq}:
+    get:
+      summary: Ledger queries ledger info given ledger sequence.
+      operationId: Ledger
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              ledger:
+                type: object
+                properties:
+                  seq:
+                    type: integer
+                    format: int64
+                  hash:
+                    type: string
+                  prevHash:
+                    type: string
+                  transactions:
+                    type: integer
+                    format: int64
+                  operations:
+                    type: integer
+                    format: int64
+              found:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: seq
+          in: path
+          required: true
+          type: integer
+          format: int64
+      tags:
+        - LedgerQuery
+  /transactions-at-ledger-hash/{ledgerHash}:
     get:
       summary: |-
         TransactionsAtLedgerHash queries all transactions that match the given
         ledger hash.
-      operationId: Query_TransactionsAtLedgerHash
+      operationId: TransactionsAtLedgerHash
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1TransactionsAtLedgerHashResponse'
+            type: object
+            properties:
+              txs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hash:
+                      type: string
+                    status:
+                      type: string
+                    ledger:
+                      type: integer
+                      format: int64
+                    applicationOrder:
+                      type: integer
+                      format: int64
+                    envelope:
+                      type: object
+                    result:
+                      type: object
+                    resultMeta:
+                      type: object
+                    sourceAddress:
+                      type: string
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: ledgerHash
           in: path
@@ -418,22 +1212,60 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/transactions-at-ledger-seq/{ledger}:
+        - TransactionQuery
+  /transactions-at-ledger-seq/{ledger}:
     get:
       summary: |-
         TransactionsAtLedgerSeq queries all transactions that match the given
         ledger sequence.
-      operationId: Query_TransactionsAtLedgerSeq
+      operationId: TransactionsAtLedgerSeq
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1TransactionsAtLedgerSeqResponse'
+            type: object
+            properties:
+              txs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hash:
+                      type: string
+                    status:
+                      type: string
+                    ledger:
+                      type: integer
+                      format: int64
+                    applicationOrder:
+                      type: integer
+                      format: int64
+                    envelope:
+                      type: object
+                    result:
+                      type: object
+                    resultMeta:
+                      type: object
+                    sourceAddress:
+                      type: string
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: ledger
           in: path
@@ -451,22 +1283,62 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/transactions-by-address/{address}:
+        - TransactionQuery
+  /transactions-by-address/{address}:
     get:
-      summary: |-
-        TransactionsByAddress queries all transactions that match the given source
+      summary: >-
+        TransactionsByAddress queries all transactions that match the given
+        source
+
         address.
-      operationId: Query_TransactionsByAddress
+      operationId: TransactionsByAddress
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1TransactionsByAddressResponse'
+            type: object
+            properties:
+              txs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hash:
+                      type: string
+                    status:
+                      type: string
+                    ledger:
+                      type: integer
+                      format: int64
+                    applicationOrder:
+                      type: integer
+                      format: int64
+                    envelope:
+                      type: object
+                    result:
+                      type: object
+                    resultMeta:
+                      type: object
+                    sourceAddress:
+                      type: string
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: address
           in: path
@@ -483,22 +1355,60 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/transactions-by-contract/{contract}:
+        - TransactionQuery
+  /transactions-by-contract/{contract}:
     get:
       summary: |-
         ContractTransactions queries all transactions that match the given
         contract id.
-      operationId: Query_ContractTransactions
+      operationId: ContractTransactions
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1ContractTransactionsResponse'
+            type: object
+            properties:
+              txs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hash:
+                      type: string
+                    status:
+                      type: string
+                    ledger:
+                      type: integer
+                      format: int64
+                    applicationOrder:
+                      type: integer
+                      format: int64
+                    envelope:
+                      type: object
+                    result:
+                      type: object
+                    resultMeta:
+                      type: object
+                    sourceAddress:
+                      type: string
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: contract
           in: path
@@ -515,22 +1425,60 @@ paths:
           type: integer
           format: int32
       tags:
-        - Query
-  /v1/transactions-contract-by-user/{contract}/{address}:
+        - TransactionQuery
+  /transactions-contract-by-user/{contract}/{address}:
     get:
       summary: |-
         UserContractTransactions queries all transactions that match the given
         contract id and user address.
-      operationId: Query_UserContractTransactions
+      operationId: UserContractTransactions
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1UserContractTransactionsResponse'
+            type: object
+            properties:
+              txs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hash:
+                      type: string
+                    status:
+                      type: string
+                    ledger:
+                      type: integer
+                      format: int64
+                    applicationOrder:
+                      type: integer
+                      format: int64
+                    envelope:
+                      type: object
+                    result:
+                      type: object
+                    resultMeta:
+                      type: object
+                    sourceAddress:
+                      type: string
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: contract
           in: path
@@ -541,138 +1489,92 @@ paths:
           required: true
           type: string
       tags:
-        - Query
-  /v1/transactions/{hash}:
+        - TransactionQuery
+  /transactions/{hash}:
     get:
       summary: Transaction queries transaction info given transaction hash.
-      operationId: Query_Transaction
+      operationId: Transaction
       responses:
-        "200":
+        '200':
           description: A successful response.
           schema:
-            $ref: '#/definitions/v1TransactionResponse'
+            type: object
+            properties:
+              transaction:
+                type: object
+                properties:
+                  hash:
+                    type: string
+                  status:
+                    type: string
+                  ledger:
+                    type: integer
+                    format: int64
+                  applicationOrder:
+                    type: integer
+                    format: int64
+                  envelope:
+                    type: object
+                  result:
+                    type: object
+                  resultMeta:
+                    type: object
+                  sourceAddress:
+                    type: string
+              found:
+                type: boolean
         default:
           description: An unexpected error response.
           schema:
-            $ref: '#/definitions/rpcStatus'
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
       parameters:
         - name: hash
           in: path
           required: true
           type: string
       tags:
-        - Query
-  /v1/transfer-events/from/{from}:
-    get:
-      summary: TransferEventsFrom queries 10 events that match the given from address and page.
-      operationId: Query_TransferEventsFrom
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1TransferEventsFromResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
-      parameters:
-        - name: from
-          in: path
-          required: true
-          type: string
-        - name: page
-          in: query
-          required: false
-          type: integer
-          format: int32
-        - name: pageSize
-          in: query
-          required: false
-          type: integer
-          format: int32
-      tags:
-        - Query
-  /v1/transfer-events/to/{to}:
-    get:
-      summary: TransferEventsTo queries 10 events that match the given from address and page.
-      operationId: Query_TransferEventsTo
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1TransferEventsToResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
-      parameters:
-        - name: to
-          in: path
-          required: true
-          type: string
-        - name: page
-          in: query
-          required: false
-          type: integer
-          format: int32
-        - name: pageSize
-          in: query
-          required: false
-          type: integer
-          format: int32
-      tags:
-        - Query
-  /v1/transfer-events/{contractId}:
-    get:
-      summary: TransferEvents queries 10 events that match the given contract id and page.
-      operationId: Query_TransferEvents
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1TransferEventsResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
-      parameters:
-        - name: contractId
-          in: path
-          required: true
-          type: string
-        - name: page
-          in: query
-          required: false
-          type: integer
-          format: int32
-        - name: pageSize
-          in: query
-          required: false
-          type: integer
-          format: int32
-      tags:
-        - Query
-  /v1/user-contracts/{address}:
-    get:
-      summary: UserInteractionContracts queries list contracts user has interacted.
-      operationId: Query_UserInteractionContracts
-      responses:
-        "200":
-          description: A successful response.
-          schema:
-            $ref: '#/definitions/v1UserInteractionContractsResponse'
-        default:
-          description: An unexpected error response.
-          schema:
-            $ref: '#/definitions/rpcStatus'
-      parameters:
-        - name: address
-          in: path
-          required: true
-          type: string
-      tags:
-        - Query
+        - TransactionQuery
 definitions:
+  contractContractDataResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            key:
+              type: object
+            value:
+              type: object
+  contractContractEntryInfo:
+    type: object
+    properties:
+      key:
+        type: object
+      value:
+        type: object
+  contractUserInteractionContractsResponse:
+    type: object
+    properties:
+      contracts:
+        type: array
+        items:
+          type: string
   protobufAny:
     type: object
     properties:
@@ -703,8 +1605,11 @@ definitions:
         type: array
         items:
           type: object
-          $ref: '#/definitions/protobufAny'
-  v1BurnEvent:
+          properties:
+            '@type':
+              type: string
+          additionalProperties: {}
+  eventBurnEvent:
     type: object
     properties:
       id:
@@ -721,30 +1626,51 @@ definitions:
       amountLo:
         type: string
         format: uint64
-    example:
-      - id: 0000392126219161601-0000000001
-        contractId: CDNVQW44C3HALYNVQ4SOBXY5EWYTGVYXX6JPESOLQDABJI5FC5LTRRUE
-        txHash: 3027256c31f2dafd94a5d07ba3b3c7f16ef835b88fe596365ab2a376606a64ed
-        fromAddr: GDUVTQM5CBOHIAIR7DBPNC3HQY6JRGKULXNU7RWCRWLAMBHFQTPQDVXK
-        amountHi: '0'
-        amountLo: '50000'
-  v1BurnEventsFromResponse:
+  eventBurnEventsFromResponse:
     type: object
     properties:
       events:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1BurnEvent'
-  v1BurnEventsResponse:
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            fromAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventBurnEventsResponse:
     type: object
     properties:
       events:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1BurnEvent'
-  v1ClawbackEvent:
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            fromAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventClawbackEvent:
     type: object
     properties:
       id:
@@ -763,63 +1689,101 @@ definitions:
       amountLo:
         type: string
         format: uint64
-    example:
-      - id: 0000202761111109633-0000000001
-        contractId: CDNVQW44C3HALYNVQ4SOBXY5EWYTGVYXX6JPESOLQDABJI5FC5LTRRUE
-        txHash: cd66c5f2752191cd8ccc5e48dc6f85bdcee7dedd848a754fa289d454be35d952
-        adminAddr: GAHPYWLK6YRN7CVYZOO4H3VDRZ7PVF5UJGLZCSPAEIKJE2XSWF5LAGER
-        fromAddr: GAUHV24WEBGCBDI5LQ3SUEB6TV4W333ATXYJ3VEJRMQ43IFJIC3VQTUB
-        amountHi: '0'
-        amountLo: '50000'
-  v1ClawbackEventsAdminResponse:
+  eventClawbackEventsAdminResponse:
     type: object
     properties:
       events:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1ClawbackEvent'
-  v1ClawbackEventsFromResponse:
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            adminAddr:
+              type: string
+            fromAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventClawbackEventsFromResponse:
     type: object
     properties:
       events:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1ClawbackEvent'
-  v1ClawbackEventsResponse:
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            adminAddr:
+              type: string
+            fromAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventClawbackEventsResponse:
     type: object
     properties:
       events:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1ClawbackEvent'
-  v1ContractEventCountResponse:
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            adminAddr:
+              type: string
+            fromAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventContractEventCountResponse:
     type: object
     properties:
       total:
         type: string
         format: int64
-    example:
-      total: '3'
-  v1ContractEventsResponse:
+  eventContractEventsResponse:
     type: object
     properties:
       events:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1EventInfo'
-  v1ContractTransactionsResponse:
-    type: object
-    properties:
-      txs:
-        type: array
-        items:
-          type: object
-          $ref: '#/definitions/v1TransactionInfo'
-  v1EventInfo:
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            event:
+              type: object
+  eventEventInfo:
     type: object
     properties:
       id:
@@ -830,48 +1794,221 @@ definitions:
         type: string
       event:
         type: object
-    example:
-        - id: 0000065897683247105-0000000003
-          contractId: CDQUBI4K42MGVJIHDZYIQKTXIRV4TXPWRXSPPQN5WTAHC642KDBYQW2W
-          txHash: 6b5ecd099dc2519559d6f974b0e5e7955f48609640a3b8a0ca7253573e296602
-          event:
-            v0:
-              Data:
-                bytes: ky4qzjRS6RDLKXqd+6+JN2vU4brv6Zw7jkwQ1fBiW90=
-              Topics:
-                - sym: new_name_resolution
-                - address:
-                    account_id: GDM7RREV652NBG2CQFQ2ALS6VR5B3H7WEZJOKR2YO5DL27D2NQ3XXVZP
-  v1EventResponse:
+  eventEventResponse:
     type: object
     properties:
       event:
-        $ref: '#/definitions/v1EventInfo'
+        type: object
+        properties:
+          id:
+            type: string
+          contractId:
+            type: string
+          txHash:
+            type: string
+          event:
+            type: object
       found:
         type: boolean
-    example:
-      event:
-        id: 0000065897683247105-0000000003
-        contractId: CDQUBI4K42MGVJIHDZYIQKTXIRV4TXPWRXSPPQN5WTAHC642KDBYQW2W
-        txHash: 6b5ecd099dc2519559d6f974b0e5e7955f48609640a3b8a0ca7253573e296602
-        event:
-          v0:
-            Data:
-              bytes: ky4qzjRS6RDLKXqd+6+JN2vU4brv6Zw7jkwQ1fBiW90=
-            Topics:
-              - sym: new_name_resolution
-              - address:
-                  account_id: GDM7RREV652NBG2CQFQ2ALS6VR5B3H7WEZJOKR2YO5DL27D2NQ3XXVZP
-      found: true
-  v1EventsAtLedgerResponse:
+  eventEventsAtLedgerResponse:
     type: object
     properties:
       events:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1EventInfo'
-  v1Ledger:
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            event:
+              type: object
+  eventMintEvent:
+    type: object
+    properties:
+      id:
+        type: string
+      contractId:
+        type: string
+      txHash:
+        type: string
+      adminAddr:
+        type: string
+      toAddr:
+        type: string
+      amountHi:
+        type: string
+        format: int64
+      amountLo:
+        type: string
+        format: uint64
+  eventMintEventsAdminResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            adminAddr:
+              type: string
+            toAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventMintEventsResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            adminAddr:
+              type: string
+            toAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventMintEventsToResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            adminAddr:
+              type: string
+            toAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventTranferEvent:
+    type: object
+    properties:
+      id:
+        type: string
+      contractId:
+        type: string
+      txHash:
+        type: string
+      fromAddr:
+        type: string
+      toAddr:
+        type: string
+      amountHi:
+        type: string
+        format: int64
+      amountLo:
+        type: string
+        format: uint64
+  eventTransferEventsFromResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            fromAddr:
+              type: string
+            toAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventTransferEventsResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            fromAddr:
+              type: string
+            toAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  eventTransferEventsToResponse:
+    type: object
+    properties:
+      events:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            contractId:
+              type: string
+            txHash:
+              type: string
+            fromAddr:
+              type: string
+            toAddr:
+              type: string
+            amountHi:
+              type: string
+              format: int64
+            amountLo:
+              type: string
+              format: uint64
+  ledgerLedger:
     type: object
     properties:
       seq:
@@ -887,115 +2024,75 @@ definitions:
       operations:
         type: integer
         format: int64
-  v1LedgerHashResponse:
+  ledgerLedgerHashResponse:
     type: object
     properties:
       ledger:
-        $ref: '#/definitions/v1Ledger'
+        type: object
+        properties:
+          seq:
+            type: integer
+            format: int64
+          hash:
+            type: string
+          prevHash:
+            type: string
+          transactions:
+            type: integer
+            format: int64
+          operations:
+            type: integer
+            format: int64
       found:
         type: boolean
-    example:
-      ledger:
-        seq: 15343
-        hash: 7bcf9d9a29d5111ff43e8143e3448a733375eae33eeda7ea11e96f44087bfc53
-        prevHash: 78c1ff2774c8109ec040f09b209f16cb38467dabd967e0796fa73dfa9199551c
-        transactions: 6
-        operations: 9
-      found: true
-  v1LedgerResponse:
+  ledgerLedgerResponse:
     type: object
     properties:
       ledger:
-        $ref: '#/definitions/v1Ledger'
+        type: object
+        properties:
+          seq:
+            type: integer
+            format: int64
+          hash:
+            type: string
+          prevHash:
+            type: string
+          transactions:
+            type: integer
+            format: int64
+          operations:
+            type: integer
+            format: int64
       found:
         type: boolean
-    example:
-      ledger:
-        seq: 15343
-        hash: 7bcf9d9a29d5111ff43e8143e3448a733375eae33eeda7ea11e96f44087bfc53
-        prevHash: 78c1ff2774c8109ec040f09b209f16cb38467dabd967e0796fa73dfa9199551c
-        transactions: 6
-        operations: 9
-      found: true
-  v1MintEvent:
+  transactionContractTransactionsResponse:
     type: object
     properties:
-      id:
-        type: string
-      contractId:
-        type: string
-      txHash:
-        type: string
-      adminAddr:
-        type: string
-      toAddr:
-        type: string
-      amountHi:
-        type: string
-        format: int64
-      amountLo:
-        type: string
-        format: uint64
-    example:
-    - id: 0000202232830160897-0000000001
-      contractId: CDNVQW44C3HALYNVQ4SOBXY5EWYTGVYXX6JPESOLQDABJI5FC5LTRRUE
-      txHash: b5aeca717c7e8b8124ed1965b2e08503052dbb211dce9115fa9b6fb255cadc25
-      adminAddr: GAHPYWLK6YRN7CVYZOO4H3VDRZ7PVF5UJGLZCSPAEIKJE2XSWF5LAGER
-      toAddr: GDUVTQM5CBOHIAIR7DBPNC3HQY6JRGKULXNU7RWCRWLAMBHFQTPQDVXK
-      amountHi: '0'
-      amountLo: '50000'
-  v1MintEventsAdminResponse:
-    type: object
-    properties:
-      events:
+      txs:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1MintEvent'
-  v1MintEventsResponse:
-    type: object
-    properties:
-      events:
-        type: array
-        items:
-          type: object
-          $ref: '#/definitions/v1MintEvent'
-  v1MintEventsToResponse:
-    type: object
-    properties:
-      events:
-        type: array
-        items:
-          type: object
-          $ref: '#/definitions/v1MintEvent'
-  v1TranferEvent:
-    type: object
-    properties:
-      id:
-        type: string
-      contractId:
-        type: string
-      txHash:
-        type: string
-      fromAddr:
-        type: string
-      toAddr:
-        type: string
-      amountHi:
-        type: string
-        format: int64
-      amountLo:
-        type: string
-        format: uint64
-    example:
-      - id: 0006019546989215745-0000000002
-        contractId: CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
-        txHash: c8becdd8822b711de1d78ab9837fb4535bd4e9594ba7796820ee98b5955e71e7
-        fromAddr: CDFUYM2X55EZ5ELRAS66QZ6L63HHWEG4CXPM7UYOFW3VI6IPGFQGYFRX
-        toAddr: GA5CPPDSPJAD5ROS775VPI5UCW7LZLVIPTMLRBGKT4RJNC4B5JQ7UDLX
-        amountHi: '0'
-        amountLo: '5000000000'
-  v1TransactionInfo:
+          properties:
+            hash:
+              type: string
+            status:
+              type: string
+            ledger:
+              type: integer
+              format: int64
+            applicationOrder:
+              type: integer
+              format: int64
+            envelope:
+              type: object
+            result:
+              type: object
+            resultMeta:
+              type: object
+            sourceAddress:
+              type: string
+  transactionTransactionInfo:
     type: object
     properties:
       hash:
@@ -1016,315 +2113,133 @@ definitions:
         type: object
       sourceAddress:
         type: string
-    example:
-      - hash: 6db53d574858cbb3e0df656732822f16a63a224d1f2df2ad1e5de844f25dc42f
-        status: failed
-        ledger: 15343
-        applicationOrder: 2
-        envelope:
-          v1:
-            signatures:
-              - hint: bVDyaA==
-                signature: 5IHIDfgEp6BCkL1unp5nEBW83ZaPednGi8wZmVRMzf/gjdh0oCb2AHlPZy0hsNlfB+/khWgZReAzPCoUPr/NAQ==
-              - hint: pIZMxQ==
-                signature: Uvm9/qCQvwbQcBHG6xAk7IIjGki5qg5OTwPhqbSil6wfZ8sgYVGCvJGiC4lZOZzjF15mbrlfnAxlXfM0NqPaBA==
-            tx:
-              cond:
-                time_bounds:
-                  max_time: 1707321442
-              ext:
-                soroban_data:
-                  ext: {}
-                  resources:
-                    footprint: {}
-              fee: 1000000
-              memo:
-                text: pspb:1452
-              operations:
-                - body:
-                    payment_op:
-                      amount: 110000000
-                      asset:
-                        asset_code: QVRVQUgAAAAAAAAA
-                        asset_type: alphanum12
-                        issuer:
-                          address: GBT4VVTDPCNA45MNWX5G6LUTLIEENSTUHDVXO2AQHAZ24KUZUPLPGJZH
-                      destination:
-                        address: GDRX32H3FLPJSZJXW7HRYKUX5EOR7CJQKR4OBEPTTAI2PC5INIEEN5VJ
-                  source_account:
-                    address: GCFJN22UG6IZHXKDVAJWAVEQ3NERGCRCURR2FHARNRBNLYFEQZGML4PW
-              seq_num: 2246267903587
-              source_account:
-                address: GALYDP756AJIKRYDQEO7CGEGX2PSG4SAJLRRY4BCH2J4GSTNKDZGQ54O
-        result:
-          result:
-            ext: {}
-            fee_charged: 100
-            result:
-              code: -1
-              results:
-                - tr:
-                    payment_result:
-                      code: -5
-          transaction_hash: 6db53d574858cbb3e0df656732822f16a63a224d1f2df2ad1e5de844f25dc42f
-        resultMeta:
-          fee_processing:
-            - state:
-                data:
-                  account:
-                    account_id:
-                      address: GALYDP756AJIKRYDQEO7CGEGX2PSG4SAJLRRY4BCH2J4GSTNKDZGQ54O
-                    balance: 99977447100
-                    ext:
-                      v: 1
-                      v1:
-                        ext:
-                          v: 2
-                          v2:
-                            ext:
-                              v: 3
-                              v3:
-                                ext: {}
-                                seq_ledger: 15341
-                                seq_time: 1707321376
-                        liabilities: {}
-                    inflation_dest: {}
-                    seq_num: 2246267903586
-                    thresholds: AQAAAA==
-                ext:
-                  v1:
-                    ext: {}
-                    sponsoring_id: {}
-                last_modified_ledger_seq: 15341
-            - updated:
-                data:
-                  account:
-                    account_id:
-                      address: GALYDP756AJIKRYDQEO7CGEGX2PSG4SAJLRRY4BCH2J4GSTNKDZGQ54O
-                    balance: 99977447000
-                    ext:
-                      v: 1
-                      v1:
-                        ext:
-                          v: 2
-                          v2:
-                            ext:
-                              v: 3
-                              v3:
-                                ext: {}
-                                seq_ledger: 15341
-                                seq_time: 1707321376
-                        liabilities: {}
-                    inflation_dest: {}
-                    seq_num: 2246267903586
-                    thresholds: AQAAAA==
-                ext:
-                  v1:
-                    ext: {}
-                    sponsoring_id: {}
-                last_modified_ledger_seq: 15343
-          result:
-            result:
-              ext: {}
-              fee_charged: 100
-              result:
-                code: -1
-                results:
-                  - tr:
-                      payment_result:
-                        code: -5
-            transaction_hash: 6db53d574858cbb3e0df656732822f16a63a224d1f2df2ad1e5de844f25dc42f
-          tx_apply_processing:
-            v3:
-              ext: {}
-              soroban_meta:
-                ext: {}
-                return_value: {}
-              tx_changes_before:
-                - state:
-                    data:
-                      account:
-                        account_id:
-                          address: GALYDP756AJIKRYDQEO7CGEGX2PSG4SAJLRRY4BCH2J4GSTNKDZGQ54O
-                        balance: 99977447000
-                        ext:
-                          v: 1
-                          v1:
-                            ext:
-                              v: 2
-                              v2:
-                                ext:
-                                  v: 3
-                                  v3:
-                                    ext: {}
-                                    seq_ledger: 15341
-                                    seq_time: 1707321376
-                            liabilities: {}
-                        inflation_dest: {}
-                        seq_num: 2246267903586
-                        thresholds: AQAAAA==
-                    ext:
-                      v1:
-                        ext: {}
-                        sponsoring_id: {}
-                    last_modified_ledger_seq: 15343
-                - updated:
-                    data:
-                      account:
-                        account_id:
-                          address: GALYDP756AJIKRYDQEO7CGEGX2PSG4SAJLRRY4BCH2J4GSTNKDZGQ54O
-                        balance: 99977447000
-                        ext:
-                          v: 1
-                          v1:
-                            ext:
-                              v: 2
-                              v2:
-                                ext:
-                                  v: 3
-                                  v3:
-                                    ext: {}
-                                    seq_ledger: 15343
-                                    seq_time: 1707321387
-                            liabilities: {}
-                        inflation_dest: {}
-                        seq_num: 2246267903587
-                        thresholds: AQAAAA==
-                    ext:
-                      v1:
-                        ext: {}
-                        sponsoring_id: {}
-                    last_modified_ledger_seq: 15343
-        sourceAddress: GALYDP756AJIKRYDQEO7CGEGX2PSG4SAJLRRY4BCH2J4GSTNKDZGQ54O
-  v1TransactionResponse:
+  transactionTransactionResponse:
     type: object
     properties:
       transaction:
-        $ref: '#/definitions/v1TransactionInfo'
+        type: object
+        properties:
+          hash:
+            type: string
+          status:
+            type: string
+          ledger:
+            type: integer
+            format: int64
+          applicationOrder:
+            type: integer
+            format: int64
+          envelope:
+            type: object
+          result:
+            type: object
+          resultMeta:
+            type: object
+          sourceAddress:
+            type: string
       found:
         type: boolean
-  v1TransactionsAtLedgerHashResponse:
+  transactionTransactionsAtLedgerHashResponse:
     type: object
     properties:
       txs:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1TransactionInfo'
-  v1TransactionsAtLedgerSeqResponse:
+          properties:
+            hash:
+              type: string
+            status:
+              type: string
+            ledger:
+              type: integer
+              format: int64
+            applicationOrder:
+              type: integer
+              format: int64
+            envelope:
+              type: object
+            result:
+              type: object
+            resultMeta:
+              type: object
+            sourceAddress:
+              type: string
+  transactionTransactionsAtLedgerSeqResponse:
     type: object
     properties:
       txs:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1TransactionInfo'
-  v1TransactionsByAddressResponse:
+          properties:
+            hash:
+              type: string
+            status:
+              type: string
+            ledger:
+              type: integer
+              format: int64
+            applicationOrder:
+              type: integer
+              format: int64
+            envelope:
+              type: object
+            result:
+              type: object
+            resultMeta:
+              type: object
+            sourceAddress:
+              type: string
+  transactionTransactionsByAddressResponse:
     type: object
     properties:
       txs:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1TransactionInfo'
-  v1TransferEventsFromResponse:
-    type: object
-    properties:
-      events:
-        type: array
-        items:
-          type: object
-          $ref: '#/definitions/v1TranferEvent'
-  v1TransferEventsResponse:
-    type: object
-    properties:
-      events:
-        type: array
-        items:
-          type: object
-          $ref: '#/definitions/v1TranferEvent'
-  v1TransferEventsToResponse:
-    type: object
-    properties:
-      events:
-        type: array
-        items:
-          type: object
-          $ref: '#/definitions/v1TranferEvent'
-  v1UserContractTransactionsResponse:
+          properties:
+            hash:
+              type: string
+            status:
+              type: string
+            ledger:
+              type: integer
+              format: int64
+            applicationOrder:
+              type: integer
+              format: int64
+            envelope:
+              type: object
+            result:
+              type: object
+            resultMeta:
+              type: object
+            sourceAddress:
+              type: string
+  transactionUserContractTransactionsResponse:
     type: object
     properties:
       txs:
         type: array
         items:
           type: object
-          $ref: '#/definitions/v1TransactionInfo'
-  v1UserInteractionContractsResponse:
-    type: object
-    properties:
-      contracts:
-        type: array
-        items:
-          type: string
-    example:
-      contracts:
-        - CA3HCCK6YLCVNHQ5NXND4FLURBA3J5BQ5PJABGNXALHCR6FIL3MXJPHW
-        - CA4LFEWO64FJ5C2MB2LXNU375LTEYB2HG7LXIOHKRE5IHPH6AXFF7OUW
-        - CA4OL4QDZQ6YD7VEEDV26HYBZ5LRPBAMCV6KWFRAAK6QQWNSPJDFY6UR
-        - CA5FEGRDOF7SFUY3Q75NYVGZ57OOMR3OKMVGZAKT6CVZDKKMRNL3YWD6
-        - CA6DEVBFCNJQD2WJA76RKBRNBSCAM5DFZIW4HL2DLWDZP2HTCNQ5G7JI
-        - CA7WYJUUZBEGD443TOP3X64FR4U3P2BHXHD6UILS7BHNOOBBGAJX57BD
-        - CAIC4MLEFSRUSYY2SHAP3T3TZCYQQ3FZW67QJYINO635P25N6KWWURNS
-        - CAIPLQOVI7YMRTMAJXZX6X2JA6IMCLCFCNSP2AYRPABPN34L3IPHNUHK
-        - CAJ7BY3EO2YRZMPASZRV53SW2HNWY7TXG77MSTZNA2RZICKG3N46FOI7
-        - CAKN4UAR4ITKDYNGJVL57KYNN5I7CVKCWNGHBR66OTBOVY3YSQD66K6C
-        - CAMVWBB4RN4CODN7VHHPJJKTZQBGWAT24R66JTGPUYH7CEPSKFSCXBAJ
-        - CAS2AH4CKQMNYYS7FZTJ7FKKH5KPQ3UBDWR6RZNYSG4KPKOAVORDSOOC
-        - CATYENPZSPALXTJMCTSAP73RZB6P746QGOO4ODLWSVSBVDFXEQSBNBOF
-        - CAYDM7MNHIY3KBFHAMI762QIFA7AVZLIWMX74U4B43KZ6TT65N2XKX6G
-        - CAZRY5GSFBFXD7H6GAFBA5YGYQTDXU4QKWKMYFWBAZFUCURN3WKX6LF5
-        - CB42AEQSPM27RIRDGWTE6437U7D7L24AH4GDMVCIEVMNJ5EQJN4XY7BO
-        - CB5KVF5QJSOQRT3YDQXAAVYO4S7ZY3NLABMAEPZBRA3DFR2NZESBJJP3
-        - CB7S3KMZ2GP46YU72WJKXFMSFLUB3MZYQL3LSIZMYTQTXIAS2EXUEANC
-        - CBB6YMEDBFBZQMU2MBZLFFM6N5H4DAM6RCM2GQDTYIXDAMGJWFXZ7YLU
-        - CBCRHA3UT2MPOS4OU4JUGOWOHWCSS4IGXEJD2JRAYXBKVX5QOMVMNQQR
-        - CBKGXTYMKXATQOYUGNPAKEPWNHQNOUGKPIFA2LR7PP2HJW44TSIQGRUJ
-        - CBL6KD2LFMLAUKFFWNNXWOXFN73GAXLEA4WMJRLQ5L76DMYTM3KWQVJN
-        - CBN5VDVE4LOHMFFJTDULSVYHGZNVLHM5HNK64SZHVLHM52ZDDEHG2YRU
-        - CBSXOAE7GAW7Y3CHTNZ3D4GLB6KI43MC36DY7GTZN4AGI7AWQ5V55YIQ
-        - CBTUJ6BYK6ASKBZND2EM7B4T2L5H2ICZBR7L44JNM5JPYXPYAZALJEBF
-        - CBVZQBJTQ7ACFYM7NY3UXIY3B6X27YMDTDY7QXN6X3Q6LXEJP775OCOA
-        - CC5NJ2JSJF3DDTFW5X4PZHZF2F7YCVDLVM76ZYPR5RTTNB7QNAT7KRWR
-        - CCB4V64653A4Q4HNUY2PMZ6XXFCB5U7KAD3PZ3HVAYTAP5WGP6NNVAQ4
-        - CCCQ7Y6CTTHE4Z35ESWOGPHNQGR7X37VXQY62EJZNQTHUIWSIGKDX5EH
-        - CCDH4HZT6OXMQEQ4LEBHPO6UYC4FYNR6CKKGTQWNMJMFW67UDSIEAOIB
-        - CCEQILMPFCTKC6PM2QFEGFFMQBGJXPBQUVC3MBUK5LR3X2DOBGUJRCWZ
-        - CCHFRB3ZX6MO5WG4YITT2UWL6K5CIBHAXKCXQOF44BYLSASFOAE7JEND
-        - CCHIKVPPAZIOHXJK7JAWR2U2TOX2NATVFUSSHBPSYANXFMQXJDQQRAUO
-        - CCJM3KN5GZ3UH2J27NVHW7PVASJPXN3ZGYVWSLFH46LHZA6RLLJWUITE
-        - CCPYFUAXCGMHOVYGDHQN3BINXOMDFL5QPXBEACAWZQTLRPA7C2VXUTDX
-        - CCSOEPYV2LGIHFX2XTV6MDOSALBFA64WTOUY22XTI37GXOEUX3XFEAJW
-        - CCSQXDST4P6PMHEHHIXOW6KZJLA4ZQCF3C6JM26T5GWIA2IWHCSGZM52
-        - CCUANGUKIUAZYFK42H7KN37OHVCX2X4GPEXG3S56XHNCM4DPW4ZNH3TP
-        - CCVKKIOLOEGRJ46IDI436HTOXTAJZRUODLQOBXPDMA6YN3ES7ZDIPLE2
-        - CCWGANBVIPJHDMG4FRW4WJ5VXV76I4MQMRWNOLSCUJEEBGGDEPVYF3AU
-        - CCYCPPS64G3NQQRO5X3R5C4GIR3OJIIUSRT3AFOSRRN2B2ZKE2XFS735
-        - CCZNWKN2VPJSKJ7F65QWGW3DB4DNDIXKQWJGXICJ6R4AH5WTL5BLXMME
-        - CD27E2DPB7RI3LINYE34ILD64BHR4KZBMPHJJQVXBJAHN2BC6EM7MIST
-        - CD2ZARSQYTDIJCMDAVH4SPENLO62VFIRJYO65EA54AIEMNJEX7SEBGOX
-        - CD37QVWHZ2YMU46QMY4EJ6JDMZK2E5JHJOPLSEYDLS6444XPXFQVT563
-        - CD654TZPIEIOHND5YS5PVWHG6MRPAB46G5HXTJ4OZBFFFZKVU2ZU7XDS
-        - CD7C3MJLPAWE4M2SGM4HNE3H4BWWIQZX3DDAU22SNGW4CCF2K5ZKCV75
-        - CDBFFI63QXDNWW6IJHXR752NLCWAKFSGLQTABW52XHPYNWLXAFVANZFJ
-        - CDC7OYXOTMXCEG52CXXLRXXSUB3CRF4DVFWO73P42KEAG5ARUA7SNNXU
-        - CDG5UKEI5HXEEJOMTSH5N5NYTEQL72FIEV7QT5JBGSHLFO5YHGOFDRDQ
-        - CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC
-        - CDMRRGLLQNFZB5R75N4ZK3D4D4PZOP5UGUEYNKQFF7XH4JGJAKNI6Z2N
-        - CDNVQW44C3HALYNVQ4SOBXY5EWYTGVYXX6JPESOLQDABJI5FC5LTRRUE
-        - CDO26AX4FWIJVSTMY2QAJPXHOLASGDARAKGW5PIEUQCJPZ3QSYO4NOJS
-        - CDPXLWEOQXXKDNZGMS3BSRLFRLC72K4YQ5GGVXIBTFZXP7UNRU2JTKAI
-        - CDVOYWIFYDR2VYVUTYU4ZUELIUEPZYO7CPDRA7F5IYQGCA5ISYR23JO5
-        - CDWTM6DVZO5J3H6X3LRDV6ZYGU53ACH7SDVCJCE74HHT2LG74FD5SSXA
-        - CDXA55XBSNQPNO6PJDWPH3F4VIFDFFNM4OOYYOWVVPDNPF7LPLEOES3R
-        - CDYY55W7DDU5ITIIHXNUWO4DOAHRZUC4CNARUR4Q3E6WQA3D7GT7GOEN
-        - CDZMVRGOESH3EYD2VPXR6I4CIFG3Y2Q3PM4KXAV76AIWA2JWCSGKEBYH
+          properties:
+            hash:
+              type: string
+            status:
+              type: string
+            ledger:
+              type: integer
+              format: int64
+            applicationOrder:
+              type: integer
+              format: int64
+            envelope:
+              type: object
+            result:
+              type: object
+            resultMeta:
+              type: object
+            sourceAddress:
+              type: string

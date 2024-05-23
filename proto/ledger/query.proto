@@ -1,0 +1,19 @@
+syntax = "proto3";
+package ledger;
+
+import "google/api/annotations.proto";
+import "ledger/ledger.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types/ledger";
+
+service LedgerQuery {
+  // Ledger queries ledger info given ledger sequence.
+  rpc Ledger(LedgerRequest) returns (LedgerResponse) {
+    option (google.api.http).get = "/ledger-by-seq/{seq}";
+  }
+
+  // LedgerHash queries ledger info given ledger hash.
+  rpc LedgerHash(LedgerHashRequest) returns (LedgerHashResponse) {
+    option (google.api.http).get = "/ledger-by-hash/{hash}";
+  }
+}

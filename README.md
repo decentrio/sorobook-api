@@ -29,6 +29,17 @@ We support apis for querying events, transactions and ledger
 
 For details, visit this testing endpoint: https://sorobook-api.decentrio.ventures/public/#/
 
+### Prerequisite
+
+- Install `swagger-combine`:
+```
+npm install --save swagger-combine
+```
+- Install `statik`:
+```
+go install github.com/rakyll/statik@v0.1.7
+```
+
 ### Deployment
 Follow below instructions:
 - Setup env:
