@@ -1,35 +1,23 @@
 package app
 
 import (
-	"gorm.io/gorm"
-
-	"github.com/decentrio/sorobook-api/database"
-	types "github.com/decentrio/sorobook-api/types/"
+	grpc "google.golang.org/grpc"
 )
 
-const (
-	PAGE_SIZE         = 20
-	LEDGER_TABLE      = "ledgers"
-	TRANSACTION_TABLE = "transactions"
-	CONTRACT_TABLE    = "contracts"
-	EVENT_TABLE       = "wasm_contract_events"
-	TRANSFER_TABLE    = "asset_contract_transfer_events"
-	MINT_TABLE        = "asset_contract_mint_events"
-	BURN_TABLE        = "asset_contract_burn_events"
-	CLAWBACK_TABLE    = "asset_contract_clawback_events"
-)
-
-type Keeper struct {
-	dbHandler *gorm.DB
-	types.UnimplementedQueryServer
+type App struct {
+	Modules   []AppModule
+	Server    *grpc.Server
 }
 
-func NewKeeper() *Keeper {
-	dbHandler := database.NewDBHandler()
-
-	return &Keeper{
-		dbHandler: dbHandler,
+func NewApp(server *grpc.Server, modules []AppModule) *App {
+	return &App{
+		Modules:   modules,
+		Server:    server,
 	}
 }
 
-var _ types.QueryServer = Keeper{}
+func (app *App) RegisterServices() {
+	for _, module := range app.Modules {
+		module.RegisterServices(app.Server)
+	}
+}

@@ -3,33 +3,18 @@ package ledger
 import (
 	"gorm.io/gorm"
 
-	"github.com/decentrio/sorobook-api/database"
-	types "github.com/decentrio/sorobook-api/types/"
-)
-
-const (
-	PAGE_SIZE         = 20
-	LEDGER_TABLE      = "ledgers"
-	TRANSACTION_TABLE = "transactions"
-	CONTRACT_TABLE    = "contracts"
-	EVENT_TABLE       = "wasm_contract_events"
-	TRANSFER_TABLE    = "asset_contract_transfer_events"
-	MINT_TABLE        = "asset_contract_mint_events"
-	BURN_TABLE        = "asset_contract_burn_events"
-	CLAWBACK_TABLE    = "asset_contract_clawback_events"
+	types "github.com/decentrio/sorobook-api/types/ledger"
 )
 
 type Keeper struct {
 	dbHandler *gorm.DB
-	types.UnimplementedQueryServer
+	types.UnimplementedLedgerQueryServer
 }
 
-func NewKeeper() *Keeper {
-	dbHandler := database.NewDBHandler()
-
+func NewKeeper(db *gorm.DB) *Keeper {
 	return &Keeper{
-		dbHandler: dbHandler,
+		dbHandler: db,
 	}
 }
 
-var _ types.QueryServer = Keeper{}
+var _ types.LedgerQueryServer = Keeper{}

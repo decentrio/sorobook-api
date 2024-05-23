@@ -3,30 +3,19 @@ package contract
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"google.golang.org/protobuf/types/known/structpb"
 
-	types "github.com/decentrio/sorobook-api/types/v1"
+	app "github.com/decentrio/sorobook-api/app"
+	types "github.com/decentrio/sorobook-api/types/contract"
 	"github.com/decentrio/xdr-converter/converter"
 )
-
-type Keeper struct {
-	dbHandler *gorm.DB
-	types.UnimplementedQueryServer
-}
-
-func NewKeeper() *Keeper {
-	dbHandler := database.NewDBHandler()
-
-	return &Keeper{
-		dbHandler: dbHandler,
-	}
-}
 
 func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryRequest) (*types.ContractEntryResponse, error) {
 	var entry types.ContractEntryInfo
 
-	err := k.dbHandler.Table(CONTRACT_TABLE).
+	err := k.dbHandler.Table(app.CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Where("key_xdr = ?", request.KeyXdr).
 		First(&entry).Error
@@ -52,12 +41,12 @@ func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataReq
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 
-	err := k.dbHandler.Table(CONTRACT_TABLE).
+	err := k.dbHandler.Table(app.CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Where("is_newest = ?", true).
 		Limit(pageSize).
@@ -88,7 +77,7 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 	var entries []*types.ContractEntry
 	var keys []*structpb.Struct
 
-	err := k.dbHandler.Table(CONTRACT_TABLE).
+	err := k.dbHandler.Table(app.CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Limit(20).
 		Find(&entries).Error
@@ -123,13 +112,13 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 func (k Keeper) UserInteractionContracts(ctx context.Context, request *types.UserInteractionContractsRequest) (*types.UserInteractionContractsResponse, error) {
 	var contracts []string
 
-	err := k.dbHandler.Table(CONTRACT_TABLE).
+	err := k.dbHandler.Table(app.CONTRACT_TABLE).
 		Select("contracts.contract_id").
 		Distinct().
 		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
 		Where("source_address = ?", request.Address).
 		Find(&contracts).Error
-
+	fmt.Print(contracts)
 	if err != nil {
 		return &types.UserInteractionContractsResponse{}, err
 	}

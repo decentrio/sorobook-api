@@ -6,14 +6,15 @@ import (
 
 	"google.golang.org/protobuf/types/known/structpb"
 
-	types "github.com/decentrio/sorobook-api/types/v1"
+	app "github.com/decentrio/sorobook-api/app"
+	types "github.com/decentrio/sorobook-api/types/transaction"
 	"github.com/decentrio/xdr-converter/converter"
 )
 
 func (k Keeper) Transaction(ctx context.Context, request *types.TransactionRequest) (*types.TransactionResponse, error) {
 	var transaction types.Transaction
 
-	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("hash = ?", request.Hash).First(&transaction).Error
+	err := k.dbHandler.Table(app.TRANSACTION_TABLE).Where("hash = ?", request.Hash).First(&transaction).Error
 	if err != nil {
 		return &types.TransactionResponse{
 			Found:       false,
@@ -42,12 +43,12 @@ func (k Keeper) TransactionsAtLedgerSeq(ctx context.Context, request *types.Tran
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var txs []*types.Transaction
-	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("ledger = ?", request.Ledger).Limit(pageSize).Offset(offset).Find(&txs).Error
+	err := k.dbHandler.Table(app.TRANSACTION_TABLE).Where("ledger = ?", request.Ledger).Limit(pageSize).Offset(offset).Find(&txs).Error
 	if err != nil {
 		return &types.TransactionsAtLedgerSeqResponse{}, err
 	}
@@ -74,12 +75,12 @@ func (k Keeper) TransactionsAtLedgerHash(ctx context.Context, request *types.Tra
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var txs []*types.Transaction
-	err := k.dbHandler.Table(TRANSACTION_TABLE).Joins("JOIN ledgers ON transactions.ledger = ledgers.seq").
+	err := k.dbHandler.Table(app.TRANSACTION_TABLE).Joins("JOIN ledgers ON transactions.ledger = ledgers.seq").
 		Where("ledgers.hash = ?", request.LedgerHash).
 		Limit(pageSize).
 		Offset(offset).
@@ -110,12 +111,12 @@ func (k Keeper) TransactionsByAddress(ctx context.Context, request *types.Transa
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var txs []*types.Transaction
-	err := k.dbHandler.Table(TRANSACTION_TABLE).Where("source_address = ?", request.Address).Order("ledger DESC").Limit(pageSize).Offset(offset).Find(&txs).Error
+	err := k.dbHandler.Table(app.TRANSACTION_TABLE).Where("source_address = ?", request.Address).Order("ledger DESC").Limit(pageSize).Offset(offset).Find(&txs).Error
 	if err != nil {
 		return &types.TransactionsByAddressResponse{
 			Txs:  []*types.TransactionInfo{},
@@ -144,12 +145,12 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var txs []*types.Transaction
-	err := k.dbHandler.Table(TRANSACTION_TABLE).
+	err := k.dbHandler.Table(app.TRANSACTION_TABLE).
 		Joins("JOIN contracts ON transactions.hash = contracts.tx_hash").
 		Where("contract_id = ?", request.Contract).
 		Order("ledger DESC").
@@ -177,7 +178,7 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 
 func (k Keeper) UserContractTransactions(ctx context.Context, request *types.UserContractTransactionsRequest) (*types.UserContractTransactionsResponse, error) {
 	var txs []*types.Transaction
-	err := k.dbHandler.Table(TRANSACTION_TABLE).
+	err := k.dbHandler.Table(app.TRANSACTION_TABLE).
 		Joins("JOIN contracts ON transactions.hash = contracts.tx_hash").
 		Where("contract_id = ?", request.Contract).
 		Where("source_address = ?", request.Address).

@@ -6,13 +6,14 @@ import (
 
 	"google.golang.org/protobuf/types/known/structpb"
 
-	types "github.com/decentrio/sorobook-api/types/v1"
+	app "github.com/decentrio/sorobook-api/app"
+	types "github.com/decentrio/sorobook-api/types/event"
 	"github.com/decentrio/xdr-converter/converter"
 )
 
 func (k Keeper) Event(ctx context.Context, request *types.EventRequest) (*types.EventResponse, error) {
 	var event types.Event
-	err := k.dbHandler.Table(EVENT_TABLE).Where("id = ?", request.Id).First(&event).Error
+	err := k.dbHandler.Table(app.EVENT_TABLE).Where("id = ?", request.Id).First(&event).Error
 	if err != nil {
 		return &types.EventResponse{
 			Found: false,
@@ -41,13 +42,13 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 
 	var events []*types.Event
-	err := k.dbHandler.Table(EVENT_TABLE).
+	err := k.dbHandler.Table(app.EVENT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = wasm_contract_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -74,7 +75,7 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 
 func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedgerRequest) (*types.EventsAtLedgerResponse, error) {
 	var events []*types.Event
-	err := k.dbHandler.Table(EVENT_TABLE).
+	err := k.dbHandler.Table(app.EVENT_TABLE).
 		Joins("JOIN transactions ON transactions.hash = wasm_contract_events.tx_hash").
 		Where("contract_id = ?", request.ContractId).
 		Where("transactions.ledger = ?", request.Ledger).
@@ -99,7 +100,7 @@ func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedge
 
 func (k Keeper) ContractEventCount(ctx context.Context, request *types.ContractEventCountRequest) (*types.ContractEventCountResponse, error) {
 	var count int64
-	err := k.dbHandler.Table(EVENT_TABLE).Where("contract_id = ?", request.ContractId).Count(&count).Error
+	err := k.dbHandler.Table(app.EVENT_TABLE).Where("contract_id = ?", request.ContractId).Count(&count).Error
 	if err != nil {
 		return nil, err
 	}
@@ -116,12 +117,12 @@ func (k Keeper) TransferEvents(ctx context.Context, request *types.TransferEvent
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.TranferEvent
-	err := k.dbHandler.Table(TRANSFER_TABLE).
+	err := k.dbHandler.Table(app.TRANSFER_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -144,12 +145,12 @@ func (k Keeper) TransferEventsFrom(ctx context.Context, request *types.TransferE
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.TranferEvent
-	err := k.dbHandler.Table(TRANSFER_TABLE).
+	err := k.dbHandler.Table(app.TRANSFER_TABLE).
 		Where("from_addr = ?", request.From).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -172,12 +173,12 @@ func (k Keeper) TransferEventsTo(ctx context.Context, request *types.TransferEve
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.TranferEvent
-	err := k.dbHandler.Table(TRANSFER_TABLE).
+	err := k.dbHandler.Table(app.TRANSFER_TABLE).
 		Where("to_addr = ?", request.To).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -200,12 +201,12 @@ func (k Keeper) MintEvents(ctx context.Context, request *types.MintEventsRequest
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.MintEvent
-	err := k.dbHandler.Table(MINT_TABLE).
+	err := k.dbHandler.Table(app.MINT_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_mint_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -228,12 +229,12 @@ func (k Keeper) MintEventsAdmin(ctx context.Context, request *types.MintEventsAd
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.MintEvent
-	err := k.dbHandler.Table(MINT_TABLE).
+	err := k.dbHandler.Table(app.MINT_TABLE).
 		Where("admin_addr = ?", request.Admin).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_mint_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -256,12 +257,12 @@ func (k Keeper) MintEventsTo(ctx context.Context, request *types.MintEventsToReq
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.MintEvent
-	err := k.dbHandler.Table(MINT_TABLE).
+	err := k.dbHandler.Table(app.MINT_TABLE).
 		Where("to_addr = ?", request.To).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_mint_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -284,12 +285,12 @@ func (k Keeper) BurnEvents(ctx context.Context, request *types.BurnEventsRequest
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.BurnEvent
-	err := k.dbHandler.Table(BURN_TABLE).
+	err := k.dbHandler.Table(app.BURN_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -312,12 +313,12 @@ func (k Keeper) BurnEventsFrom(ctx context.Context, request *types.BurnEventsFro
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.BurnEvent
-	err := k.dbHandler.Table(BURN_TABLE).
+	err := k.dbHandler.Table(app.BURN_TABLE).
 		Where("from_addr = ?", request.From).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_burn_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -340,12 +341,12 @@ func (k Keeper) ClawbackEvents(ctx context.Context, request *types.ClawbackEvent
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.ClawbackEvent
-	err := k.dbHandler.Table(CLAWBACK_TABLE).
+	err := k.dbHandler.Table(app.CLAWBACK_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_clawback_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -368,12 +369,12 @@ func (k Keeper) ClawbackEventsAdmin(ctx context.Context, request *types.Clawback
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.ClawbackEvent
-	err := k.dbHandler.Table(CLAWBACK_TABLE).
+	err := k.dbHandler.Table(app.CLAWBACK_TABLE).
 		Where("admin_addr = ?", request.Admin).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_clawback_events.tx_hash").
 		Order("transactions.ledger DESC").
@@ -396,12 +397,12 @@ func (k Keeper) ClawbackEventsFrom(ctx context.Context, request *types.ClawbackE
 	}
 	pageSize := int(request.PageSize)
 	if request.PageSize < 1 {
-		pageSize = PAGE_SIZE
+		pageSize = app.PAGE_SIZE
 	}
 
 	offset := (page - 1) * pageSize
 	var events []*types.ClawbackEvent
-	err := k.dbHandler.Table(CLAWBACK_TABLE).
+	err := k.dbHandler.Table(app.CLAWBACK_TABLE).
 		Where("from_addr = ?", request.From).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_clawback_events.tx_hash").
 		Order("transactions.ledger DESC").
