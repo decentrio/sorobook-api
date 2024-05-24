@@ -58,6 +58,172 @@ paths:
           format: int32
       tags:
         - ContractQuery
+  /contract/code/{contractId}:
+    get:
+      summary: ContracCode queries contract code data with the given contract id
+      operationId: ContractCode
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              contract:
+                type: object
+                properties:
+                  contractId:
+                    type: string
+                  creatorAddress:
+                    type: string
+                  contractCode:
+                    type: string
+                  createdLedger:
+                    type: integer
+                    format: int64
+              found:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+      tags:
+        - ContractQuery
+  /contract/codes:
+    get:
+      summary: ContracCodes queries contract codes have been deployed
+      operationId: ContractCodes
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contractId:
+                      type: string
+                    creatorAddress:
+                      type: string
+                    contractCode:
+                      type: string
+                    createdLedger:
+                      type: integer
+                      format: int64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - ContractQuery
+  /contract/codes/{ledger}:
+    get:
+      summary: |-
+        ContractsAtLedger queries contract codes have been deployed at the given
+        ledger
+      operationId: ContractsAtLedger
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    contractId:
+                      type: string
+                    creatorAddress:
+                      type: string
+                    contractCode:
+                      type: string
+                    createdLedger:
+                      type: integer
+                      format: int64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: ledger
+          in: path
+          required: true
+          type: integer
+          format: int64
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - ContractQuery
   /user-contracts/{address}:
     get:
       summary: UserInteractionContracts queries list contracts user has interacted.
@@ -1549,6 +1715,52 @@ paths:
       tags:
         - TransactionQuery
 definitions:
+  contractContractCode:
+    type: object
+    properties:
+      contractId:
+        type: string
+      creatorAddress:
+        type: string
+      contractCode:
+        type: string
+      createdLedger:
+        type: integer
+        format: int64
+  contractContractCodeResponse:
+    type: object
+    properties:
+      contract:
+        type: object
+        properties:
+          contractId:
+            type: string
+          creatorAddress:
+            type: string
+          contractCode:
+            type: string
+          createdLedger:
+            type: integer
+            format: int64
+      found:
+        type: boolean
+  contractContractCodesResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            contractId:
+              type: string
+            creatorAddress:
+              type: string
+            contractCode:
+              type: string
+            createdLedger:
+              type: integer
+              format: int64
   contractContractDataResponse:
     type: object
     properties:
@@ -1568,6 +1780,23 @@ definitions:
         type: object
       value:
         type: object
+  contractContractsAtLedgerResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            contractId:
+              type: string
+            creatorAddress:
+              type: string
+            contractCode:
+              type: string
+            createdLedger:
+              type: integer
+              format: int64
   contractUserInteractionContractsResponse:
     type: object
     properties:

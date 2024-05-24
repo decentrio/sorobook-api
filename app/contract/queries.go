@@ -128,6 +128,83 @@ func (k Keeper) UserInteractionContracts(ctx context.Context, request *types.Use
 	}, nil
 }
 
+func (k Keeper) ContractCode(ctx context.Context, request *types.ContractCodeRequest) (*types.ContractCodeResponse, error) {
+	var data types.ContractCode
+
+	err := k.dbHandler.Table(app.CONTRACT_CODES).
+		Where("contract_id = ?", request.ContractId).
+		First(&data).Error
+
+	if err != nil {
+		return &types.ContractCodeResponse{
+			Found: false,
+		}, err
+	}
+
+	return &types.ContractCodeResponse{
+		Contract: &data,
+		Found: true,
+	}, nil
+}
+
+func (k Keeper) ContractCodes(ctx context.Context, request *types.ContractCodesRequest) (*types.ContractCodesResponse, error) {
+	var data []*types.ContractCode
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = app.PAGE_SIZE
+	}
+
+	offset := (page - 1) * pageSize
+
+	err := k.dbHandler.Table(app.CONTRACT_CODES).
+		Limit(pageSize).
+		Order("created_ledger DESC").
+		Offset(offset).
+		Find(&data).Error
+
+	if err != nil {
+		return &types.ContractCodesResponse{}, err
+	}
+
+
+	return &types.ContractCodesResponse{
+		Data: data,
+	}, nil
+}
+
+func (k Keeper) ContractsAtLedger(ctx context.Context, request *types.ContractsAtLedgerRequest) (*types.ContractsAtLedgerResponse, error) {
+	var data []*types.ContractCode
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = app.PAGE_SIZE
+	}
+
+	offset := (page - 1) * pageSize
+
+	err := k.dbHandler.Table(app.CONTRACT_CODES).
+		Limit(pageSize).
+		Where("created_ledger = ?", request.Ledger).
+		Offset(offset).
+		Find(&data).Error
+
+	if err != nil {
+		return &types.ContractsAtLedgerResponse{}, err
+	}
+
+
+	return &types.ContractsAtLedgerResponse{
+		Data: data,
+	}, nil
+}
+
 func convertToEntryInfo(entry *types.ContractEntry) (*types.ContractEntryInfo, error) {
 	keyJson := &structpb.Struct{}
 	keyData, err := converter.MarshalJSONContractKeyXdr(entry.KeyXdr)

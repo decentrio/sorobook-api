@@ -21,6 +21,9 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	ContractQuery_UserInteractionContracts_FullMethodName = "/contract.ContractQuery/UserInteractionContracts"
 	ContractQuery_ContractData_FullMethodName             = "/contract.ContractQuery/ContractData"
+	ContractQuery_ContractCode_FullMethodName             = "/contract.ContractQuery/ContractCode"
+	ContractQuery_ContractCodes_FullMethodName            = "/contract.ContractQuery/ContractCodes"
+	ContractQuery_ContractsAtLedger_FullMethodName        = "/contract.ContractQuery/ContractsAtLedger"
 )
 
 // ContractQueryClient is the client API for ContractQuery service.
@@ -31,6 +34,13 @@ type ContractQueryClient interface {
 	UserInteractionContracts(ctx context.Context, in *UserInteractionContractsRequest, opts ...grpc.CallOption) (*UserInteractionContractsResponse, error)
 	// ContractData queries list newest data entries of contract
 	ContractData(ctx context.Context, in *ContractDataRequest, opts ...grpc.CallOption) (*ContractDataResponse, error)
+	// ContracCode queries contract code data with the given contract id
+	ContractCode(ctx context.Context, in *ContractCodeRequest, opts ...grpc.CallOption) (*ContractCodeResponse, error)
+	// ContracCodes queries contract codes have been deployed
+	ContractCodes(ctx context.Context, in *ContractCodesRequest, opts ...grpc.CallOption) (*ContractCodesResponse, error)
+	// ContractsAtLedger queries contract codes have been deployed at the given
+	// ledger
+	ContractsAtLedger(ctx context.Context, in *ContractsAtLedgerRequest, opts ...grpc.CallOption) (*ContractsAtLedgerResponse, error)
 }
 
 type contractQueryClient struct {
@@ -59,6 +69,33 @@ func (c *contractQueryClient) ContractData(ctx context.Context, in *ContractData
 	return out, nil
 }
 
+func (c *contractQueryClient) ContractCode(ctx context.Context, in *ContractCodeRequest, opts ...grpc.CallOption) (*ContractCodeResponse, error) {
+	out := new(ContractCodeResponse)
+	err := c.cc.Invoke(ctx, ContractQuery_ContractCode_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contractQueryClient) ContractCodes(ctx context.Context, in *ContractCodesRequest, opts ...grpc.CallOption) (*ContractCodesResponse, error) {
+	out := new(ContractCodesResponse)
+	err := c.cc.Invoke(ctx, ContractQuery_ContractCodes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contractQueryClient) ContractsAtLedger(ctx context.Context, in *ContractsAtLedgerRequest, opts ...grpc.CallOption) (*ContractsAtLedgerResponse, error) {
+	out := new(ContractsAtLedgerResponse)
+	err := c.cc.Invoke(ctx, ContractQuery_ContractsAtLedger_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ContractQueryServer is the server API for ContractQuery service.
 // All implementations must embed UnimplementedContractQueryServer
 // for forward compatibility
@@ -67,6 +104,13 @@ type ContractQueryServer interface {
 	UserInteractionContracts(context.Context, *UserInteractionContractsRequest) (*UserInteractionContractsResponse, error)
 	// ContractData queries list newest data entries of contract
 	ContractData(context.Context, *ContractDataRequest) (*ContractDataResponse, error)
+	// ContracCode queries contract code data with the given contract id
+	ContractCode(context.Context, *ContractCodeRequest) (*ContractCodeResponse, error)
+	// ContracCodes queries contract codes have been deployed
+	ContractCodes(context.Context, *ContractCodesRequest) (*ContractCodesResponse, error)
+	// ContractsAtLedger queries contract codes have been deployed at the given
+	// ledger
+	ContractsAtLedger(context.Context, *ContractsAtLedgerRequest) (*ContractsAtLedgerResponse, error)
 	mustEmbedUnimplementedContractQueryServer()
 }
 
@@ -79,6 +123,15 @@ func (UnimplementedContractQueryServer) UserInteractionContracts(context.Context
 }
 func (UnimplementedContractQueryServer) ContractData(context.Context, *ContractDataRequest) (*ContractDataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ContractData not implemented")
+}
+func (UnimplementedContractQueryServer) ContractCode(context.Context, *ContractCodeRequest) (*ContractCodeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractCode not implemented")
+}
+func (UnimplementedContractQueryServer) ContractCodes(context.Context, *ContractCodesRequest) (*ContractCodesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractCodes not implemented")
+}
+func (UnimplementedContractQueryServer) ContractsAtLedger(context.Context, *ContractsAtLedgerRequest) (*ContractsAtLedgerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractsAtLedger not implemented")
 }
 func (UnimplementedContractQueryServer) mustEmbedUnimplementedContractQueryServer() {}
 
@@ -129,6 +182,60 @@ func _ContractQuery_ContractData_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ContractQuery_ContractCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractCodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContractQueryServer).ContractCode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContractQuery_ContractCode_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContractQueryServer).ContractCode(ctx, req.(*ContractCodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ContractQuery_ContractCodes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractCodesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContractQueryServer).ContractCodes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContractQuery_ContractCodes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContractQueryServer).ContractCodes(ctx, req.(*ContractCodesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ContractQuery_ContractsAtLedger_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractsAtLedgerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContractQueryServer).ContractsAtLedger(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContractQuery_ContractsAtLedger_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContractQueryServer).ContractsAtLedger(ctx, req.(*ContractsAtLedgerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ContractQuery_ServiceDesc is the grpc.ServiceDesc for ContractQuery service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -143,6 +250,18 @@ var ContractQuery_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ContractData",
 			Handler:    _ContractQuery_ContractData_Handler,
+		},
+		{
+			MethodName: "ContractCode",
+			Handler:    _ContractQuery_ContractCode_Handler,
+		},
+		{
+			MethodName: "ContractCodes",
+			Handler:    _ContractQuery_ContractCodes_Handler,
+		},
+		{
+			MethodName: "ContractsAtLedger",
+			Handler:    _ContractQuery_ContractsAtLedger_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

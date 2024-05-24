@@ -18,7 +18,3 @@ for dir in $proto_dirs; do
     fi
   done
 done
-
-# move proto files to the right places
-cp -r github.com/decentrio/sorobook-api/* ./
-rm -rf github.com
