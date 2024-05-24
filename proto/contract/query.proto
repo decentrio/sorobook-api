@@ -4,6 +4,7 @@ package contract;
 import "google/api/annotations.proto";
 import "contract/contract.proto";
 import "contract/code.proto";
+import "contract/invoke.proto";
 
 option go_package = "github.com/decentrio/sorobook-api/types/contract";
 
@@ -34,5 +35,26 @@ service ContractQuery {
   rpc ContractsAtLedger(ContractsAtLedgerRequest)
       returns (ContractsAtLedgerResponse) {
     option (google.api.http).get = "/contract/codes/{ledger}";
+  }
+
+  // ContractInvoke queries contract data have been invoked at the
+  // given transaction hash
+  rpc ContractInvoke(ContractInvokeRequest)
+      returns (ContractInvokeResponse) {
+    option (google.api.http).get = "/contract/invoke/{hash}";
+  }
+
+  // ContractInvokes queries contract data have been invoked by the
+  // given contract id
+  rpc ContractInvokes(ContractInvokesRequest)
+      returns (ContractInvokesResponse) {
+    option (google.api.http).get = "/contract/invokes/{contract_id}";
+  }
+
+  // ContractInvokesAtLedger queries contract data have been invoked at the
+  // given ledger
+  rpc ContractInvokesAtLedger(ContractInvokesAtLedgerRequest)
+      returns (ContractInvokesAtLedgerResponse) {
+    option (google.api.http).get = "/contract/invokes/{contract_id}/{ledger}";
   }
 }

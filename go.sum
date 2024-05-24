@@ -10,6 +10,8 @@ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/decentrio/xdr-converter v0.0.0-20240410063401-4fc753ccd7aa h1:rDXVIonoBT3LU3pWXjooRtlrJa0WqIcpL6BhxgQV4qg=
 github.com/decentrio/xdr-converter v0.0.0-20240410063401-4fc753ccd7aa/go.mod h1:UHTUsan7MhPCGYgvfIqjRDWtPUClM87KneisjZyg8kQ=
+github.com/decentrio/xdr-converter v0.0.0-20240523061014-33d354e56996 h1:/69hNyODnIs7HYDQizG5ZcMhl20Gcp44Tg8cGQWHyWc=
+github.com/decentrio/xdr-converter v0.0.0-20240523061014-33d354e56996/go.mod h1:UHTUsan7MhPCGYgvfIqjRDWtPUClM87KneisjZyg8kQ=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=

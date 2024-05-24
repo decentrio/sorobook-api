@@ -24,6 +24,9 @@ const (
 	ContractQuery_ContractCode_FullMethodName             = "/contract.ContractQuery/ContractCode"
 	ContractQuery_ContractCodes_FullMethodName            = "/contract.ContractQuery/ContractCodes"
 	ContractQuery_ContractsAtLedger_FullMethodName        = "/contract.ContractQuery/ContractsAtLedger"
+	ContractQuery_ContractInvoke_FullMethodName           = "/contract.ContractQuery/ContractInvoke"
+	ContractQuery_ContractInvokes_FullMethodName          = "/contract.ContractQuery/ContractInvokes"
+	ContractQuery_ContractInvokesAtLedger_FullMethodName  = "/contract.ContractQuery/ContractInvokesAtLedger"
 )
 
 // ContractQueryClient is the client API for ContractQuery service.
@@ -41,6 +44,15 @@ type ContractQueryClient interface {
 	// ContractsAtLedger queries contract codes have been deployed at the given
 	// ledger
 	ContractsAtLedger(ctx context.Context, in *ContractsAtLedgerRequest, opts ...grpc.CallOption) (*ContractsAtLedgerResponse, error)
+	// ContractInvoke queries contract data have been invoked at the
+	// given transaction hash
+	ContractInvoke(ctx context.Context, in *ContractInvokeRequest, opts ...grpc.CallOption) (*ContractInvokeResponse, error)
+	// ContractInvokes queries contract data have been invoked by the
+	// given contract id
+	ContractInvokes(ctx context.Context, in *ContractInvokesRequest, opts ...grpc.CallOption) (*ContractInvokesResponse, error)
+	// ContractInvokesAtLedger queries contract data have been invoked at the
+	// given ledger
+	ContractInvokesAtLedger(ctx context.Context, in *ContractInvokesAtLedgerRequest, opts ...grpc.CallOption) (*ContractInvokesAtLedgerResponse, error)
 }
 
 type contractQueryClient struct {
@@ -96,6 +108,33 @@ func (c *contractQueryClient) ContractsAtLedger(ctx context.Context, in *Contrac
 	return out, nil
 }
 
+func (c *contractQueryClient) ContractInvoke(ctx context.Context, in *ContractInvokeRequest, opts ...grpc.CallOption) (*ContractInvokeResponse, error) {
+	out := new(ContractInvokeResponse)
+	err := c.cc.Invoke(ctx, ContractQuery_ContractInvoke_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contractQueryClient) ContractInvokes(ctx context.Context, in *ContractInvokesRequest, opts ...grpc.CallOption) (*ContractInvokesResponse, error) {
+	out := new(ContractInvokesResponse)
+	err := c.cc.Invoke(ctx, ContractQuery_ContractInvokes_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *contractQueryClient) ContractInvokesAtLedger(ctx context.Context, in *ContractInvokesAtLedgerRequest, opts ...grpc.CallOption) (*ContractInvokesAtLedgerResponse, error) {
+	out := new(ContractInvokesAtLedgerResponse)
+	err := c.cc.Invoke(ctx, ContractQuery_ContractInvokesAtLedger_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ContractQueryServer is the server API for ContractQuery service.
 // All implementations must embed UnimplementedContractQueryServer
 // for forward compatibility
@@ -111,6 +150,15 @@ type ContractQueryServer interface {
 	// ContractsAtLedger queries contract codes have been deployed at the given
 	// ledger
 	ContractsAtLedger(context.Context, *ContractsAtLedgerRequest) (*ContractsAtLedgerResponse, error)
+	// ContractInvoke queries contract data have been invoked at the
+	// given transaction hash
+	ContractInvoke(context.Context, *ContractInvokeRequest) (*ContractInvokeResponse, error)
+	// ContractInvokes queries contract data have been invoked by the
+	// given contract id
+	ContractInvokes(context.Context, *ContractInvokesRequest) (*ContractInvokesResponse, error)
+	// ContractInvokesAtLedger queries contract data have been invoked at the
+	// given ledger
+	ContractInvokesAtLedger(context.Context, *ContractInvokesAtLedgerRequest) (*ContractInvokesAtLedgerResponse, error)
 	mustEmbedUnimplementedContractQueryServer()
 }
 
@@ -132,6 +180,15 @@ func (UnimplementedContractQueryServer) ContractCodes(context.Context, *Contract
 }
 func (UnimplementedContractQueryServer) ContractsAtLedger(context.Context, *ContractsAtLedgerRequest) (*ContractsAtLedgerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ContractsAtLedger not implemented")
+}
+func (UnimplementedContractQueryServer) ContractInvoke(context.Context, *ContractInvokeRequest) (*ContractInvokeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractInvoke not implemented")
+}
+func (UnimplementedContractQueryServer) ContractInvokes(context.Context, *ContractInvokesRequest) (*ContractInvokesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractInvokes not implemented")
+}
+func (UnimplementedContractQueryServer) ContractInvokesAtLedger(context.Context, *ContractInvokesAtLedgerRequest) (*ContractInvokesAtLedgerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractInvokesAtLedger not implemented")
 }
 func (UnimplementedContractQueryServer) mustEmbedUnimplementedContractQueryServer() {}
 
@@ -236,6 +293,60 @@ func _ContractQuery_ContractsAtLedger_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ContractQuery_ContractInvoke_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractInvokeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContractQueryServer).ContractInvoke(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContractQuery_ContractInvoke_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContractQueryServer).ContractInvoke(ctx, req.(*ContractInvokeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ContractQuery_ContractInvokes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractInvokesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContractQueryServer).ContractInvokes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContractQuery_ContractInvokes_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContractQueryServer).ContractInvokes(ctx, req.(*ContractInvokesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ContractQuery_ContractInvokesAtLedger_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractInvokesAtLedgerRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContractQueryServer).ContractInvokesAtLedger(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContractQuery_ContractInvokesAtLedger_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContractQueryServer).ContractInvokesAtLedger(ctx, req.(*ContractInvokesAtLedgerRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ContractQuery_ServiceDesc is the grpc.ServiceDesc for ContractQuery service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -262,6 +373,18 @@ var ContractQuery_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ContractsAtLedger",
 			Handler:    _ContractQuery_ContractsAtLedger_Handler,
+		},
+		{
+			MethodName: "ContractInvoke",
+			Handler:    _ContractQuery_ContractInvoke_Handler,
+		},
+		{
+			MethodName: "ContractInvokes",
+			Handler:    _ContractQuery_ContractInvokes_Handler,
+		},
+		{
+			MethodName: "ContractInvokesAtLedger",
+			Handler:    _ContractQuery_ContractInvokesAtLedger_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

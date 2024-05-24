@@ -3,7 +3,6 @@ package contract
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"google.golang.org/protobuf/types/known/structpb"
 
@@ -118,7 +117,6 @@ func (k Keeper) UserInteractionContracts(ctx context.Context, request *types.Use
 		Joins("JOIN transactions ON transactions.hash = contracts.tx_hash").
 		Where("source_address = ?", request.Address).
 		Find(&contracts).Error
-	fmt.Print(contracts)
 	if err != nil {
 		return &types.UserInteractionContractsResponse{}, err
 	}
@@ -143,7 +141,7 @@ func (k Keeper) ContractCode(ctx context.Context, request *types.ContractCodeReq
 
 	return &types.ContractCodeResponse{
 		Contract: &data,
-		Found: true,
+		Found:    true,
 	}, nil
 }
 
@@ -161,15 +159,14 @@ func (k Keeper) ContractCodes(ctx context.Context, request *types.ContractCodesR
 	offset := (page - 1) * pageSize
 
 	err := k.dbHandler.Table(app.CONTRACT_CODES).
-		Limit(pageSize).
 		Order("created_ledger DESC").
+		Limit(pageSize).
 		Offset(offset).
 		Find(&data).Error
 
 	if err != nil {
 		return &types.ContractCodesResponse{}, err
 	}
-
 
 	return &types.ContractCodesResponse{
 		Data: data,
@@ -199,9 +196,127 @@ func (k Keeper) ContractsAtLedger(ctx context.Context, request *types.ContractsA
 		return &types.ContractsAtLedgerResponse{}, err
 	}
 
-
 	return &types.ContractsAtLedgerResponse{
 		Data: data,
+	}, nil
+}
+
+func (k Keeper) ContractInvoke(ctx context.Context, request *types.ContractInvokeRequest) (*types.ContractInvokeResponse, error) {
+	var data types.ContractInvoke
+
+	err := k.dbHandler.Table(app.INVOKE_TXS).
+		Where("hash = ?", request.Hash).
+		First(&data).Error
+
+	if err != nil {
+		return &types.ContractInvokeResponse{
+			Found: false,
+		}, err
+	}
+
+	info, err := convertToInvokeInfo(&data)
+	if err != nil {
+		return &types.ContractInvokeResponse{
+			Found: false,
+		}, err
+	}
+
+	return &types.ContractInvokeResponse{
+		Info:  info,
+		Found: true,
+	}, nil
+}
+
+func (k Keeper) ContractInvokes(ctx context.Context, request *types.ContractInvokesRequest) (*types.ContractInvokesResponse, error) {
+	var data []*types.ContractInvoke
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = app.PAGE_SIZE
+	}
+
+	offset := (page - 1) * pageSize
+
+	if request.FunctionName != "" {
+		err := k.dbHandler.Table(app.INVOKE_TXS).
+			Joins("JOIN transactions ON transactions.hash = invoke_transactions.hash").
+			Where("contract_id = ?", request.ContractId).
+			Where("function_name = ?", request.FunctionName).
+			Order("transactions.ledger DESC").
+			Limit(pageSize).
+			Offset(offset).
+			Find(&data).Error
+		if err != nil {
+			return &types.ContractInvokesResponse{}, err
+		}
+	} else {
+		err := k.dbHandler.Table(app.INVOKE_TXS).
+			Joins("JOIN transactions ON transactions.hash = invoke_transactions.hash").
+			Where("contract_id = ?", request.ContractId).
+			Order("transactions.ledger DESC").
+			Limit(pageSize).
+			Offset(offset).
+			Find(&data).Error
+		if err != nil {
+			return &types.ContractInvokesResponse{}, err
+		}
+	}
+
+	var infos []*types.ContractInvokeInfo
+
+	for _, item := range data {
+		invokeInfo, err := convertToInvokeInfo(item)
+		if err != nil {
+			return &types.ContractInvokesResponse{}, err
+		}
+		infos = append(infos, invokeInfo)
+	}
+
+	return &types.ContractInvokesResponse{
+		Data: infos,
+	}, nil
+}
+
+func (k Keeper) ContractInvokesAtLedger(ctx context.Context, request *types.ContractInvokesAtLedgerRequest) (*types.ContractInvokesAtLedgerResponse, error) {
+	var data []*types.ContractInvoke
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = app.PAGE_SIZE
+	}
+
+	offset := (page - 1) * pageSize
+
+	err := k.dbHandler.Table(app.INVOKE_TXS).
+		Joins("JOIN transactions ON transactions.hash = invoke_transactions.hash").
+		Where("contract_id = ?", request.ContractId).
+		Where("transactions.ledger = ?", request.Ledger).
+		Limit(pageSize).
+		Offset(offset).
+		Find(&data).Error
+
+	if err != nil {
+		return &types.ContractInvokesAtLedgerResponse{}, err
+	}
+
+	var infos []*types.ContractInvokeInfo
+
+	for _, item := range data {
+		invokeInfo, err := convertToInvokeInfo(item)
+		if err != nil {
+			return &types.ContractInvokesAtLedgerResponse{}, err
+		}
+		infos = append(infos, invokeInfo)
+	}
+
+	return &types.ContractInvokesAtLedgerResponse{
+		Data: infos,
 	}, nil
 }
 
@@ -227,5 +342,25 @@ func convertToEntryInfo(entry *types.ContractEntry) (*types.ContractEntryInfo, e
 	return &types.ContractEntryInfo{
 		Key:   keyJson,
 		Value: valueJson,
+	}, nil
+}
+
+func convertToInvokeInfo(data *types.ContractInvoke) (*types.ContractInvokeInfo, error) {
+	argsJson := &structpb.Struct{}
+
+	argsData, err := converter.MarshalJSONInvokeContractArgsXdr(data.Args)
+	if err != nil {
+		return &types.ContractInvokeInfo{}, err
+	}
+	if err := json.Unmarshal(argsData, argsJson); err != nil {
+		return &types.ContractInvokeInfo{}, err
+	}
+
+	return &types.ContractInvokeInfo{
+		Hash:         data.Hash,
+		ContractId:   data.ContractId,
+		FunctionName: data.FunctionName,
+		FunctionType: data.FunctionType,
+		Args:         argsJson,
 	}, nil
 }

@@ -224,6 +224,191 @@ paths:
           format: int32
       tags:
         - ContractQuery
+  /contract/invoke/{hash}:
+    get:
+      summary: |-
+        ContractInvoke queries contract data have been invoked at the
+        given transaction hash
+      operationId: ContractInvoke
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              info:
+                type: object
+                properties:
+                  hash:
+                    type: string
+                  contractId:
+                    type: string
+                  functionName:
+                    type: string
+                  functionType:
+                    type: string
+                  args:
+                    type: object
+              found:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: hash
+          in: path
+          required: true
+          type: string
+      tags:
+        - ContractQuery
+  /contract/invokes/{contractId}:
+    get:
+      summary: |-
+        ContractInvokes queries contract data have been invoked by the
+        given contract id
+      operationId: ContractInvokes
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hash:
+                      type: string
+                    contractId:
+                      type: string
+                    functionName:
+                      type: string
+                    functionType:
+                      type: string
+                    args:
+                      type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: functionName
+          in: query
+          required: false
+          type: string
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - ContractQuery
+  /contract/invokes/{contractId}/{ledger}:
+    get:
+      summary: |-
+        ContractInvokesAtLedger queries contract data have been invoked at the
+        given ledger
+      operationId: ContractInvokesAtLedger
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hash:
+                      type: string
+                    contractId:
+                      type: string
+                    functionName:
+                      type: string
+                    functionType:
+                      type: string
+                    args:
+                      type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: ledger
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - ContractQuery
   /user-contracts/{address}:
     get:
       summary: UserInteractionContracts queries list contracts user has interacted.
@@ -1780,6 +1965,73 @@ definitions:
         type: object
       value:
         type: object
+  contractContractInvokeInfo:
+    type: object
+    properties:
+      hash:
+        type: string
+      contractId:
+        type: string
+      functionName:
+        type: string
+      functionType:
+        type: string
+      args:
+        type: object
+  contractContractInvokeResponse:
+    type: object
+    properties:
+      info:
+        type: object
+        properties:
+          hash:
+            type: string
+          contractId:
+            type: string
+          functionName:
+            type: string
+          functionType:
+            type: string
+          args:
+            type: object
+      found:
+        type: boolean
+  contractContractInvokesAtLedgerResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            hash:
+              type: string
+            contractId:
+              type: string
+            functionName:
+              type: string
+            functionType:
+              type: string
+            args:
+              type: object
+  contractContractInvokesResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            hash:
+              type: string
+            contractId:
+              type: string
+            functionName:
+              type: string
+            functionType:
+              type: string
+            args:
+              type: object
   contractContractsAtLedgerResponse:
     type: object
     properties:
