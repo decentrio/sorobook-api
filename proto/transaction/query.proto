@@ -1,0 +1,54 @@
+syntax = "proto3";
+package transaction;
+
+import "google/api/annotations.proto";
+import "transaction/transaction.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types/transaction";
+
+service TransactionQuery {
+  // Transaction queries transaction info given transaction hash.
+  rpc Transaction(TransactionRequest) returns (TransactionResponse) {
+    option (google.api.http).get = "/transactions/{hash}";
+  }
+
+  // TransactionsByAddress queries all transactions that match the given source
+  // address.
+  rpc TransactionsByAddress(TransactionsByAddressRequest)
+      returns (TransactionsByAddressResponse) {
+    option (google.api.http).get =
+        "/transactions-by-address/{address}";
+  }
+
+  // TransactionsAtLedgerSeq queries all transactions that match the given
+  // ledger sequence.
+  rpc TransactionsAtLedgerSeq(TransactionsAtLedgerSeqRequest)
+      returns (TransactionsAtLedgerSeqResponse) {
+    option (google.api.http).get =
+        "/transactions-at-ledger-seq/{ledger}";
+  }
+
+  // TransactionsAtLedgerHash queries all transactions that match the given
+  // ledger hash.
+  rpc TransactionsAtLedgerHash(TransactionsAtLedgerHashRequest)
+      returns (TransactionsAtLedgerHashResponse) {
+    option (google.api.http).get =
+        "/transactions-at-ledger-hash/{ledger_hash}";
+  }
+
+  // ContractTransactions queries all transactions that match the given
+  // contract id.
+  rpc ContractTransactions(ContractTransactionsRequest)
+      returns (ContractTransactionsResponse) {
+    option (google.api.http).get =
+        "/transactions-by-contract/{contract}";
+  }
+
+  // UserContractTransactions queries all transactions that match the given
+  // contract id and user address.
+  rpc UserContractTransactions(UserContractTransactionsRequest)
+      returns (UserContractTransactionsResponse) {
+    option (google.api.http).get =
+        "/transactions-contract-by-user/{contract}/{address}";
+  }
+}

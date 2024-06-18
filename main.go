@@ -6,8 +6,12 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/rakyll/statik/fs"
+	"github.com/decentrio/sorobook-api/app/contract"
+	"github.com/decentrio/sorobook-api/app/event"
+	"github.com/decentrio/sorobook-api/app/ledger"
+	"github.com/decentrio/sorobook-api/app/transaction"
 	_ "github.com/decentrio/sorobook-api/docs/statik"
+	"github.com/rakyll/statik/fs"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -15,17 +19,40 @@ import (
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 
 	"github.com/decentrio/sorobook-api/app"
-	types "github.com/decentrio/sorobook-api/types/v1"
+	"github.com/decentrio/sorobook-api/database"
+	contracttypes "github.com/decentrio/sorobook-api/types/contract"
+	eventtypes "github.com/decentrio/sorobook-api/types/event"
+	ledgertypes "github.com/decentrio/sorobook-api/types/ledger"
+	txtypes "github.com/decentrio/sorobook-api/types/transaction"
 )
 
+func initModule() []app.AppModule {
+	dbHandler := database.NewDBHandler()
+
+	contractKeeper := contract.NewKeeper(dbHandler)
+	eventKeeper := event.NewKeeper(dbHandler)
+	ledgerKeeper := ledger.NewKeeper(dbHandler)
+	transactionKeeper := transaction.NewKeeper(dbHandler)
+
+	modules := []app.AppModule{
+		contract.NewAppModule(*contractKeeper),
+		event.NewAppModule(*eventKeeper),
+		ledger.NewAppModule(*ledgerKeeper),
+		transaction.NewAppModule(*transactionKeeper),
+	}
+
+	return modules
+}
+
 func runGRPCServer() error {
-	keeper := app.NewKeeper()
 	lis, err := net.Listen("tcp", ":9090")
 	if err != nil {
 		return err
 	}
 	s := grpc.NewServer()
-	types.RegisterQueryServer(s, keeper)
+	modules := initModule()
+	bookApp := app.NewApp(s, modules)
+	bookApp.RegisterServices()
 	return s.Serve(lis)
 }
 
@@ -36,12 +63,27 @@ func runHTTPServer() error {
 
 	mux := runtime.NewServeMux()
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
-	err := types.RegisterQueryHandlerFromEndpoint(ctx, mux, ":9090", opts)
-
+	err := contracttypes.RegisterContractQueryHandlerFromEndpoint(ctx, mux, ":9090", opts)
 	if err != nil {
 		return err
 	}
 
+	err = eventtypes.RegisterEventQueryHandlerFromEndpoint(ctx, mux, ":9090", opts)
+	if err != nil {
+		return err
+	}
+
+	err = ledgertypes.RegisterLedgerQueryHandlerFromEndpoint(ctx, mux, ":9090", opts)
+	if err != nil {
+		return err
+	}
+
+	err = txtypes.RegisterTransactionQueryHandlerFromEndpoint(ctx, mux, ":9090", opts)
+	if err != nil {
+		return err
+	}
+
+	http.Handle("/", mux)
 	statikFS, err := fs.New()
 	if err != nil {
 		panic(err)
@@ -49,7 +91,7 @@ func runHTTPServer() error {
 	staticServer := http.FileServer(statikFS)
 
 	// Serve Swagger UI
-	http.Handle("/", mux)
+
 	http.Handle("/public/", http.StripPrefix("/public/", staticServer))
 
 	log.Println("HTTP server listening on :8080")

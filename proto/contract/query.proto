@@ -1,0 +1,70 @@
+syntax = "proto3";
+package contract;
+
+import "google/api/annotations.proto";
+import "contract/contract.proto";
+import "contract/code.proto";
+import "contract/invoke.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types/contract";
+
+service ContractQuery {
+  // UserInteractionContracts queries list contracts user has interacted.
+  rpc UserInteractionContracts(UserInteractionContractsRequest)
+      returns (UserInteractionContractsResponse) {
+    option (google.api.http).get = "/user-contracts/{address}";
+  }
+
+  // ContractKeys queries list newest keys of contract
+  rpc ContractKeys(ContractKeysRequest) returns (ContractKeysResponse) {
+    option (google.api.http).get = "/contract-keys/{contract_id}";
+  }
+
+  // ContractEntry queries contract entry with the given key
+  rpc ContractEntry(ContractEntryRequest) returns (ContractEntryResponse) {
+    option (google.api.http).get = "/contract-entries/{contract_id}/{key_xdr}";
+  }
+  
+  // ContractData queries list newest data entries of contract
+  rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
+    option (google.api.http).get = "/contract-entries/{contract_id}";
+  }
+
+  // ContracCode queries contract code data with the given contract id
+  rpc ContractCode(ContractCodeRequest) returns (ContractCodeResponse) {
+    option (google.api.http).get = "/contract/code/{contract_id}";
+  }
+
+  // ContracCodes queries contract codes have been deployed
+  rpc ContractCodes(ContractCodesRequest) returns (ContractCodesResponse) {
+    option (google.api.http).get = "/contract/codes";
+  }
+
+  // ContractsAtLedger queries contract codes have been deployed at the given
+  // ledger
+  rpc ContractsAtLedger(ContractsAtLedgerRequest)
+      returns (ContractsAtLedgerResponse) {
+    option (google.api.http).get = "/contract/codes/{ledger}";
+  }
+
+  // ContractInvoke queries contract data have been invoked at the
+  // given transaction hash
+  rpc ContractInvoke(ContractInvokeRequest)
+      returns (ContractInvokeResponse) {
+    option (google.api.http).get = "/contract/invoke/{hash}";
+  }
+
+  // ContractInvokes queries contract data have been invoked by the
+  // given contract id
+  rpc ContractInvokes(ContractInvokesRequest)
+      returns (ContractInvokesResponse) {
+    option (google.api.http).get = "/contract/invokes/{contract_id}";
+  }
+
+  // ContractInvokesAtLedger queries contract data have been invoked at the
+  // given ledger
+  rpc ContractInvokesAtLedger(ContractInvokesAtLedgerRequest)
+      returns (ContractInvokesAtLedgerResponse) {
+    option (google.api.http).get = "/contract/invokes/{contract_id}/{ledger}";
+  }
+}

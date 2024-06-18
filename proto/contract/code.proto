@@ -1,0 +1,33 @@
+syntax = "proto3";
+package contract;
+
+option go_package = "github.com/decentrio/sorobook-api/types/contract";
+
+message ContractCode {
+  string contract_id = 1;
+  string creator_address = 2;
+  string contract_code = 3;
+  uint32 created_ledger = 4;
+}
+
+message ContractCodeRequest { string contract_id = 1; }
+
+message ContractCodeResponse {
+  ContractCode contract = 1;
+  bool found = 2;
+}
+
+message ContractCodesRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message ContractCodesResponse { repeated ContractCode data = 1; }
+
+message ContractsAtLedgerRequest {
+  uint32 ledger = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ContractsAtLedgerResponse { repeated ContractCode data = 1; }
