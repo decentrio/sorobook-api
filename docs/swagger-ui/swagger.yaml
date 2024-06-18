@@ -46,6 +46,118 @@ paths:
           in: path
           required: true
           type: string
+        - name: ledger
+          in: query
+          required: false
+          type: integer
+          format: int64
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
+      tags:
+        - ContractQuery
+  /contract-entries/{contractId}/{keyXdr}:
+    get:
+      summary: ContractEntry queries contract entry with the given key
+      operationId: ContractEntry
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              entry:
+                type: object
+                properties:
+                  key:
+                    type: object
+                  value:
+                    type: object
+              found:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: keyXdr
+          in: path
+          required: true
+          type: string
+        - name: ledger
+          in: query
+          required: false
+          type: integer
+          format: int64
+      tags:
+        - ContractQuery
+  /contract-keys/{contractId}:
+    get:
+      summary: ContractKeys queries list newest keys of contract
+      operationId: ContractKeys
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              keys:
+                type: array
+                items:
+                  type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: contractId
+          in: path
+          required: true
+          type: string
+        - name: ledger
+          in: query
+          required: false
+          type: integer
+          format: int64
         - name: page
           in: query
           required: false
@@ -1965,6 +2077,18 @@ definitions:
         type: object
       value:
         type: object
+  contractContractEntryResponse:
+    type: object
+    properties:
+      entry:
+        type: object
+        properties:
+          key:
+            type: object
+          value:
+            type: object
+      found:
+        type: boolean
   contractContractInvokeInfo:
     type: object
     properties:
@@ -2032,6 +2156,13 @@ definitions:
               type: string
             args:
               type: object
+  contractContractKeysResponse:
+    type: object
+    properties:
+      keys:
+        type: array
+        items:
+          type: object
   contractContractsAtLedgerResponse:
     type: object
     properties:

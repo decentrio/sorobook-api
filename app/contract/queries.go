@@ -14,11 +14,17 @@ import (
 func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryRequest) (*types.ContractEntryResponse, error) {
 	var entry types.ContractEntryInfo
 
-	err := k.dbHandler.Table(app.CONTRACT_TABLE).
+	query := k.dbHandler.Table(app.CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
-		Where("key_xdr = ?", request.KeyXdr).
-		First(&entry).Error
+		Where("key_xdr = ?", request.KeyXdr)
 
+	if request.Ledger != 0 {
+		query = query.Where("ledger >= ?", request.Ledger).Where("ledger >= ?", request.Ledger)
+	} else {
+		query = query.Where("is_newest = true")
+	}
+
+	err := query.First(&entry).Error
 	if err != nil {
 		return &types.ContractEntryResponse{
 			Found: false,
@@ -45,12 +51,18 @@ func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataReq
 
 	offset := (page - 1) * pageSize
 
-	err := k.dbHandler.Table(app.CONTRACT_TABLE).
+	query := k.dbHandler.Table(app.CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
-		Where("is_newest = ?", true).
-		Limit(pageSize).
-		Offset(offset).
-		Find(&entries).Error
+		Where("is_newest = ?", true)
+
+	if request.Ledger != 0 {
+		query = query.Where("ledger >= ?", request.Ledger).Where("ledger >= ?", request.Ledger)
+	} else {
+		query = query.Where("is_newest = true")
+	}
+
+	err := query.Limit(pageSize).
+		Offset(offset).Find(&entries).Error
 
 	if err != nil {
 		return &types.ContractDataResponse{}, err
@@ -76,10 +88,29 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 	var entries []*types.ContractEntry
 	var keys []*structpb.Struct
 
-	err := k.dbHandler.Table(app.CONTRACT_TABLE).
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = app.PAGE_SIZE
+	}
+
+	offset := (page - 1) * pageSize
+
+	query := k.dbHandler.Table(app.CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
-		Limit(20).
-		Find(&entries).Error
+		Where("is_newest = ?", true)
+
+	if request.Ledger != 0 {
+		query = query.Where("ledger >= ?", request.Ledger).Where("ledger >= ?", request.Ledger)
+	} else {
+		query = query.Where("is_newest = true")
+	}
+
+	err := query.Limit(pageSize).
+		Offset(offset).Find(&entries).Error
 	if err != nil {
 		return &types.ContractKeysResponse{
 			Keys: []*structpb.Struct{},

@@ -15,6 +15,16 @@ service ContractQuery {
     option (google.api.http).get = "/user-contracts/{address}";
   }
 
+  // ContractKeys queries list newest keys of contract
+  rpc ContractKeys(ContractKeysRequest) returns (ContractKeysResponse) {
+    option (google.api.http).get = "/contract-keys/{contract_id}";
+  }
+
+  // ContractEntry queries contract entry with the given key
+  rpc ContractEntry(ContractEntryRequest) returns (ContractEntryResponse) {
+    option (google.api.http).get = "/contract-entries/{contract_id}/{key_xdr}";
+  }
+  
   // ContractData queries list newest data entries of contract
   rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
     option (google.api.http).get = "/contract-entries/{contract_id}";
