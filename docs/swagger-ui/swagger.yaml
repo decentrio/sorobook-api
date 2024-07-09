@@ -51,6 +51,10 @@ paths:
           required: false
           type: integer
           format: int64
+        - name: keyXdr
+          in: query
+          required: false
+          type: string
         - name: page
           in: query
           required: false
@@ -386,6 +390,77 @@ paths:
           in: path
           required: true
           type: string
+      tags:
+        - ContractQuery
+  /contract/invokes/user/{address}:
+    get:
+      summary: |-
+        ContractInvokesByUser queries contract data have been invoked by the
+        given address
+      operationId: ContractInvokesByUser
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hash:
+                      type: string
+                    contractId:
+                      type: string
+                    functionName:
+                      type: string
+                    functionType:
+                      type: string
+                    args:
+                      type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: address
+          in: path
+          required: true
+          type: string
+        - name: contractId
+          in: query
+          required: false
+          type: string
+        - name: ledger
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: page
+          in: query
+          required: false
+          type: integer
+          format: int32
+        - name: pageSize
+          in: query
+          required: false
+          type: integer
+          format: int32
       tags:
         - ContractQuery
   /contract/invokes/{contractId}:
@@ -2121,6 +2196,24 @@ definitions:
       found:
         type: boolean
   contractContractInvokesAtLedgerResponse:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          properties:
+            hash:
+              type: string
+            contractId:
+              type: string
+            functionName:
+              type: string
+            functionType:
+              type: string
+            args:
+              type: object
+  contractContractInvokesByUserResponse:
     type: object
     properties:
       data:

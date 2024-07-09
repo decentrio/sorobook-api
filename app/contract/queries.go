@@ -2,6 +2,7 @@ package contract
 
 import (
 	"context"
+	"encoding/hex"
 	"encoding/json"
 
 	"google.golang.org/protobuf/types/known/structpb"
@@ -59,6 +60,14 @@ func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataReq
 		query = query.Where("ledger >= ?", request.Ledger).Where("ledger >= ?", request.Ledger)
 	} else {
 		query = query.Where("is_newest = true")
+	}
+
+	if request.KeyXdr != "" {
+		keyByte, err := hex.DecodeString(request.KeyXdr)
+		if err != nil {
+			return &types.ContractDataResponse{}, err
+		}
+		query = query.Where("key_xdr = ?", keyByte)
 	}
 
 	err := query.Limit(pageSize).
@@ -271,29 +280,21 @@ func (k Keeper) ContractInvokes(ctx context.Context, request *types.ContractInvo
 
 	offset := (page - 1) * pageSize
 
+	query := k.dbHandler.Table(app.INVOKE_TXS).
+		Joins("JOIN transactions ON transactions.hash = invoke_transactions.hash").
+		Where("contract_id = ?", request.ContractId).
+		Order("transactions.ledger DESC")
+
 	if request.FunctionName != "" {
-		err := k.dbHandler.Table(app.INVOKE_TXS).
-			Joins("JOIN transactions ON transactions.hash = invoke_transactions.hash").
-			Where("contract_id = ?", request.ContractId).
-			Where("function_name = ?", request.FunctionName).
-			Order("transactions.ledger DESC").
-			Limit(pageSize).
-			Offset(offset).
-			Find(&data).Error
-		if err != nil {
-			return &types.ContractInvokesResponse{}, err
-		}
-	} else {
-		err := k.dbHandler.Table(app.INVOKE_TXS).
-			Joins("JOIN transactions ON transactions.hash = invoke_transactions.hash").
-			Where("contract_id = ?", request.ContractId).
-			Order("transactions.ledger DESC").
-			Limit(pageSize).
-			Offset(offset).
-			Find(&data).Error
-		if err != nil {
-			return &types.ContractInvokesResponse{}, err
-		}
+		query = query.Where("function_name = ?", request.FunctionName)
+	}
+
+	err := query.Limit(pageSize).
+		Offset(offset).
+		Find(&data).Error
+
+	if err != nil {
+		return &types.ContractInvokesResponse{}, err
 	}
 
 	var infos []*types.ContractInvokeInfo
@@ -347,6 +348,54 @@ func (k Keeper) ContractInvokesAtLedger(ctx context.Context, request *types.Cont
 	}
 
 	return &types.ContractInvokesAtLedgerResponse{
+		Data: infos,
+	}, nil
+}
+
+func (k Keeper) ContractInvokesByUser(ctx context.Context, request *types.ContractInvokesByUserRequest) (*types.ContractInvokesByUserResponse, error) {
+	var data []*types.ContractInvoke
+	page := int(request.Page)
+	if request.Page < 1 {
+		page = 1
+	}
+	pageSize := int(request.PageSize)
+	if request.PageSize < 1 {
+		pageSize = app.PAGE_SIZE
+	}
+
+	offset := (page - 1) * pageSize
+
+	query := k.dbHandler.Table(app.INVOKE_TXS).
+		Joins("JOIN transactions ON transactions.hash = invoke_transactions.hash").
+		Where("transactions.source_address = ?", request.Address)
+
+	if request.ContractId != "" {
+		query = query.Where("contract_id = ?", request.ContractId)
+	}
+
+	if request.Ledger != 0 {
+		query = query.Where("transactions.ledger = ?", request.Ledger)
+	}
+
+	err := query.Limit(pageSize).
+		Offset(offset).
+		Find(&data).Error
+
+	if err != nil {
+		return &types.ContractInvokesByUserResponse{}, err
+	}
+
+	var infos []*types.ContractInvokeInfo
+
+	for _, item := range data {
+		invokeInfo, err := convertToInvokeInfo(item)
+		if err != nil {
+			return &types.ContractInvokesByUserResponse{}, err
+		}
+		infos = append(infos, invokeInfo)
+	}
+
+	return &types.ContractInvokesByUserResponse{
 		Data: infos,
 	}, nil
 }

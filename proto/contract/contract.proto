@@ -36,8 +36,9 @@ message ContractEntryResponse {
 message ContractDataRequest {
   string contract_id = 1;
   uint32 ledger = 2;
-  int32 page = 3;
-  int32 page_size = 4;
+  string key_xdr = 3;
+  int32 page = 4;
+  int32 page_size = 5;
 }
 
 message ContractDataResponse {

@@ -67,4 +67,11 @@ service ContractQuery {
       returns (ContractInvokesAtLedgerResponse) {
     option (google.api.http).get = "/contract/invokes/{contract_id}/{ledger}";
   }
+
+  // ContractInvokesByUser queries contract data have been invoked by the
+  // given address
+  rpc ContractInvokesByUser(ContractInvokesByUserRequest)
+      returns (ContractInvokesByUserResponse) {
+    option (google.api.http).get = "/contract/invokes/user/{address}";
+  }
 }

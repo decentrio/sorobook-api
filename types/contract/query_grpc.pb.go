@@ -29,6 +29,7 @@ const (
 	ContractQuery_ContractInvoke_FullMethodName           = "/contract.ContractQuery/ContractInvoke"
 	ContractQuery_ContractInvokes_FullMethodName          = "/contract.ContractQuery/ContractInvokes"
 	ContractQuery_ContractInvokesAtLedger_FullMethodName  = "/contract.ContractQuery/ContractInvokesAtLedger"
+	ContractQuery_ContractInvokesByUser_FullMethodName    = "/contract.ContractQuery/ContractInvokesByUser"
 )
 
 // ContractQueryClient is the client API for ContractQuery service.
@@ -59,6 +60,9 @@ type ContractQueryClient interface {
 	// ContractInvokesAtLedger queries contract data have been invoked at the
 	// given ledger
 	ContractInvokesAtLedger(ctx context.Context, in *ContractInvokesAtLedgerRequest, opts ...grpc.CallOption) (*ContractInvokesAtLedgerResponse, error)
+	// ContractInvokesByUser queries contract data have been invoked by the
+	// given address
+	ContractInvokesByUser(ctx context.Context, in *ContractInvokesByUserRequest, opts ...grpc.CallOption) (*ContractInvokesByUserResponse, error)
 }
 
 type contractQueryClient struct {
@@ -169,6 +173,16 @@ func (c *contractQueryClient) ContractInvokesAtLedger(ctx context.Context, in *C
 	return out, nil
 }
 
+func (c *contractQueryClient) ContractInvokesByUser(ctx context.Context, in *ContractInvokesByUserRequest, opts ...grpc.CallOption) (*ContractInvokesByUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ContractInvokesByUserResponse)
+	err := c.cc.Invoke(ctx, ContractQuery_ContractInvokesByUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ContractQueryServer is the server API for ContractQuery service.
 // All implementations must embed UnimplementedContractQueryServer
 // for forward compatibility
@@ -197,6 +211,9 @@ type ContractQueryServer interface {
 	// ContractInvokesAtLedger queries contract data have been invoked at the
 	// given ledger
 	ContractInvokesAtLedger(context.Context, *ContractInvokesAtLedgerRequest) (*ContractInvokesAtLedgerResponse, error)
+	// ContractInvokesByUser queries contract data have been invoked by the
+	// given address
+	ContractInvokesByUser(context.Context, *ContractInvokesByUserRequest) (*ContractInvokesByUserResponse, error)
 	mustEmbedUnimplementedContractQueryServer()
 }
 
@@ -233,6 +250,9 @@ func (UnimplementedContractQueryServer) ContractInvokes(context.Context, *Contra
 }
 func (UnimplementedContractQueryServer) ContractInvokesAtLedger(context.Context, *ContractInvokesAtLedgerRequest) (*ContractInvokesAtLedgerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ContractInvokesAtLedger not implemented")
+}
+func (UnimplementedContractQueryServer) ContractInvokesByUser(context.Context, *ContractInvokesByUserRequest) (*ContractInvokesByUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ContractInvokesByUser not implemented")
 }
 func (UnimplementedContractQueryServer) mustEmbedUnimplementedContractQueryServer() {}
 
@@ -427,6 +447,24 @@ func _ContractQuery_ContractInvokesAtLedger_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ContractQuery_ContractInvokesByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContractInvokesByUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ContractQueryServer).ContractInvokesByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ContractQuery_ContractInvokesByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ContractQueryServer).ContractInvokesByUser(ctx, req.(*ContractInvokesByUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ContractQuery_ServiceDesc is the grpc.ServiceDesc for ContractQuery service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -473,6 +511,10 @@ var ContractQuery_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ContractInvokesAtLedger",
 			Handler:    _ContractQuery_ContractInvokesAtLedger_Handler,
+		},
+		{
+			MethodName: "ContractInvokesByUser",
+			Handler:    _ContractQuery_ContractInvokesByUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
