@@ -1,0 +1,87 @@
+syntax = "proto3";
+package event;
+
+import "google/api/annotations.proto";
+import "event/event.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types/event";
+
+service EventQuery {
+  // Event queries event info given event id.
+  rpc Event(EventRequest) returns (EventResponse) {
+    option (google.api.http).get = "/event/{id}";
+  }
+
+  // ContractEvents queries 10 events that match the given page.
+  rpc ContractEvents(ContractEventsRequest) returns (ContractEventsResponse) {
+    option (google.api.http).get = "/events/{contract_id}";
+  }
+
+  // ContractEventCount queries number of events that match the given contract
+  // id.
+  rpc ContractEventCount(ContractEventCountRequest)
+      returns (ContractEventCountResponse) {
+    option (google.api.http).get = "/events/count/{contract_id}";
+  }
+
+  // EventsAtLedger queries all events of contract at specific ledger sequence.
+  rpc EventsAtLedger(EventsAtLedgerRequest) returns (EventsAtLedgerResponse) {
+    option (google.api.http).get =
+        "/events-at-ledger/{contract_id}/{ledger}";
+  }
+
+  // TransferEvents queries 10 events that match the given contract id and page.
+  rpc TransferEvents(TransferEventsRequest) returns (TransferEventsResponse) {
+    option (google.api.http).get = "/transfer-events/{contract_id}";
+  }
+
+  // TransferEventsFrom queries 10 events that match the given from address and page.
+  rpc TransferEventsFrom(TransferEventsFromRequest) returns (TransferEventsFromResponse) {
+    option (google.api.http).get = "/transfer-events/from/{from}";
+  }
+
+  // TransferEventsTo queries 10 events that match the given from address and page.
+  rpc TransferEventsTo(TransferEventsToRequest) returns (TransferEventsToResponse) {
+    option (google.api.http).get = "/transfer-events/to/{to}";
+  }
+
+  // MintEvents queries 10 events that match the given contract id and page.
+  rpc MintEvents(MintEventsRequest) returns (MintEventsResponse) {
+    option (google.api.http).get = "/mint-events/{contract_id}";
+  }
+
+  // MintEventsAdmin queries 10 events that match the given admin and page.
+  rpc MintEventsAdmin(MintEventsAdminRequest) returns (MintEventsAdminResponse) {
+    option (google.api.http).get = "/mint-events/admin/{admin}";
+  }
+
+  // MintEventsTo queries 10 events that match the given to address and page.
+  rpc MintEventsTo(MintEventsToRequest) returns (MintEventsToResponse) {
+    option (google.api.http).get = "/mint-events/to/{to}";
+  }
+
+  // BurnEvents queries 10 events that match the given contract id and page.
+  rpc BurnEvents(BurnEventsRequest) returns (BurnEventsResponse) {
+    option (google.api.http).get = "/burn-events/{contract_id}";
+  }
+
+  // BurnEventsFrom queries 10 events that match the given from address and page.
+  rpc BurnEventsFrom(BurnEventsFromRequest) returns (BurnEventsFromResponse) {
+    option (google.api.http).get = "/burn-events/from/{from}";
+  }
+
+  // ClawbackEvents queries 10 events that match the given contract id and page.
+  rpc ClawbackEvents(ClawbackEventsRequest) returns (ClawbackEventsResponse) {
+    option (google.api.http).get = "/clawback-events/{contract_id}";
+  }
+
+  // ClawbackEventsAdmin queries 10 events that match the given admin address and page.
+  rpc ClawbackEventsAdmin(ClawbackEventsAdminRequest) returns (ClawbackEventsAdminResponse) {
+    option (google.api.http).get = "/clawback-events/admin/{admin}";
+  }
+
+  // ClawbackEventsFrom queries 10 events that match the given drom address and page.
+  rpc ClawbackEventsFrom(ClawbackEventsFromRequest) returns (ClawbackEventsFromResponse) {
+    option (google.api.http).get = "/clawback-events/from/{from}";
+  }
+}

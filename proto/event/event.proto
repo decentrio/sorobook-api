@@ -1,0 +1,197 @@
+syntax = "proto3";
+package event;
+
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types/event";
+
+message Event {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  bytes event_body_xdr = 4;
+}
+
+message EventInfo {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  google.protobuf.Struct event = 4;
+}
+
+message TranferEvent {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  string from_addr = 4;
+  string to_addr = 5;
+  int64 amount_hi = 6;
+  uint64 amount_lo = 7;
+}
+
+message MintEvent {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  string admin_addr = 4;
+  string to_addr = 5;
+  int64 amount_hi = 6;
+  uint64 amount_lo = 7;
+}
+
+message BurnEvent {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  string from_addr = 4;
+  int64 amount_hi = 5;
+  uint64 amount_lo = 6;
+}
+
+message ClawbackEvent {
+  string id = 1;
+  string contract_id = 2;
+  string tx_hash = 3;
+  string admin_addr = 4;
+  string from_addr = 5;
+  int64 amount_hi = 6;
+  uint64 amount_lo = 7;
+}
+
+message EventRequest { string id = 1; }
+
+message EventResponse {
+  EventInfo event = 1;
+  bool found = 2;
+}
+
+message ContractEventsRequest {
+  string contract_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ContractEventsResponse {
+  repeated EventInfo events = 1;
+}
+
+message ContractEventCountRequest { string contract_id = 1; }
+
+message ContractEventCountResponse { int64 total = 1; }
+
+message EventsAtLedgerRequest {
+  string contract_id = 1;
+  uint32 ledger = 2;
+}
+
+message EventsAtLedgerResponse { repeated EventInfo events = 1; }
+
+message TransferEventsRequest {
+  string contract_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message TransferEventsResponse {
+  repeated TranferEvent events = 1;
+}
+
+message TransferEventsFromRequest {
+  string from = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message TransferEventsFromResponse {
+  repeated TranferEvent events = 1;
+}
+
+message TransferEventsToRequest {
+  string to = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message TransferEventsToResponse {
+  repeated TranferEvent events = 1;
+}
+
+message MintEventsRequest {
+  string contract_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message MintEventsResponse {
+  repeated MintEvent events = 1;
+}
+
+message MintEventsAdminRequest {
+  string admin = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message MintEventsAdminResponse {
+  repeated MintEvent events = 1;
+}
+
+message MintEventsToRequest {
+  string to = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message MintEventsToResponse {
+  repeated MintEvent events = 1;
+}
+
+message BurnEventsRequest {
+  string contract_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message BurnEventsResponse {
+  repeated BurnEvent events = 1;
+}
+
+message BurnEventsFromRequest {
+  string from = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message BurnEventsFromResponse {
+  repeated BurnEvent events = 1;
+}
+
+message ClawbackEventsRequest {
+  string contract_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ClawbackEventsResponse {
+  repeated ClawbackEvent events = 1;
+}
+
+message ClawbackEventsFromRequest {
+  string from = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ClawbackEventsFromResponse {
+  repeated ClawbackEvent events = 1;
+}
+
+message ClawbackEventsAdminRequest {
+  string admin = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+}
+
+message ClawbackEventsAdminResponse {
+  repeated ClawbackEvent events = 1;
+}

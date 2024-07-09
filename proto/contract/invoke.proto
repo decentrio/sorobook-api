@@ -1,0 +1,61 @@
+syntax = "proto3";
+package contract;
+
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/decentrio/sorobook-api/types/contract";
+
+message ContractInvoke {
+  string hash = 1;
+  string contract_id = 2;
+  string function_name = 3;
+  string function_type = 4;
+  bytes args = 5;
+}
+
+message ContractInvokeInfo {
+  string hash = 1;
+  string contract_id = 2;
+  string function_name = 3;
+  string function_type = 4;
+  google.protobuf.Struct args = 5;
+}
+
+message ContractInvokeRequest { string hash = 1; }
+
+message ContractInvokeResponse {
+  ContractInvokeInfo info = 1;
+  bool found = 2;
+}
+
+message ContractInvokesRequest {
+  string contract_id = 1;
+  string function_name = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message ContractInvokesResponse { repeated ContractInvokeInfo data = 1; }
+
+message ContractInvokesAtLedgerRequest {
+  string contract_id = 1;
+  int32 ledger = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message ContractInvokesAtLedgerResponse {
+  repeated ContractInvokeInfo data = 1;
+}
+
+message ContractInvokesByUserRequest {
+  string address = 1;
+  string contract_id = 2;
+  int32 ledger = 3;
+  int32 page = 4;
+  int32 page_size = 5;
+}
+
+message ContractInvokesByUserResponse {
+  repeated ContractInvokeInfo data = 1;
+}
