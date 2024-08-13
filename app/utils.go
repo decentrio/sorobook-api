@@ -1,7 +1,7 @@
 package app
 
 const (
-	PAGE_SIZE         = 20
+	PAGE_SIZE         = 10
 	LEDGER_TABLE      = "ledgers"
 	TRANSACTION_TABLE = "transactions"
 	CONTRACT_TABLE    = "contracts_data"
