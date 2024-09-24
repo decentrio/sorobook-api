@@ -11,7 +11,7 @@ import (
 	"github.com/decentrio/xdr-converter/converter"
 )
 
-func (k Keeper) Transaction(ctx context.Context, request *types.TransactionRequest) (*types.TransactionResponse, error) {
+func (k Keeper) Transaction(_ context.Context, request *types.TransactionRequest) (*types.TransactionResponse, error) {
 	var transaction types.Transaction
 
 	err := k.dbHandler.Table(app.TRANSACTION_TABLE).Where("hash = ?", request.Hash).First(&transaction).Error
@@ -36,7 +36,7 @@ func (k Keeper) Transaction(ctx context.Context, request *types.TransactionReque
 	}, nil
 }
 
-func (k Keeper) TransactionsAtLedgerSeq(ctx context.Context, request *types.TransactionsAtLedgerSeqRequest) (*types.TransactionsAtLedgerSeqResponse, error) {
+func (k Keeper) TransactionsAtLedgerSeq(_ context.Context, request *types.TransactionsAtLedgerSeqRequest) (*types.TransactionsAtLedgerSeqResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -68,7 +68,7 @@ func (k Keeper) TransactionsAtLedgerSeq(ctx context.Context, request *types.Tran
 	}, nil
 }
 
-func (k Keeper) TransactionsAtLedgerHash(ctx context.Context, request *types.TransactionsAtLedgerHashRequest) (*types.TransactionsAtLedgerHashResponse, error) {
+func (k Keeper) TransactionsAtLedgerHash(_ context.Context, request *types.TransactionsAtLedgerHashRequest) (*types.TransactionsAtLedgerHashResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -104,7 +104,7 @@ func (k Keeper) TransactionsAtLedgerHash(ctx context.Context, request *types.Tra
 	}, nil
 }
 
-func (k Keeper) TransactionsByAddress(ctx context.Context, request *types.TransactionsByAddressRequest) (*types.TransactionsByAddressResponse, error) {
+func (k Keeper) TransactionsByAddress(_ context.Context, request *types.TransactionsByAddressRequest) (*types.TransactionsByAddressResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -138,7 +138,7 @@ func (k Keeper) TransactionsByAddress(ctx context.Context, request *types.Transa
 	}, nil
 }
 
-func (k Keeper) ContractTransactions(ctx context.Context, request *types.ContractTransactionsRequest) (*types.ContractTransactionsResponse, error) {
+func (k Keeper) ContractTransactions(_ context.Context, request *types.ContractTransactionsRequest) (*types.ContractTransactionsResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -176,7 +176,7 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 	}, nil
 }
 
-func (k Keeper) UserContractTransactions(ctx context.Context, request *types.UserContractTransactionsRequest) (*types.UserContractTransactionsResponse, error) {
+func (k Keeper) UserContractTransactions(_ context.Context, request *types.UserContractTransactionsRequest) (*types.UserContractTransactionsResponse, error) {
 	var txs []*types.Transaction
 	err := k.dbHandler.Table(app.TRANSACTION_TABLE).
 		Joins("JOIN contracts ON transactions.hash = contracts.tx_hash").
@@ -208,30 +208,30 @@ func (k Keeper) UserContractTransactions(ctx context.Context, request *types.Use
 }
 
 func convertToTxInfo(tx *types.Transaction) (*types.TransactionInfo, error) {
-	envelopeJson := &structpb.Struct{}
+	envelopeJSON := &structpb.Struct{}
 	envelopeData, err := converter.MarshalJSONEnvelopeXdr(tx.EnvelopeXdr)
 	if err != nil {
 		return &types.TransactionInfo{}, err
 	}
-	if err := json.Unmarshal(envelopeData, envelopeJson); err != nil {
+	if err := json.Unmarshal(envelopeData, envelopeJSON); err != nil {
 		return &types.TransactionInfo{}, err
 	}
 
-	resultMetaJson := &structpb.Struct{}
+	resultMetaJSON := &structpb.Struct{}
 	resultMetaData, err := converter.MarshalJSONResultMetaXdr(tx.ResultMetaXdr)
 	if err != nil {
 		return &types.TransactionInfo{}, err
 	}
-	if err := json.Unmarshal(resultMetaData, resultMetaJson); err != nil {
+	if err := json.Unmarshal(resultMetaData, resultMetaJSON); err != nil {
 		return &types.TransactionInfo{}, err
 	}
 
-	resultJson := &structpb.Struct{}
+	resultJSON := &structpb.Struct{}
 	resultData, err := converter.MarshalJSONResultXdr(tx.ResultXdr)
 	if err != nil {
 		return &types.TransactionInfo{}, err
 	}
-	if err := json.Unmarshal(resultData, resultJson); err != nil {
+	if err := json.Unmarshal(resultData, resultJSON); err != nil {
 		return &types.TransactionInfo{}, err
 	}
 
@@ -240,9 +240,9 @@ func convertToTxInfo(tx *types.Transaction) (*types.TransactionInfo, error) {
 		Status:           tx.Status,
 		Ledger:           tx.Ledger,
 		ApplicationOrder: tx.ApplicationOrder,
-		Envelope:         envelopeJson,
-		Result:           resultJson,
-		ResultMeta:       resultMetaJson,
+		Envelope:         envelopeJSON,
+		Result:           resultJSON,
+		ResultMeta:       resultMetaJSON,
 		SourceAddress:    tx.SourceAddress,
 	}, nil
 }

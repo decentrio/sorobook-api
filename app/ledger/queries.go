@@ -7,7 +7,7 @@ import (
 	types "github.com/decentrio/sorobook-api/types/ledger"
 )
 
-func (k Keeper) Ledger(ctx context.Context, request *types.LedgerRequest) (*types.LedgerResponse, error) {
+func (k Keeper) Ledger(_ context.Context, request *types.LedgerRequest) (*types.LedgerResponse, error) {
 	var ledger types.Ledger
 
 	err := k.dbHandler.Table(app.LEDGER_TABLE).Where("seq = ?", request.Seq).First(&ledger).Error
@@ -24,7 +24,7 @@ func (k Keeper) Ledger(ctx context.Context, request *types.LedgerRequest) (*type
 	}, nil
 }
 
-func (k Keeper) LedgerHash(ctx context.Context, request *types.LedgerHashRequest) (*types.LedgerHashResponse, error) {
+func (k Keeper) LedgerHash(_ context.Context, request *types.LedgerHashRequest) (*types.LedgerHashResponse, error) {
 	var ledger types.Ledger
 
 	err := k.dbHandler.Table(app.LEDGER_TABLE).Where("hash = ?", request.Hash).First(&ledger).Error

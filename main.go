@@ -45,7 +45,7 @@ func initModule() []app.AppModule {
 }
 
 func runGRPCServer() error {
-	lis, err := net.Listen("tcp", ":9090")
+	lis, err := net.Listen("tcp", ":9090") //nolint
 	if err != nil {
 		return err
 	}
@@ -95,7 +95,7 @@ func runHTTPServer() error {
 	http.Handle("/public/", http.StripPrefix("/public/", staticServer))
 
 	log.Println("HTTP server listening on :8080")
-	return http.ListenAndServe(":8080", nil)
+	return http.ListenAndServe(":8080", nil) //nolint
 }
 
 func main() {

@@ -12,7 +12,7 @@ import (
 	"github.com/decentrio/xdr-converter/converter"
 )
 
-func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryRequest) (*types.ContractEntryResponse, error) {
+func (k Keeper) ContractEntry(_ context.Context, request *types.ContractEntryRequest) (*types.ContractEntryResponse, error) {
 	var entry types.ContractEntryInfo
 
 	query := k.dbHandler.Table(app.CONTRACT_TABLE).
@@ -39,7 +39,7 @@ func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryR
 	}, nil
 }
 
-func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataRequest) (*types.ContractDataResponse, error) {
+func (k Keeper) ContractData(_ context.Context, request *types.ContractDataRequest) (*types.ContractDataResponse, error) {
 	var entries []*types.ContractEntry
 	page := int(request.Page)
 	if request.Page < 1 {
@@ -92,7 +92,7 @@ func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataReq
 	}, nil
 }
 
-func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysRequest) (*types.ContractKeysResponse, error) {
+func (k Keeper) ContractKeys(_ context.Context, request *types.ContractKeysRequest) (*types.ContractKeysResponse, error) {
 	var entries []*types.ContractEntry
 	var keys []*structpb.Struct
 
@@ -126,20 +126,20 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 	}
 
 	for _, entry := range entries {
-		keyJson := &structpb.Struct{}
+		keyJSON := &structpb.Struct{}
 		keyData, err := converter.MarshalJSONContractKeyXdr(entry.KeyXdr)
 		if err != nil {
 			return &types.ContractKeysResponse{
 				Keys: []*structpb.Struct{},
 			}, err
 		}
-		if err := json.Unmarshal(keyData, keyJson); err != nil {
+		if err := json.Unmarshal(keyData, keyJSON); err != nil {
 			return &types.ContractKeysResponse{
 				Keys: []*structpb.Struct{},
 			}, err
 		}
 
-		keys = append(keys, keyJson)
+		keys = append(keys, keyJSON)
 	}
 
 	return &types.ContractKeysResponse{
@@ -147,7 +147,7 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 	}, nil
 }
 
-func (k Keeper) UserInteractionContracts(ctx context.Context, request *types.UserInteractionContractsRequest) (*types.UserInteractionContractsResponse, error) {
+func (k Keeper) UserInteractionContracts(_ context.Context, request *types.UserInteractionContractsRequest) (*types.UserInteractionContractsResponse, error) {
 	var contracts []string
 
 	err := k.dbHandler.Table(app.CONTRACT_TABLE).
@@ -165,7 +165,7 @@ func (k Keeper) UserInteractionContracts(ctx context.Context, request *types.Use
 	}, nil
 }
 
-func (k Keeper) ContractCode(ctx context.Context, request *types.ContractCodeRequest) (*types.ContractCodeResponse, error) {
+func (k Keeper) ContractCode(_ context.Context, request *types.ContractCodeRequest) (*types.ContractCodeResponse, error) {
 	var data types.ContractCode
 
 	err := k.dbHandler.Table(app.CONTRACT_CODES).
@@ -183,7 +183,7 @@ func (k Keeper) ContractCode(ctx context.Context, request *types.ContractCodeReq
 	}, nil
 }
 
-func (k Keeper) ContractCodes(ctx context.Context, request *types.ContractCodesRequest) (*types.ContractCodesResponse, error) {
+func (k Keeper) ContractCodes(_ context.Context, request *types.ContractCodesRequest) (*types.ContractCodesResponse, error) {
 	var data []*types.ContractCode
 	page := int(request.Page)
 	if request.Page < 1 {
@@ -210,7 +210,7 @@ func (k Keeper) ContractCodes(ctx context.Context, request *types.ContractCodesR
 	}, nil
 }
 
-func (k Keeper) ContractsAtLedger(ctx context.Context, request *types.ContractsAtLedgerRequest) (*types.ContractsAtLedgerResponse, error) {
+func (k Keeper) ContractsAtLedger(_ context.Context, request *types.ContractsAtLedgerRequest) (*types.ContractsAtLedgerResponse, error) {
 	var data []*types.ContractCode
 	page := int(request.Page)
 	if request.Page < 1 {
@@ -237,7 +237,7 @@ func (k Keeper) ContractsAtLedger(ctx context.Context, request *types.ContractsA
 	}, nil
 }
 
-func (k Keeper) ContractInvoke(ctx context.Context, request *types.ContractInvokeRequest) (*types.ContractInvokeResponse, error) {
+func (k Keeper) ContractInvoke(_ context.Context, request *types.ContractInvokeRequest) (*types.ContractInvokeResponse, error) {
 	var data types.ContractInvoke
 
 	err := k.dbHandler.Table(app.INVOKE_TXS).
@@ -262,7 +262,7 @@ func (k Keeper) ContractInvoke(ctx context.Context, request *types.ContractInvok
 	}, nil
 }
 
-func (k Keeper) ContractInvokes(ctx context.Context, request *types.ContractInvokesRequest) (*types.ContractInvokesResponse, error) {
+func (k Keeper) ContractInvokes(_ context.Context, request *types.ContractInvokesRequest) (*types.ContractInvokesResponse, error) {
 	var data []*types.ContractInvoke
 	page := int(request.Page)
 	if request.Page < 1 {
@@ -306,7 +306,7 @@ func (k Keeper) ContractInvokes(ctx context.Context, request *types.ContractInvo
 	}, nil
 }
 
-func (k Keeper) ContractInvokesAtLedger(ctx context.Context, request *types.ContractInvokesAtLedgerRequest) (*types.ContractInvokesAtLedgerResponse, error) {
+func (k Keeper) ContractInvokesAtLedger(_ context.Context, request *types.ContractInvokesAtLedgerRequest) (*types.ContractInvokesAtLedgerResponse, error) {
 	var data []*types.ContractInvoke
 	page := int(request.Page)
 	if request.Page < 1 {
@@ -345,7 +345,7 @@ func (k Keeper) ContractInvokesAtLedger(ctx context.Context, request *types.Cont
 	}, nil
 }
 
-func (k Keeper) ContractInvokesByUser(ctx context.Context, request *types.ContractInvokesByUserRequest) (*types.ContractInvokesByUserResponse, error) {
+func (k Keeper) ContractInvokesByUser(_ context.Context, request *types.ContractInvokesByUserRequest) (*types.ContractInvokesByUserResponse, error) {
 	var data []*types.ContractInvoke
 	page := int(request.Page)
 	if request.Page < 1 {
@@ -393,38 +393,38 @@ func (k Keeper) ContractInvokesByUser(ctx context.Context, request *types.Contra
 }
 
 func convertToEntryInfo(entry *types.ContractEntry) (*types.ContractEntryInfo, error) {
-	keyJson := &structpb.Struct{}
+	keyJSON := &structpb.Struct{}
 	keyData, err := converter.MarshalJSONContractKeyXdr(entry.KeyXdr)
 	if err != nil {
 		return &types.ContractEntryInfo{}, err
 	}
-	if err := json.Unmarshal(keyData, keyJson); err != nil {
+	if err := json.Unmarshal(keyData, keyJSON); err != nil {
 		return &types.ContractEntryInfo{}, err
 	}
 
-	valueJson := &structpb.Struct{}
+	valueJSON := &structpb.Struct{}
 	valueData, err := converter.MarshalJSONContractValueXdr(entry.ValueXdr)
 	if err != nil {
 		return &types.ContractEntryInfo{}, err
 	}
-	if err := json.Unmarshal(valueData, valueJson); err != nil {
+	if err := json.Unmarshal(valueData, valueJSON); err != nil {
 		return &types.ContractEntryInfo{}, err
 	}
 
 	return &types.ContractEntryInfo{
-		Key:   keyJson,
-		Value: valueJson,
+		Key:   keyJSON,
+		Value: valueJSON,
 	}, nil
 }
 
 func convertToInvokeInfo(data *types.ContractInvoke) (*types.ContractInvokeInfo, error) {
-	argsJson := &structpb.Struct{}
+	argsJSON := &structpb.Struct{}
 
 	argsData, err := converter.MarshalJSONInvokeContractArgsXdr(data.Args)
 	if err != nil {
 		return &types.ContractInvokeInfo{}, err
 	}
-	if err := json.Unmarshal(argsData, argsJson); err != nil {
+	if err := json.Unmarshal(argsData, argsJSON); err != nil {
 		return &types.ContractInvokeInfo{}, err
 	}
 
@@ -433,6 +433,6 @@ func convertToInvokeInfo(data *types.ContractInvoke) (*types.ContractInvokeInfo,
 		ContractId:   data.ContractId,
 		FunctionName: data.FunctionName,
 		FunctionType: data.FunctionType,
-		Args:         argsJson,
+		Args:         argsJSON,
 	}, nil
 }

@@ -11,7 +11,7 @@ import (
 	"github.com/decentrio/xdr-converter/converter"
 )
 
-func (k Keeper) Event(ctx context.Context, request *types.EventRequest) (*types.EventResponse, error) {
+func (k Keeper) Event(_ context.Context, request *types.EventRequest) (*types.EventResponse, error) {
 	var event types.Event
 	err := k.dbHandler.Table(app.EVENT_TABLE).Where("id = ?", request.Id).First(&event).Error
 	if err != nil {
@@ -35,7 +35,7 @@ func (k Keeper) Event(ctx context.Context, request *types.EventRequest) (*types.
 	}, nil
 }
 
-func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEventsRequest) (*types.ContractEventsResponse, error) {
+func (k Keeper) ContractEvents(_ context.Context, request *types.ContractEventsRequest) (*types.ContractEventsResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -73,7 +73,7 @@ func (k Keeper) ContractEvents(ctx context.Context, request *types.ContractEvent
 	}, nil
 }
 
-func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedgerRequest) (*types.EventsAtLedgerResponse, error) {
+func (k Keeper) EventsAtLedger(_ context.Context, request *types.EventsAtLedgerRequest) (*types.EventsAtLedgerResponse, error) {
 	var events []*types.Event
 	err := k.dbHandler.Table(app.EVENT_TABLE).
 		Joins("JOIN transactions ON transactions.hash = wasm_contract_events.tx_hash").
@@ -98,7 +98,7 @@ func (k Keeper) EventsAtLedger(ctx context.Context, request *types.EventsAtLedge
 	}, nil
 }
 
-func (k Keeper) ContractEventCount(ctx context.Context, request *types.ContractEventCountRequest) (*types.ContractEventCountResponse, error) {
+func (k Keeper) ContractEventCount(_ context.Context, request *types.ContractEventCountRequest) (*types.ContractEventCountResponse, error) {
 	var count int64
 	err := k.dbHandler.Table(app.EVENT_TABLE).Where("contract_id = ?", request.ContractId).Count(&count).Error
 	if err != nil {
@@ -110,7 +110,7 @@ func (k Keeper) ContractEventCount(ctx context.Context, request *types.ContractE
 	}, nil
 }
 
-func (k Keeper) TransferEvents(ctx context.Context, request *types.TransferEventsRequest) (*types.TransferEventsResponse, error) {
+func (k Keeper) TransferEvents(_ context.Context, request *types.TransferEventsRequest) (*types.TransferEventsResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -138,7 +138,7 @@ func (k Keeper) TransferEvents(ctx context.Context, request *types.TransferEvent
 	}, nil
 }
 
-func (k Keeper) TransferEventsFrom(ctx context.Context, request *types.TransferEventsFromRequest) (*types.TransferEventsFromResponse, error) {
+func (k Keeper) TransferEventsFrom(_ context.Context, request *types.TransferEventsFromRequest) (*types.TransferEventsFromResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -166,7 +166,7 @@ func (k Keeper) TransferEventsFrom(ctx context.Context, request *types.TransferE
 	}, nil
 }
 
-func (k Keeper) TransferEventsTo(ctx context.Context, request *types.TransferEventsToRequest) (*types.TransferEventsToResponse, error) {
+func (k Keeper) TransferEventsTo(_ context.Context, request *types.TransferEventsToRequest) (*types.TransferEventsToResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -194,7 +194,7 @@ func (k Keeper) TransferEventsTo(ctx context.Context, request *types.TransferEve
 	}, nil
 }
 
-func (k Keeper) MintEvents(ctx context.Context, request *types.MintEventsRequest) (*types.MintEventsResponse, error) {
+func (k Keeper) MintEvents(_ context.Context, request *types.MintEventsRequest) (*types.MintEventsResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -222,7 +222,7 @@ func (k Keeper) MintEvents(ctx context.Context, request *types.MintEventsRequest
 	}, nil
 }
 
-func (k Keeper) MintEventsAdmin(ctx context.Context, request *types.MintEventsAdminRequest) (*types.MintEventsAdminResponse, error) {
+func (k Keeper) MintEventsAdmin(_ context.Context, request *types.MintEventsAdminRequest) (*types.MintEventsAdminResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -250,7 +250,7 @@ func (k Keeper) MintEventsAdmin(ctx context.Context, request *types.MintEventsAd
 	}, nil
 }
 
-func (k Keeper) MintEventsTo(ctx context.Context, request *types.MintEventsToRequest) (*types.MintEventsToResponse, error) {
+func (k Keeper) MintEventsTo(_ context.Context, request *types.MintEventsToRequest) (*types.MintEventsToResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -278,7 +278,7 @@ func (k Keeper) MintEventsTo(ctx context.Context, request *types.MintEventsToReq
 	}, nil
 }
 
-func (k Keeper) BurnEvents(ctx context.Context, request *types.BurnEventsRequest) (*types.BurnEventsResponse, error) {
+func (k Keeper) BurnEvents(_ context.Context, request *types.BurnEventsRequest) (*types.BurnEventsResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -306,7 +306,7 @@ func (k Keeper) BurnEvents(ctx context.Context, request *types.BurnEventsRequest
 	}, nil
 }
 
-func (k Keeper) BurnEventsFrom(ctx context.Context, request *types.BurnEventsFromRequest) (*types.BurnEventsFromResponse, error) {
+func (k Keeper) BurnEventsFrom(_ context.Context, request *types.BurnEventsFromRequest) (*types.BurnEventsFromResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -334,7 +334,7 @@ func (k Keeper) BurnEventsFrom(ctx context.Context, request *types.BurnEventsFro
 	}, nil
 }
 
-func (k Keeper) ClawbackEvents(ctx context.Context, request *types.ClawbackEventsRequest) (*types.ClawbackEventsResponse, error) {
+func (k Keeper) ClawbackEvents(_ context.Context, request *types.ClawbackEventsRequest) (*types.ClawbackEventsResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -362,7 +362,7 @@ func (k Keeper) ClawbackEvents(ctx context.Context, request *types.ClawbackEvent
 	}, nil
 }
 
-func (k Keeper) ClawbackEventsAdmin(ctx context.Context, request *types.ClawbackEventsAdminRequest) (*types.ClawbackEventsAdminResponse, error) {
+func (k Keeper) ClawbackEventsAdmin(_ context.Context, request *types.ClawbackEventsAdminRequest) (*types.ClawbackEventsAdminResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -390,7 +390,7 @@ func (k Keeper) ClawbackEventsAdmin(ctx context.Context, request *types.Clawback
 	}, nil
 }
 
-func (k Keeper) ClawbackEventsFrom(ctx context.Context, request *types.ClawbackEventsFromRequest) (*types.ClawbackEventsFromResponse, error) {
+func (k Keeper) ClawbackEventsFrom(_ context.Context, request *types.ClawbackEventsFromRequest) (*types.ClawbackEventsFromResponse, error) {
 	page := int(request.Page)
 	if request.Page < 1 {
 		page = 1
@@ -419,12 +419,12 @@ func (k Keeper) ClawbackEventsFrom(ctx context.Context, request *types.ClawbackE
 }
 
 func convertToEventInfo(event *types.Event) (*types.EventInfo, error) {
-	eventJson := &structpb.Struct{}
+	eventJSON := &structpb.Struct{}
 	eventData, err := converter.MarshalJSONContractEventBodyXdr(event.EventBodyXdr)
 	if err != nil {
 		return &types.EventInfo{}, err
 	}
-	if err := json.Unmarshal(eventData, eventJson); err != nil {
+	if err := json.Unmarshal(eventData, eventJSON); err != nil {
 		return &types.EventInfo{}, err
 	}
 
@@ -432,6 +432,6 @@ func convertToEventInfo(event *types.Event) (*types.EventInfo, error) {
 		Id:         event.Id,
 		ContractId: event.ContractId,
 		TxHash:     event.TxHash,
-		Event:      eventJson,
+		Event:      eventJSON,
 	}, err
 }

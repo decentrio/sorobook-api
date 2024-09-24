@@ -15,14 +15,14 @@ func NewDBHandler() *gorm.DB {
 
 // create connection with postgres db
 func createConnection() *gorm.DB {
-	sqlUrl, ok := os.LookupEnv("READONLY_URL")
+	sqlURL, ok := os.LookupEnv("READONLY_URL")
 
 	if !ok {
 		log.Fatalf("Error get READONLY_URL")
 	}
 
 	// Open the connection
-	db, err := gorm.Open(postgres.Open(sqlUrl), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(sqlURL), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
