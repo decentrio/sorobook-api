@@ -5,14 +5,14 @@ import (
 )
 
 type App struct {
-	Modules   []AppModule
-	Server    *grpc.Server
+	Modules []AppModule
+	Server  *grpc.Server
 }
 
 func NewApp(server *grpc.Server, modules []AppModule) *App {
 	return &App{
-		Modules:   modules,
-		Server:    server,
+		Modules: modules,
+		Server:  server,
 	}
 }
 

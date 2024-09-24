@@ -64,7 +64,7 @@ func (k Keeper) TransactionsAtLedgerSeq(ctx context.Context, request *types.Tran
 	}
 
 	return &types.TransactionsAtLedgerSeqResponse{
-		Txs:  infos,
+		Txs: infos,
 	}, nil
 }
 
@@ -100,7 +100,7 @@ func (k Keeper) TransactionsAtLedgerHash(ctx context.Context, request *types.Tra
 	}
 
 	return &types.TransactionsAtLedgerHashResponse{
-		Txs:  infos,
+		Txs: infos,
 	}, nil
 }
 
@@ -119,7 +119,7 @@ func (k Keeper) TransactionsByAddress(ctx context.Context, request *types.Transa
 	err := k.dbHandler.Table(app.TRANSACTION_TABLE).Where("source_address = ?", request.Address).Order("ledger DESC").Limit(pageSize).Offset(offset).Find(&txs).Error
 	if err != nil {
 		return &types.TransactionsByAddressResponse{
-			Txs:  []*types.TransactionInfo{},
+			Txs: []*types.TransactionInfo{},
 		}, err
 	}
 
@@ -134,7 +134,7 @@ func (k Keeper) TransactionsByAddress(ctx context.Context, request *types.Transa
 	}
 
 	return &types.TransactionsByAddressResponse{
-		Txs:  infos,
+		Txs: infos,
 	}, nil
 }
 
@@ -172,7 +172,7 @@ func (k Keeper) ContractTransactions(ctx context.Context, request *types.Contrac
 	}
 
 	return &types.ContractTransactionsResponse{
-		Txs:  infos,
+		Txs: infos,
 	}, nil
 }
 

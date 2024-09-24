@@ -72,7 +72,6 @@ func (k Keeper) ContractData(ctx context.Context, request *types.ContractDataReq
 
 	err := query.Limit(pageSize).
 		Offset(offset).Find(&entries).Error
-
 	if err != nil {
 		return &types.ContractDataResponse{}, err
 	}
@@ -172,7 +171,6 @@ func (k Keeper) ContractCode(ctx context.Context, request *types.ContractCodeReq
 	err := k.dbHandler.Table(app.CONTRACT_CODES).
 		Where("contract_id = ?", request.ContractId).
 		First(&data).Error
-
 	if err != nil {
 		return &types.ContractCodeResponse{
 			Found: false,
@@ -203,7 +201,6 @@ func (k Keeper) ContractCodes(ctx context.Context, request *types.ContractCodesR
 		Limit(pageSize).
 		Offset(offset).
 		Find(&data).Error
-
 	if err != nil {
 		return &types.ContractCodesResponse{}, err
 	}
@@ -231,7 +228,6 @@ func (k Keeper) ContractsAtLedger(ctx context.Context, request *types.ContractsA
 		Where("created_ledger = ?", request.Ledger).
 		Offset(offset).
 		Find(&data).Error
-
 	if err != nil {
 		return &types.ContractsAtLedgerResponse{}, err
 	}
@@ -247,7 +243,6 @@ func (k Keeper) ContractInvoke(ctx context.Context, request *types.ContractInvok
 	err := k.dbHandler.Table(app.INVOKE_TXS).
 		Where("hash = ?", request.Hash).
 		First(&data).Error
-
 	if err != nil {
 		return &types.ContractInvokeResponse{
 			Found: false,
@@ -292,7 +287,6 @@ func (k Keeper) ContractInvokes(ctx context.Context, request *types.ContractInvo
 	err := query.Limit(pageSize).
 		Offset(offset).
 		Find(&data).Error
-
 	if err != nil {
 		return &types.ContractInvokesResponse{}, err
 	}
@@ -332,7 +326,6 @@ func (k Keeper) ContractInvokesAtLedger(ctx context.Context, request *types.Cont
 		Limit(pageSize).
 		Offset(offset).
 		Find(&data).Error
-
 	if err != nil {
 		return &types.ContractInvokesAtLedgerResponse{}, err
 	}
@@ -380,7 +373,6 @@ func (k Keeper) ContractInvokesByUser(ctx context.Context, request *types.Contra
 	err := query.Limit(pageSize).
 		Offset(offset).
 		Find(&data).Error
-
 	if err != nil {
 		return &types.ContractInvokesByUserResponse{}, err
 	}
