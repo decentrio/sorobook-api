@@ -57,3 +57,12 @@ message ContractKeysResponse { repeated google.protobuf.Struct keys = 1; }
 message UserInteractionContractsRequest { string address = 1; }
 
 message UserInteractionContractsResponse { repeated string contracts = 1; }
+
+message ContractKeyXdrRequest {
+  string key_type = 1;
+  string key_name = 2;
+}
+
+message ContractKeyXdrResponse {
+  string key_xdr = 1;
+}

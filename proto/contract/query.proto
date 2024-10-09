@@ -74,4 +74,11 @@ service ContractQuery {
       returns (ContractInvokesByUserResponse) {
     option (google.api.http).get = "/contract/invokes/user/{address}";
   }
+
+  // ContractKeyXdr queries key xdr
+  // given keyName and keyType
+  rpc ContractKeyXdr(ContractKeyXdrRequest)
+      returns (ContractKeyXdrResponse) {
+    option (google.api.http).get = "/contract/key-xdr/{key_type}/{key_name}";
+  }
 }

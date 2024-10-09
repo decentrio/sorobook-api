@@ -10,6 +10,7 @@ import (
 	app "github.com/decentrio/sorobook-api/app"
 	types "github.com/decentrio/sorobook-api/types/contract"
 	"github.com/decentrio/xdr-converter/converter"
+	"github.com/stellar/go/xdr"
 )
 
 func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryRequest) (*types.ContractEntryResponse, error) {
@@ -442,5 +443,30 @@ func convertToInvokeInfo(data *types.ContractInvoke) (*types.ContractInvokeInfo,
 		FunctionName: data.FunctionName,
 		FunctionType: data.FunctionType,
 		Args:         argsJson,
+	}, nil
+}
+
+func (k Keeper) ContractKeyXdr(ctx context.Context, request *types.ContractKeyXdrRequest) (*types.ContractKeyXdrResponse, error) {
+	key_xdr := ""
+	if request.KeyName != "" && request.KeyType != "" {
+		xdrType, data, err := convertToData(request.KeyType, request.KeyName)
+		if err != nil {
+			return &types.ContractKeyXdrResponse{}, err
+		}
+
+		xdrKey, err := xdr.NewScVal(xdrType, data)
+		if err != nil {
+			return &types.ContractKeyXdrResponse{}, err
+		}
+
+		bytes, err := xdrKey.MarshalBinary()
+		if err != nil {
+			return &types.ContractKeyXdrResponse{}, err
+		}
+		key_xdr = hex.EncodeToString(bytes)
+	}
+
+	return &types.ContractKeyXdrResponse{
+		KeyXdr: key_xdr,
 	}, nil
 }
