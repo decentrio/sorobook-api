@@ -2,6 +2,7 @@ package contract
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -9,23 +10,23 @@ import (
 )
 
 const (
-	cst_bool = "bool"
-	cst_Uint32     = "Uint32"
-	cst_Int32    = "Int32"
-	cst_Uint64    = "Uint64 "
-	cst_Int64    = "Int64 "
+	cst_bool         = "bool"
+	cst_Uint32       = "Uint32"
+	cst_Int32        = "Int32"
+	cst_Uint64       = "Uint64 "
+	cst_Int64        = "Int64 "
 	cst_TimePoint    = "TimePoint"
-	cst_Duration    = "Duration"
-	cst_UInt128Parts    = "U128"
-	cst_Int128Parts    = "I128"
-	cst_UInt256Parts    = "U256"
-	cst_Int256Parts    = "I256"
-	cst_ScBytes    = "Bytes"
-	cst_ScString    = "String "
-	cst_ScSymbol    = "Symbol"
-	cst_ScNonceKey    = "NonceKey "
-	cst_ScVec    = "Vec"
-	cst_ScMap    = "Map"
+	cst_Duration     = "Duration"
+	cst_UInt128Parts = "U128"
+	cst_Int128Parts  = "I128"
+	cst_UInt256Parts = "U256"
+	cst_Int256Parts  = "I256"
+	cst_ScBytes      = "Bytes"
+	cst_ScString     = "String "
+	cst_ScSymbol     = "Symbol"
+	cst_ScNonceKey   = "NonceKey "
+	cst_ScVec        = "Vec"
+	cst_ScMap        = "Map"
 )
 
 func convertToData(key_type string, key_name string) (xdr.ScValType, interface{}, error) {
@@ -91,6 +92,14 @@ func convertToData(key_type string, key_name string) (xdr.ScValType, interface{}
 	case cst_ScNonceKey:
 		if len(values) == 1 {
 			return convertToDataScNonceKey(values[0])
+		}
+	case cst_ScVec:
+		if len(values) == 1 {
+			return convertToDataScVec(values[0])
+		}
+	case cst_ScMap:
+		if len(values) == 1 {
+			return convertToDataScMap(values[0])
 		}
 	default:
 		return 0, nil, errors.New("convert false")
@@ -285,4 +294,71 @@ func convertToDataScNonceKey(value string) (xdr.ScValType, interface{}, error) {
 	}
 
 	return xdr.ScValTypeScvLedgerKeyNonce, data, err
+}
+
+func convertToDataScVec(value string) (xdr.ScValType, interface{}, error) {
+	items := strings.Split(value, "#")
+	var dataVec xdr.ScVec
+
+	for _, item := range items {
+		s := strings.Split(item, ",")
+		if len(s) != 2 {
+			return 0, nil, errors.New("split s false " + fmt.Sprint(len(s)))
+		}
+
+		xdrType, data, err := convertToData(s[0], s[1])
+		if err != nil {
+			return 0, nil, err
+		}
+
+		xdrKey, err := xdr.NewScVal(xdrType, data)
+		if err != nil {
+			return 0, nil, err
+		}
+
+		dataVec = append(dataVec, xdrKey)
+	}
+
+	return xdr.ScValTypeScvVec, dataVec, nil
+}
+
+func convertToDataScMap(value string) (xdr.ScValType, interface{}, error) {
+	items := strings.Split(value, "#")
+	var dataMap xdr.ScMap
+
+	for _, item := range items {
+		s := strings.Split(item, ",")
+		if len(s) != 4 {
+			return 0, nil, errors.New("split s false " + fmt.Sprint(len(s)))
+		}
+
+		xdrType, data1, err := convertToData(s[0], s[1])
+		if err != nil {
+			return 0, nil, err
+		}
+
+		xdrKey1, err := xdr.NewScVal(xdrType, data1)
+		if err != nil {
+			return 0, nil, err
+		}
+
+		xdrType, data2, err := convertToData(s[2], s[3])
+		if err != nil {
+			return 0, nil, err
+		}
+
+		xdrKey2, err := xdr.NewScVal(xdrType, data2)
+		if err != nil {
+			return 0, nil, err
+		}
+
+		var itemMap xdr.ScMapEntry = xdr.ScMapEntry{
+			Key: xdrKey1,
+			Val: xdrKey2,
+		}
+
+		dataMap = append(dataMap, itemMap)
+	}
+
+	return xdr.ScValTypeScvMap, dataMap, nil
 }
