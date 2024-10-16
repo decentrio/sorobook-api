@@ -64,8 +64,7 @@ type ContractQueryClient interface {
 	// ContractInvokesByUser queries contract data have been invoked by the
 	// given address
 	ContractInvokesByUser(ctx context.Context, in *ContractInvokesByUserRequest, opts ...grpc.CallOption) (*ContractInvokesByUserResponse, error)
-	// ContractKeyXdr queries key xdr
-	// given keyName and keyType
+	// ContractKeyXdr queries key xdr given keyName and keyType
 	ContractKeyXdr(ctx context.Context, in *ContractKeyXdrRequest, opts ...grpc.CallOption) (*ContractKeyXdrResponse, error)
 }
 
@@ -228,8 +227,7 @@ type ContractQueryServer interface {
 	// ContractInvokesByUser queries contract data have been invoked by the
 	// given address
 	ContractInvokesByUser(context.Context, *ContractInvokesByUserRequest) (*ContractInvokesByUserResponse, error)
-	// ContractKeyXdr queries key xdr
-	// given keyName and keyType
+	// ContractKeyXdr queries key xdr given keyName and keyType
 	ContractKeyXdr(context.Context, *ContractKeyXdrRequest) (*ContractKeyXdrResponse, error)
 	mustEmbedUnimplementedContractQueryServer()
 }

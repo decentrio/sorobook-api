@@ -10,15 +10,28 @@ import (
 	app "github.com/decentrio/sorobook-api/app"
 	types "github.com/decentrio/sorobook-api/types/contract"
 	"github.com/decentrio/xdr-converter/converter"
-	"github.com/stellar/go/xdr"
 )
 
 func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryRequest) (*types.ContractEntryResponse, error) {
-	var entry types.ContractEntryInfo
+	var entry types.ContractEntry
+	keyScVal, err := convertToData(request.KeyType, request.KeyValue)
+	if err != nil {
+		return &types.ContractEntryResponse{
+			Found: false,
+			Entry: &types.ContractEntryInfo{},
+		}, err
+	}
+	keyBz, err := keyScVal.MarshalBinary()
 
+	if err != nil {
+		return &types.ContractEntryResponse{
+			Found: false,
+			Entry: &types.ContractEntryInfo{},
+		}, err
+	}
 	query := k.dbHandler.Table(app.CONTRACT_TABLE).
 		Where("contract_id = ?", request.ContractId).
-		Where("key_xdr = ?", request.KeyXdr)
+		Where("key_xdr = ?", keyBz)
 
 	if request.Ledger != 0 {
 		query = query.Where("ledger >= ?", request.Ledger).Where("ledger >= ?", request.Ledger)
@@ -26,7 +39,7 @@ func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryR
 		query = query.Where("is_newest = true")
 	}
 
-	err := query.First(&entry).Error
+	err = query.First(&entry).Error
 	if err != nil {
 		return &types.ContractEntryResponse{
 			Found: false,
@@ -34,8 +47,41 @@ func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryR
 		}, err
 	}
 
+	keyJson := &structpb.Struct{}
+	keyData, err := converter.MarshalJSONContractKeyXdr(entry.KeyXdr)
+	if err != nil {
+		return &types.ContractEntryResponse{
+			Found: false,
+			Entry: &types.ContractEntryInfo{},
+		}, err
+	}
+	if err := json.Unmarshal(keyData, keyJson); err != nil {
+		return &types.ContractEntryResponse{
+			Found: false,
+			Entry: &types.ContractEntryInfo{},
+		}, err
+	}
+
+	valJson := &structpb.Struct{}
+	valData, err := converter.MarshalJSONContractKeyXdr(entry.ValueXdr)
+	if err != nil {
+		return &types.ContractEntryResponse{
+			Found: false,
+			Entry: &types.ContractEntryInfo{},
+		}, err
+	}
+	if err := json.Unmarshal(valData, valJson); err != nil {
+		return &types.ContractEntryResponse{
+			Found: false,
+			Entry: &types.ContractEntryInfo{},
+		}, err
+	}
+
 	return &types.ContractEntryResponse{
-		Entry: &entry,
+		Entry: &types.ContractEntryInfo{
+			Key:   keyJson,
+			Value: valJson,
+		},
 		Found: true,
 	}, nil
 }
@@ -401,6 +447,26 @@ func (k Keeper) ContractInvokesByUser(ctx context.Context, request *types.Contra
 	}, nil
 }
 
+func (k Keeper) ContractKeyXdr(ctx context.Context, request *types.ContractKeyXdrRequest) (*types.ContractKeyXdrResponse, error) {
+	if request.KeyValue != "" && request.KeyType != "" {
+		xdrKey, err := convertToData(request.KeyType, request.KeyValue)
+		if err != nil {
+			return &types.ContractKeyXdrResponse{}, err
+		}
+
+		bytes, err := xdrKey.MarshalBinary()
+		if err != nil {
+			return &types.ContractKeyXdrResponse{}, err
+		}
+
+		return &types.ContractKeyXdrResponse{
+			KeyXdr: hex.EncodeToString(bytes),
+		}, nil
+	}
+
+	return &types.ContractKeyXdrResponse{}, nil
+}
+
 func convertToEntryInfo(entry *types.ContractEntry) (*types.ContractEntryInfo, error) {
 	keyJson := &structpb.Struct{}
 	keyData, err := converter.MarshalJSONContractKeyXdr(entry.KeyXdr)
@@ -443,30 +509,5 @@ func convertToInvokeInfo(data *types.ContractInvoke) (*types.ContractInvokeInfo,
 		FunctionName: data.FunctionName,
 		FunctionType: data.FunctionType,
 		Args:         argsJson,
-	}, nil
-}
-
-func (k Keeper) ContractKeyXdr(ctx context.Context, request *types.ContractKeyXdrRequest) (*types.ContractKeyXdrResponse, error) {
-	key_xdr := ""
-	if request.KeyName != "" && request.KeyType != "" {
-		xdrType, data, err := convertToData(request.KeyType, request.KeyName)
-		if err != nil {
-			return &types.ContractKeyXdrResponse{}, err
-		}
-
-		xdrKey, err := xdr.NewScVal(xdrType, data)
-		if err != nil {
-			return &types.ContractKeyXdrResponse{}, err
-		}
-
-		bytes, err := xdrKey.MarshalBinary()
-		if err != nil {
-			return &types.ContractKeyXdrResponse{}, err
-		}
-		key_xdr = hex.EncodeToString(bytes)
-	}
-
-	return &types.ContractKeyXdrResponse{
-		KeyXdr: key_xdr,
 	}, nil
 }

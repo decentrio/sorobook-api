@@ -154,7 +154,7 @@ func local_request_ContractQuery_ContractKeys_0(ctx context.Context, marshaler r
 }
 
 var (
-	filter_ContractQuery_ContractEntry_0 = &utilities.DoubleArray{Encoding: map[string]int{"contract_id": 0, "key_xdr": 1}, Base: []int{1, 1, 2, 0, 0}, Check: []int{0, 1, 1, 2, 3}}
+	filter_ContractQuery_ContractEntry_0 = &utilities.DoubleArray{Encoding: map[string]int{"contract_id": 0, "key_type": 1, "key_value": 2}, Base: []int{1, 1, 2, 3, 0, 0, 0}, Check: []int{0, 1, 1, 1, 2, 3, 4}}
 )
 
 func request_ContractQuery_ContractEntry_0(ctx context.Context, marshaler runtime.Marshaler, client ContractQueryClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
@@ -178,14 +178,24 @@ func request_ContractQuery_ContractEntry_0(ctx context.Context, marshaler runtim
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "contract_id", err)
 	}
 
-	val, ok = pathParams["key_xdr"]
+	val, ok = pathParams["key_type"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_xdr")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_type")
 	}
 
-	protoReq.KeyXdr, err = runtime.String(val)
+	protoReq.KeyType, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_xdr", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_type", err)
+	}
+
+	val, ok = pathParams["key_value"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_value")
+	}
+
+	protoReq.KeyValue, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_value", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -221,14 +231,24 @@ func local_request_ContractQuery_ContractEntry_0(ctx context.Context, marshaler 
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "contract_id", err)
 	}
 
-	val, ok = pathParams["key_xdr"]
+	val, ok = pathParams["key_type"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_xdr")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_type")
 	}
 
-	protoReq.KeyXdr, err = runtime.String(val)
+	protoReq.KeyType, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_xdr", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_type", err)
+	}
+
+	val, ok = pathParams["key_value"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_value")
+	}
+
+	protoReq.KeyValue, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_value", err)
 	}
 
 	if err := req.ParseForm(); err != nil {
@@ -774,14 +794,14 @@ func request_ContractQuery_ContractKeyXdr_0(ctx context.Context, marshaler runti
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_type", err)
 	}
 
-	val, ok = pathParams["key_name"]
+	val, ok = pathParams["key_value"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_name")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_value")
 	}
 
-	protoReq.KeyName, err = runtime.String(val)
+	protoReq.KeyValue, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_name", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_value", err)
 	}
 
 	msg, err := client.ContractKeyXdr(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -810,14 +830,14 @@ func local_request_ContractQuery_ContractKeyXdr_0(ctx context.Context, marshaler
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_type", err)
 	}
 
-	val, ok = pathParams["key_name"]
+	val, ok = pathParams["key_value"]
 	if !ok {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_name")
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "key_value")
 	}
 
-	protoReq.KeyName, err = runtime.String(val)
+	protoReq.KeyValue, err = runtime.String(val)
 	if err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_name", err)
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "key_value", err)
 	}
 
 	msg, err := server.ContractKeyXdr(ctx, &protoReq)
@@ -889,7 +909,7 @@ func RegisterContractQueryHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/contract.ContractQuery/ContractEntry", runtime.WithHTTPPathPattern("/contract-entries/{contract_id}/{key_xdr}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/contract.ContractQuery/ContractEntry", runtime.WithHTTPPathPattern("/contract-entries/{contract_id}/{key_type}/{key_value}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1114,7 +1134,7 @@ func RegisterContractQueryHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/contract.ContractQuery/ContractKeyXdr", runtime.WithHTTPPathPattern("/contract/key-xdr/{key_type}/{key_name}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/contract.ContractQuery/ContractKeyXdr", runtime.WithHTTPPathPattern("/contract/key-xdr/{key_type}/{key_value}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1222,7 +1242,7 @@ func RegisterContractQueryHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/contract.ContractQuery/ContractEntry", runtime.WithHTTPPathPattern("/contract-entries/{contract_id}/{key_xdr}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/contract.ContractQuery/ContractEntry", runtime.WithHTTPPathPattern("/contract-entries/{contract_id}/{key_type}/{key_value}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1420,7 +1440,7 @@ func RegisterContractQueryHandlerClient(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/contract.ContractQuery/ContractKeyXdr", runtime.WithHTTPPathPattern("/contract/key-xdr/{key_type}/{key_name}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/contract.ContractQuery/ContractKeyXdr", runtime.WithHTTPPathPattern("/contract/key-xdr/{key_type}/{key_value}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -1444,7 +1464,7 @@ var (
 
 	pattern_ContractQuery_ContractKeys_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"contract-keys", "contract_id"}, ""))
 
-	pattern_ContractQuery_ContractEntry_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 1, 0, 4, 1, 5, 2}, []string{"contract-entries", "contract_id", "key_xdr"}, ""))
+	pattern_ContractQuery_ContractEntry_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1, 1, 0, 4, 1, 5, 2, 1, 0, 4, 1, 5, 3}, []string{"contract-entries", "contract_id", "key_type", "key_value"}, ""))
 
 	pattern_ContractQuery_ContractData_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"contract-entries", "contract_id"}, ""))
 
@@ -1462,7 +1482,7 @@ var (
 
 	pattern_ContractQuery_ContractInvokesByUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"contract", "invokes", "user", "address"}, ""))
 
-	pattern_ContractQuery_ContractKeyXdr_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 1, 0, 4, 1, 5, 3}, []string{"contract", "key-xdr", "key_type", "key_name"}, ""))
+	pattern_ContractQuery_ContractKeyXdr_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2, 1, 0, 4, 1, 5, 3}, []string{"contract", "key-xdr", "key_type", "key_value"}, ""))
 )
 
 var (

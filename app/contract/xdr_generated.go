@@ -1,364 +1,397 @@
 package contract
 
 import (
+	"encoding/hex"
 	"errors"
 	"fmt"
+	"math/big"
 	"strconv"
-	"strings"
 
 	"github.com/stellar/go/xdr"
 )
 
 const (
-	cst_bool         = "bool"
-	cst_Uint32       = "Uint32"
-	cst_Int32        = "Int32"
-	cst_Uint64       = "Uint64 "
-	cst_Int64        = "Int64 "
-	cst_TimePoint    = "TimePoint"
-	cst_Duration     = "Duration"
-	cst_UInt128Parts = "U128"
-	cst_Int128Parts  = "I128"
-	cst_UInt256Parts = "U256"
-	cst_Int256Parts  = "I256"
-	cst_ScBytes      = "Bytes"
-	cst_ScString     = "String "
-	cst_ScSymbol     = "Symbol"
-	cst_ScNonceKey   = "NonceKey "
-	cst_ScVec        = "Vec"
-	cst_ScMap        = "Map"
+	XDR_BOOL       = "bool"
+	XDR_U32        = "u32"
+	XDR_I32        = "i32"
+	XDR_U64        = "u64 "
+	XDR_I64        = "i64 "
+	XDR_TIME_POINT = "time_point"
+	XDR_DURATION   = "duration"
+	XDR_U128       = "u128"
+	XDR_I128       = "i128"
+	XDR_U256       = "u256"
+	XDR_I256       = "i256"
+	XDR_BYTES      = "bytes"
+	XDR_STRING     = "string "
+	XDR_SYM        = "symbol"
+	XDR_NONCE      = "nonce"
+	XDR_VEC        = "vec"
+	XDR_MAP        = "map"
+	XDR_ADDRESS    = "address"
 )
 
-func convertToData(key_type string, key_name string) (xdr.ScValType, interface{}, error) {
-	values := strings.Split(key_name, "#")
-
-	switch key_type {
-	case cst_bool:
-		if len(values) == 1 {
-			return convertToDataBool(values[0])
-		}
-	case cst_Uint32:
-		if len(values) == 1 {
-			return convertToDataUint32(values[0])
-		}
-	case cst_Int32:
-		if len(values) == 1 {
-			return convertToDataInt32(values[0])
-		}
-	case cst_Uint64:
-		if len(values) == 1 {
-			return convertToDataUint64(values[0])
-		}
-	case cst_Int64:
-		if len(values) == 1 {
-			return convertToDataInt64(values[0])
-		}
-	case cst_TimePoint:
-		if len(values) == 1 {
-			return convertToDataTimePoint(values[0])
-		}
-	case cst_Duration:
-		if len(values) == 1 {
-			return convertToDataDuration(values[0])
-		}
-	case cst_UInt128Parts:
-		if len(values) == 2 {
-			return convertToDataUInt128Parts(values[0], values[1])
-		}
-	case cst_Int128Parts:
-		if len(values) == 2 {
-			return convertToDataInt128Parts(values[0], values[1])
-		}
-	case cst_UInt256Parts:
-		if len(values) == 4 {
-			return convertToDataUInt256Parts(values[0], values[1], values[2], values[3])
-		}
-	case cst_Int256Parts:
-		if len(values) == 4 {
-			return convertToDataInt256Parts(values[0], values[1], values[2], values[3])
-		}
-	case cst_ScBytes:
-		if len(values) == 1 {
-			return convertToDataScBytes(values[0])
-		}
-	case cst_ScString:
-		if len(values) == 1 {
-			return convertToDataScString(values[0])
-		}
-	case cst_ScSymbol:
-		if len(values) == 1 {
-			return convertToDataScSymbol(values[0])
-		}
-	case cst_ScNonceKey:
-		if len(values) == 1 {
-			return convertToDataScNonceKey(values[0])
-		}
-	case cst_ScVec:
-		if len(values) == 1 {
-			return convertToDataScVec(values[0])
-		}
-	case cst_ScMap:
-		if len(values) == 1 {
-			return convertToDataScMap(values[0])
-		}
+func convertToData(keyType string, keyValue string) (xdr.ScVal, error) {
+	switch keyType {
+	case XDR_BOOL:
+		return convertToDataBool(keyValue)
+	case XDR_U32:
+		return convertToDataUint32(keyValue)
+	case XDR_I32:
+		return convertToDataInt32(keyValue)
+	case XDR_U64:
+		return convertToDataUint64(keyValue)
+	case XDR_I64:
+		return convertToDataInt64(keyValue)
+	case XDR_TIME_POINT:
+		return convertToDataTimePoint(keyValue)
+	case XDR_DURATION:
+		return convertToDataDuration(keyValue)
+	case XDR_U128:
+		return convertToDataUInt128Parts(keyValue)
+	case XDR_I128:
+		return convertToDataInt128Parts(keyValue)
+	case XDR_U256:
+		return convertToDataUInt256Parts(keyValue)
+	case XDR_I256:
+		return convertToDataInt256Parts(keyValue)
+	case XDR_BYTES:
+		return convertToDataScBytes(keyValue)
+	case XDR_STRING:
+		return convertToDataScString(keyValue)
+	case XDR_SYM:
+		return convertToDataScSymbol(keyValue)
+	case XDR_NONCE:
+		return convertToDataScNonceKey(keyValue)
+	case XDR_ADDRESS:
+		return convertToDataScAddress(keyValue)
 	default:
-		return 0, nil, errors.New("convert false")
+		return xdr.ScVal{}, errors.New("convert false")
 	}
-
-	return 0, nil, errors.New("convert false")
 }
 
-func convertToDataBool(value string) (xdr.ScValType, interface{}, error) {
+func convertToDataBool(value string) (xdr.ScVal, error) {
 	data, err := strconv.ParseBool(value)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
+	}
+	res, err := xdr.NewScVal(xdr.ScValTypeScvBool, data)
+	if err != nil {
+		return xdr.ScVal{}, err
 	}
 
-	return xdr.ScValTypeScvBool, data, err
+	return res, err
 }
 
-func convertToDataUint32(value string) (xdr.ScValType, interface{}, error) {
+func convertToDataUint32(value string) (xdr.ScVal, error) {
 	data, err := strconv.ParseUint(value, 10, 32)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
+	}
+	res, err := xdr.NewScVal(xdr.ScValTypeScvU32, xdr.Uint32(data))
+	if err != nil {
+		return xdr.ScVal{}, err
 	}
 
-	return xdr.ScValTypeScvU32, xdr.Uint32(data), err
+	return res, err
 }
 
-func convertToDataInt32(value string) (xdr.ScValType, interface{}, error) {
+func convertToDataInt32(value string) (xdr.ScVal, error) {
 	data, err := strconv.ParseInt(value, 10, 32)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
+	}
+	res, err := xdr.NewScVal(xdr.ScValTypeScvI32, xdr.Int32(data))
+	if err != nil {
+		return xdr.ScVal{}, err
 	}
 
-	return xdr.ScValTypeScvI32, xdr.Int32(data), err
+	return res, err
 }
 
-func convertToDataUint64(value string) (xdr.ScValType, interface{}, error) {
+func convertToDataUint64(value string) (xdr.ScVal, error) {
 	data, err := strconv.ParseUint(value, 10, 64)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
+	}
+	res, err := xdr.NewScVal(xdr.ScValTypeScvU64, xdr.Uint64(data))
+	if err != nil {
+		return xdr.ScVal{}, err
 	}
 
-	return xdr.ScValTypeScvU64, xdr.Uint64(data), err
+	return res, err
 }
 
-func convertToDataInt64(value string) (xdr.ScValType, interface{}, error) {
+func convertToDataInt64(value string) (xdr.ScVal, error) {
 	data, err := strconv.ParseInt(value, 10, 64)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
+	}
+	res, err := xdr.NewScVal(xdr.ScValTypeScvI64, xdr.Int64(data))
+	if err != nil {
+		return xdr.ScVal{}, err
 	}
 
-	return xdr.ScValTypeScvI64, xdr.Int64(data), err
+	return res, err
 }
 
-func convertToDataTimePoint(value string) (xdr.ScValType, interface{}, error) {
+func convertToDataTimePoint(value string) (xdr.ScVal, error) {
 	data, err := strconv.ParseUint(value, 10, 64)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	return xdr.ScValTypeScvTimepoint, xdr.TimePoint(xdr.Uint64(data)), err
+	res, err := xdr.NewScVal(xdr.ScValTypeScvTimepoint, xdr.TimePoint(xdr.Uint64(data)))
+	if err != nil {
+		return xdr.ScVal{}, err
+	}
+
+	return res, err
 }
 
-func convertToDataDuration(value string) (xdr.ScValType, interface{}, error) {
+func convertToDataDuration(value string) (xdr.ScVal, error) {
 	data, err := strconv.ParseUint(value, 10, 64)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	return xdr.ScValTypeScvDuration, xdr.Duration(xdr.Uint64(data)), err
+	res, err := xdr.NewScVal(xdr.ScValTypeScvDuration, xdr.Duration(data))
+	if err != nil {
+		return xdr.ScVal{}, err
+	}
+
+	return res, err
 }
 
-func convertToDataUInt128Parts(value1 string, value2 string) (xdr.ScValType, interface{}, error) {
-	data1, err := strconv.ParseUint(value1, 10, 64)
+func convertToDataUInt128Parts(value string) (xdr.ScVal, error) {
+	data, err := parseU128String(value)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	data2, err := strconv.ParseUint(value2, 10, 64)
+	res, err := xdr.NewScVal(xdr.ScValTypeScvU128, data)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	var data xdr.UInt128Parts = xdr.UInt128Parts{
-		Hi: xdr.Uint64(data1),
-		Lo: xdr.Uint64(data2),
-	}
-
-	return xdr.ScValTypeScvU128, data, err
+	return res, err
 }
 
-func convertToDataInt128Parts(value1 string, value2 string) (xdr.ScValType, interface{}, error) {
-	data1, err := strconv.ParseInt(value1, 10, 64)
+func convertToDataInt128Parts(value string) (xdr.ScVal, error) {
+	data, err := parseI128String(value)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	data2, err := strconv.ParseUint(value2, 10, 64)
+	res, err := xdr.NewScVal(xdr.ScValTypeScvI128, data)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	var data xdr.Int128Parts = xdr.Int128Parts{
-		Hi: xdr.Int64(data1),
-		Lo: xdr.Uint64(data2),
-	}
-
-	return xdr.ScValTypeScvI128, data, err
+	return res, err
 }
 
-func convertToDataUInt256Parts(value1 string, value2 string, value3 string, value4 string) (xdr.ScValType, interface{}, error) {
-	data1, err := strconv.ParseUint(value1, 10, 64)
+func convertToDataUInt256Parts(value string) (xdr.ScVal, error) {
+	data, err := parseU256String(value)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	data2, err := strconv.ParseUint(value2, 10, 64)
+	res, err := xdr.NewScVal(xdr.ScValTypeScvU256, data)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	data3, err := strconv.ParseUint(value3, 10, 64)
-	if err != nil {
-		return 0, nil, err
-	}
-
-	data4, err := strconv.ParseUint(value4, 10, 64)
-	if err != nil {
-		return 0, nil, err
-	}
-
-	var data xdr.UInt256Parts = xdr.UInt256Parts{
-		HiHi: xdr.Uint64(data1),
-		HiLo: xdr.Uint64(data2),
-		LoHi: xdr.Uint64(data3),
-		LoLo: xdr.Uint64(data4),
-	}
-
-	return xdr.ScValTypeScvU256, data, err
+	return res, err
 }
 
-func convertToDataInt256Parts(value1 string, value2 string, value3 string, value4 string) (xdr.ScValType, interface{}, error) {
-	data1, err := strconv.ParseInt(value1, 10, 64)
+func convertToDataInt256Parts(value string) (xdr.ScVal, error) {
+	data, err := parseI256String(value)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	data2, err := strconv.ParseUint(value2, 10, 64)
+	res, err := xdr.NewScVal(xdr.ScValTypeScvI256, data)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	data3, err := strconv.ParseUint(value3, 10, 64)
+	return res, err
+}
+
+func convertToDataScBytes(value string) (xdr.ScVal, error) {
+	data, err := hex.DecodeString(value)
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	data4, err := strconv.ParseUint(value4, 10, 64)
+	res, err := xdr.NewScVal(xdr.ScValTypeScvBytes, xdr.ScBytes(data))
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	var data xdr.Int256Parts = xdr.Int256Parts{
-		HiHi: xdr.Int64(data1),
-		HiLo: xdr.Uint64(data2),
-		LoHi: xdr.Uint64(data3),
-		LoLo: xdr.Uint64(data4),
-	}
-
-	return xdr.ScValTypeScvI256, data, err
+	return res, err
 }
 
-func convertToDataScBytes(value string) (xdr.ScValType, interface{}, error) {
-	return xdr.ScValTypeScvBytes, xdr.ScBytes([]byte(value)), nil
-}
-
-func convertToDataScString(value string) (xdr.ScValType, interface{}, error) {
-	return xdr.ScValTypeScvString, xdr.ScString(value), nil
-}
-
-func convertToDataScSymbol(value string) (xdr.ScValType, interface{}, error) {
-	return xdr.ScValTypeScvSymbol, xdr.ScSymbol(value), nil
-}
-
-func convertToDataScNonceKey(value string) (xdr.ScValType, interface{}, error) {
-	data1, err := strconv.ParseInt(value, 10, 64)
+func convertToDataScString(value string) (xdr.ScVal, error) {
+	res, err := xdr.NewScVal(xdr.ScValTypeScvString, xdr.ScString(value))
 	if err != nil {
-		return 0, nil, err
+		return xdr.ScVal{}, err
 	}
 
-	var data xdr.ScNonceKey = xdr.ScNonceKey{
-		Nonce: xdr.Int64(data1),
-	}
-
-	return xdr.ScValTypeScvLedgerKeyNonce, data, err
+	return res, err
 }
 
-func convertToDataScVec(value string) (xdr.ScValType, interface{}, error) {
-	items := strings.Split(value, "#")
-	var dataVec xdr.ScVec
-
-	for _, item := range items {
-		s := strings.Split(item, ",")
-		if len(s) != 2 {
-			return 0, nil, errors.New("split s false " + fmt.Sprint(len(s)))
-		}
-
-		xdrType, data, err := convertToData(s[0], s[1])
-		if err != nil {
-			return 0, nil, err
-		}
-
-		xdrKey, err := xdr.NewScVal(xdrType, data)
-		if err != nil {
-			return 0, nil, err
-		}
-
-		dataVec = append(dataVec, xdrKey)
+func convertToDataScSymbol(value string) (xdr.ScVal, error) {
+	res, err := xdr.NewScVal(xdr.ScValTypeScvSymbol, xdr.ScSymbol(value))
+	if err != nil {
+		return xdr.ScVal{}, err
 	}
 
-	return xdr.ScValTypeScvVec, dataVec, nil
+	return res, err
 }
 
-func convertToDataScMap(value string) (xdr.ScValType, interface{}, error) {
-	items := strings.Split(value, "#")
-	var dataMap xdr.ScMap
-
-	for _, item := range items {
-		s := strings.Split(item, ",")
-		if len(s) != 4 {
-			return 0, nil, errors.New("split s false " + fmt.Sprint(len(s)))
-		}
-
-		xdrType, data1, err := convertToData(s[0], s[1])
-		if err != nil {
-			return 0, nil, err
-		}
-
-		xdrKey1, err := xdr.NewScVal(xdrType, data1)
-		if err != nil {
-			return 0, nil, err
-		}
-
-		xdrType, data2, err := convertToData(s[2], s[3])
-		if err != nil {
-			return 0, nil, err
-		}
-
-		xdrKey2, err := xdr.NewScVal(xdrType, data2)
-		if err != nil {
-			return 0, nil, err
-		}
-
-		var itemMap xdr.ScMapEntry = xdr.ScMapEntry{
-			Key: xdrKey1,
-			Val: xdrKey2,
-		}
-
-		dataMap = append(dataMap, itemMap)
+func convertToDataScNonceKey(value string) (xdr.ScVal, error) {
+	data, err := strconv.ParseInt(value, 10, 64)
+	if err != nil {
+		return xdr.ScVal{}, err
 	}
 
-	return xdr.ScValTypeScvMap, dataMap, nil
+	res, err := xdr.NewScVal(xdr.ScValTypeScvLedgerKeyNonce, xdr.ScNonceKey{
+		Nonce: xdr.Int64(data),
+	})
+
+	if err != nil {
+		return xdr.ScVal{}, err
+	}
+
+	return res, err
+}
+
+func convertToDataScAddress(value string) (xdr.ScVal, error) {
+	aid := xdr.MustAddress(value)
+	res, err := xdr.NewScVal(xdr.ScValTypeScvAddress, xdr.ScAddress{
+		AccountId: &aid,
+	})
+
+	if err != nil {
+		return xdr.ScVal{}, err
+	}
+
+	return res, err
+}
+
+
+func parseU128String(s string) (xdr.UInt128Parts, error) {
+	bigInt := new(big.Int)
+	_, ok := bigInt.SetString(s, 10)
+	if !ok {
+		return xdr.UInt128Parts{}, fmt.Errorf("invalid number format")
+	}
+
+	// Mask for lower 64 bits
+	lowMask := new(big.Int).SetUint64(^uint64(0))
+
+	// Extract the lower 64 bits
+	low := new(big.Int).And(bigInt, lowMask).Uint64()
+
+	// Extract the higher 64 bits by shifting right 64 bits
+	high := new(big.Int).Rsh(bigInt, 64).Uint64()
+
+	return xdr.UInt128Parts{
+		Hi: xdr.Uint64(high),
+		Lo: xdr.Uint64(low),
+	}, nil
+}
+
+func parseI128String(s string) (xdr.Int128Parts, error) {
+	// Parse the string as a big integer
+	bigInt := new(big.Int)
+	_, ok := bigInt.SetString(s, 10) // Assuming the string is base 10
+	if !ok {
+		return xdr.Int128Parts{}, fmt.Errorf("invalid number format")
+	}
+
+	// Handle negative numbers for signed 128-bit integers
+	negative := bigInt.Sign() < 0
+	if negative {
+		bigInt = bigInt.Abs(bigInt) // Convert to positive for bitwise operations
+	}
+
+	// Mask for lower 64 bits
+	lowMask := new(big.Int).SetUint64(^uint64(0))
+
+	// Extract the lower 64 bits
+	low := new(big.Int).And(bigInt, lowMask).Uint64()
+
+	// Extract the higher 64 bits and cast to int64 for signed interpretation
+	high := new(big.Int).Rsh(bigInt, 64).Int64()
+	if negative {
+		high = -high
+	}
+
+	return xdr.Int128Parts{
+		Hi: xdr.Int64(high),
+		Lo: xdr.Uint64(low),
+	}, nil
+}
+
+func parseU256String(s string) (xdr.UInt256Parts, error) {
+	// Parse the string as a big integer
+	bigInt := new(big.Int)
+	_, ok := bigInt.SetString(s, 10) // Assuming the string is base 10
+	if !ok {
+		return xdr.UInt256Parts{}, fmt.Errorf("invalid number format")
+	}
+
+	// Mask for 64 bits
+	mask64 := new(big.Int).SetUint64(^uint64(0))
+
+	// Extract the four 64-bit parts
+	lowLow := new(big.Int).And(bigInt, mask64).Uint64()
+	lowHigh := new(big.Int).Rsh(bigInt, 64).And(bigInt, mask64).Uint64()
+	highLow := new(big.Int).Rsh(bigInt, 128).And(bigInt, mask64).Uint64()
+	highHigh := new(big.Int).Rsh(bigInt, 192).Uint64()
+
+	return xdr.UInt256Parts{
+		HiHi: xdr.Uint64(highHigh),
+		HiLo: xdr.Uint64(highLow),
+		LoHi: xdr.Uint64(lowHigh),
+		LoLo: xdr.Uint64(lowLow),
+	}, nil
+}
+
+func parseI256String(s string) (xdr.Int256Parts, error) {
+	// Parse the string as a big integer
+	bigInt := new(big.Int)
+	_, ok := bigInt.SetString(s, 10) // Assuming the string is base 10
+	if !ok {
+		return xdr.Int256Parts{}, fmt.Errorf("invalid number format")
+	}
+
+	// Handle negative numbers
+	negative := bigInt.Sign() < 0
+	if negative {
+		bigInt = bigInt.Abs(bigInt)
+	}
+
+	// Mask for 64 bits
+	mask64 := new(big.Int).SetUint64(^uint64(0))
+
+	// Extract the four 64-bit parts
+	lowLow := new(big.Int).And(bigInt, mask64).Uint64()
+	lowHigh := new(big.Int).Rsh(bigInt, 64).And(bigInt, mask64).Uint64()
+	highLow := new(big.Int).Rsh(bigInt, 128).And(bigInt, mask64).Uint64()
+	highHigh := new(big.Int).Rsh(bigInt, 192).Int64()
+
+	if negative {
+		highHigh = -highHigh
+	}
+
+	return xdr.Int256Parts{
+		HiHi: xdr.Int64(highHigh),
+		HiLo: xdr.Uint64(highLow),
+		LoHi: xdr.Uint64(lowHigh),
+		LoLo: xdr.Uint64(lowLow),
+	}, nil
 }
