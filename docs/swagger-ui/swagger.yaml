@@ -67,7 +67,7 @@ paths:
           format: int32
       tags:
         - ContractQuery
-  /contract-entries/{contractId}/{keyXdr}:
+  /contract-entries/{contractId}/{keyType}/{keyValue}:
     get:
       summary: ContractEntry queries contract entry with the given key
       operationId: ContractEntry
@@ -109,7 +109,11 @@ paths:
           in: path
           required: true
           type: string
-        - name: keyXdr
+        - name: keyType
+          in: path
+          required: true
+          type: string
+        - name: keyValue
           in: path
           required: true
           type: string
@@ -594,6 +598,47 @@ paths:
           required: false
           type: integer
           format: int32
+      tags:
+        - ContractQuery
+  /contract/key-xdr/{keyType}/{keyValue}:
+    get:
+      summary: ContractKeyXdr queries key xdr given keyName and keyType
+      operationId: ContractKeyXdr
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              keyXdr:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: keyType
+          in: path
+          required: true
+          type: string
+        - name: keyValue
+          in: path
+          required: true
+          type: string
       tags:
         - ContractQuery
   /user-contracts/{address}:
@@ -2249,6 +2294,11 @@ definitions:
               type: string
             args:
               type: object
+  contractContractKeyXdrResponse:
+    type: object
+    properties:
+      keyXdr:
+        type: string
   contractContractKeysResponse:
     type: object
     properties:

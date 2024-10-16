@@ -22,9 +22,9 @@ service ContractQuery {
 
   // ContractEntry queries contract entry with the given key
   rpc ContractEntry(ContractEntryRequest) returns (ContractEntryResponse) {
-    option (google.api.http).get = "/contract-entries/{contract_id}/{key_xdr}";
+    option (google.api.http).get = "/contract-entries/{contract_id}/{key_type}/{key_value}";
   }
-  
+
   // ContractData queries list newest data entries of contract
   rpc ContractData(ContractDataRequest) returns (ContractDataResponse) {
     option (google.api.http).get = "/contract-entries/{contract_id}";
@@ -49,8 +49,7 @@ service ContractQuery {
 
   // ContractInvoke queries contract data have been invoked at the
   // given transaction hash
-  rpc ContractInvoke(ContractInvokeRequest)
-      returns (ContractInvokeResponse) {
+  rpc ContractInvoke(ContractInvokeRequest) returns (ContractInvokeResponse) {
     option (google.api.http).get = "/contract/invoke/{hash}";
   }
 
@@ -73,5 +72,10 @@ service ContractQuery {
   rpc ContractInvokesByUser(ContractInvokesByUserRequest)
       returns (ContractInvokesByUserResponse) {
     option (google.api.http).get = "/contract/invokes/user/{address}";
+  }
+
+  // ContractKeyXdr queries key xdr given keyName and keyType
+  rpc ContractKeyXdr(ContractKeyXdrRequest) returns (ContractKeyXdrResponse) {
+    option (google.api.http).get = "/contract/key-xdr/{key_type}/{key_value}";
   }
 }
