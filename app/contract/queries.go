@@ -14,7 +14,7 @@ import (
 
 func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryRequest) (*types.ContractEntryResponse, error) {
 	var entry types.ContractEntry
-	keyScVal, err := convertToData(request.KeyType, request.KeyValue)
+	keyScVal, err := converter.ConvertToData(request.KeyType, request.KeyValue)
 	if err != nil {
 		return &types.ContractEntryResponse{
 			Found: false,
@@ -48,7 +48,7 @@ func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryR
 	}
 
 	keyJson := &structpb.Struct{}
-	keyData, err := converter.MarshalJSONContractKeyXdr(entry.KeyXdr)
+	keyData, err := converter.MarshalJSONContractKeyInfoXdr(entry.KeyXdr)
 	if err != nil {
 		return &types.ContractEntryResponse{
 			Found: false,
@@ -63,7 +63,7 @@ func (k Keeper) ContractEntry(ctx context.Context, request *types.ContractEntryR
 	}
 
 	valJson := &structpb.Struct{}
-	valData, err := converter.MarshalJSONContractKeyXdr(entry.ValueXdr)
+	valData, err := converter.MarshalJSONContractValueInfoXdr(entry.ValueXdr)
 	if err != nil {
 		return &types.ContractEntryResponse{
 			Found: false,
@@ -175,7 +175,7 @@ func (k Keeper) ContractKeys(ctx context.Context, request *types.ContractKeysReq
 
 	for _, entry := range entries {
 		keyJson := &structpb.Struct{}
-		keyData, err := converter.MarshalJSONContractKeyXdr(entry.KeyXdr)
+		keyData, err := converter.MarshalJSONContractKeyInfoXdr(entry.KeyXdr)
 		if err != nil {
 			return &types.ContractKeysResponse{
 				Keys: []*structpb.Struct{},
@@ -449,7 +449,7 @@ func (k Keeper) ContractInvokesByUser(ctx context.Context, request *types.Contra
 
 func (k Keeper) ContractKeyXdr(ctx context.Context, request *types.ContractKeyXdrRequest) (*types.ContractKeyXdrResponse, error) {
 	if request.KeyValue != "" && request.KeyType != "" {
-		xdrKey, err := convertToData(request.KeyType, request.KeyValue)
+		xdrKey, err := converter.ConvertToData(request.KeyType, request.KeyValue)
 		if err != nil {
 			return &types.ContractKeyXdrResponse{}, err
 		}
@@ -469,7 +469,7 @@ func (k Keeper) ContractKeyXdr(ctx context.Context, request *types.ContractKeyXd
 
 func convertToEntryInfo(entry *types.ContractEntry) (*types.ContractEntryInfo, error) {
 	keyJson := &structpb.Struct{}
-	keyData, err := converter.MarshalJSONContractKeyXdr(entry.KeyXdr)
+	keyData, err := converter.MarshalJSONContractKeyInfoXdr(entry.KeyXdr)
 	if err != nil {
 		return &types.ContractEntryInfo{}, err
 	}
@@ -478,7 +478,7 @@ func convertToEntryInfo(entry *types.ContractEntry) (*types.ContractEntryInfo, e
 	}
 
 	valueJson := &structpb.Struct{}
-	valueData, err := converter.MarshalJSONContractValueXdr(entry.ValueXdr)
+	valueData, err := converter.MarshalJSONContractValueInfoXdr(entry.ValueXdr)
 	if err != nil {
 		return &types.ContractEntryInfo{}, err
 	}
