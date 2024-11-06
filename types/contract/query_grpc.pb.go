@@ -30,7 +30,7 @@ const (
 	ContractQuery_ContractInvokes_FullMethodName          = "/contract.ContractQuery/ContractInvokes"
 	ContractQuery_ContractInvokesAtLedger_FullMethodName  = "/contract.ContractQuery/ContractInvokesAtLedger"
 	ContractQuery_ContractInvokesByUser_FullMethodName    = "/contract.ContractQuery/ContractInvokesByUser"
-	ContractQuery_ContractKeyXdr_FullMethodName           = "/contract.ContractQuery/ContractKeyXdr"
+	ContractQuery_Xdr_FullMethodName                      = "/contract.ContractQuery/Xdr"
 )
 
 // ContractQueryClient is the client API for ContractQuery service.
@@ -53,7 +53,7 @@ type ContractQueryClient interface {
 	// ledger
 	ContractsAtLedger(ctx context.Context, in *ContractsAtLedgerRequest, opts ...grpc.CallOption) (*ContractsAtLedgerResponse, error)
 	// ContractInvoke queries contract data have been invoked at the
-	// given transaction hash
+	// given transacton hash
 	ContractInvoke(ctx context.Context, in *ContractInvokeRequest, opts ...grpc.CallOption) (*ContractInvokeResponse, error)
 	// ContractInvokes queries contract data have been invoked by the
 	// given contract id
@@ -64,8 +64,8 @@ type ContractQueryClient interface {
 	// ContractInvokesByUser queries contract data have been invoked by the
 	// given address
 	ContractInvokesByUser(ctx context.Context, in *ContractInvokesByUserRequest, opts ...grpc.CallOption) (*ContractInvokesByUserResponse, error)
-	// ContractKeyXdr queries key xdr given keyName and keyType
-	ContractKeyXdr(ctx context.Context, in *ContractKeyXdrRequest, opts ...grpc.CallOption) (*ContractKeyXdrResponse, error)
+	// Xdr encode data and response hex string
+	Xdr(ctx context.Context, in *XdrRequest, opts ...grpc.CallOption) (*XdrResponse, error)
 }
 
 type contractQueryClient struct {
@@ -186,10 +186,10 @@ func (c *contractQueryClient) ContractInvokesByUser(ctx context.Context, in *Con
 	return out, nil
 }
 
-func (c *contractQueryClient) ContractKeyXdr(ctx context.Context, in *ContractKeyXdrRequest, opts ...grpc.CallOption) (*ContractKeyXdrResponse, error) {
+func (c *contractQueryClient) Xdr(ctx context.Context, in *XdrRequest, opts ...grpc.CallOption) (*XdrResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ContractKeyXdrResponse)
-	err := c.cc.Invoke(ctx, ContractQuery_ContractKeyXdr_FullMethodName, in, out, cOpts...)
+	out := new(XdrResponse)
+	err := c.cc.Invoke(ctx, ContractQuery_Xdr_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -216,7 +216,7 @@ type ContractQueryServer interface {
 	// ledger
 	ContractsAtLedger(context.Context, *ContractsAtLedgerRequest) (*ContractsAtLedgerResponse, error)
 	// ContractInvoke queries contract data have been invoked at the
-	// given transaction hash
+	// given transacton hash
 	ContractInvoke(context.Context, *ContractInvokeRequest) (*ContractInvokeResponse, error)
 	// ContractInvokes queries contract data have been invoked by the
 	// given contract id
@@ -227,8 +227,8 @@ type ContractQueryServer interface {
 	// ContractInvokesByUser queries contract data have been invoked by the
 	// given address
 	ContractInvokesByUser(context.Context, *ContractInvokesByUserRequest) (*ContractInvokesByUserResponse, error)
-	// ContractKeyXdr queries key xdr given keyName and keyType
-	ContractKeyXdr(context.Context, *ContractKeyXdrRequest) (*ContractKeyXdrResponse, error)
+	// Xdr encode data and response hex string
+	Xdr(context.Context, *XdrRequest) (*XdrResponse, error)
 	mustEmbedUnimplementedContractQueryServer()
 }
 
@@ -272,8 +272,8 @@ func (UnimplementedContractQueryServer) ContractInvokesAtLedger(context.Context,
 func (UnimplementedContractQueryServer) ContractInvokesByUser(context.Context, *ContractInvokesByUserRequest) (*ContractInvokesByUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ContractInvokesByUser not implemented")
 }
-func (UnimplementedContractQueryServer) ContractKeyXdr(context.Context, *ContractKeyXdrRequest) (*ContractKeyXdrResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ContractKeyXdr not implemented")
+func (UnimplementedContractQueryServer) Xdr(context.Context, *XdrRequest) (*XdrResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Xdr not implemented")
 }
 func (UnimplementedContractQueryServer) mustEmbedUnimplementedContractQueryServer() {}
 func (UnimplementedContractQueryServer) testEmbeddedByValue()                       {}
@@ -494,20 +494,20 @@ func _ContractQuery_ContractInvokesByUser_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ContractQuery_ContractKeyXdr_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ContractKeyXdrRequest)
+func _ContractQuery_Xdr_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(XdrRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ContractQueryServer).ContractKeyXdr(ctx, in)
+		return srv.(ContractQueryServer).Xdr(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: ContractQuery_ContractKeyXdr_FullMethodName,
+		FullMethod: ContractQuery_Xdr_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ContractQueryServer).ContractKeyXdr(ctx, req.(*ContractKeyXdrRequest))
+		return srv.(ContractQueryServer).Xdr(ctx, req.(*XdrRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -564,8 +564,8 @@ var ContractQuery_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ContractQuery_ContractInvokesByUser_Handler,
 		},
 		{
-			MethodName: "ContractKeyXdr",
-			Handler:    _ContractQuery_ContractKeyXdr_Handler,
+			MethodName: "Xdr",
+			Handler:    _ContractQuery_Xdr_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

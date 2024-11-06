@@ -447,24 +447,24 @@ func (k Keeper) ContractInvokesByUser(ctx context.Context, request *types.Contra
 	}, nil
 }
 
-func (k Keeper) ContractKeyXdr(ctx context.Context, request *types.ContractKeyXdrRequest) (*types.ContractKeyXdrResponse, error) {
-	if request.KeyValue != "" && request.KeyType != "" {
-		xdrKey, err := converter.ConvertToData(request.KeyType, request.KeyValue)
+func (k Keeper) Xdr(ctx context.Context, request *types.XdrRequest) (*types.XdrResponse, error) {
+	if request.Value != "" && request.Type != "" {
+		xdrKey, err := converter.ConvertToData(request.Value, request.Type)
 		if err != nil {
-			return &types.ContractKeyXdrResponse{}, err
+			return &types.XdrResponse{}, err
 		}
 
 		bytes, err := xdrKey.MarshalBinary()
 		if err != nil {
-			return &types.ContractKeyXdrResponse{}, err
+			return &types.XdrResponse{}, err
 		}
 
-		return &types.ContractKeyXdrResponse{
-			KeyXdr: hex.EncodeToString(bytes),
+		return &types.XdrResponse{
+			Xdr: hex.EncodeToString(bytes),
 		}, nil
 	}
 
-	return &types.ContractKeyXdrResponse{}, nil
+	return &types.XdrResponse{}, nil
 }
 
 func convertToEntryInfo(entry *types.ContractEntry) (*types.ContractEntryInfo, error) {

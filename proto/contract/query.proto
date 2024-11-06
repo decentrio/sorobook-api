@@ -48,7 +48,7 @@ service ContractQuery {
   }
 
   // ContractInvoke queries contract data have been invoked at the
-  // given transaction hash
+  // given transacton hash
   rpc ContractInvoke(ContractInvokeRequest) returns (ContractInvokeResponse) {
     option (google.api.http).get = "/contract/invoke/{hash}";
   }
@@ -74,8 +74,8 @@ service ContractQuery {
     option (google.api.http).get = "/contract/invokes/user/{address}";
   }
 
-  // ContractKeyXdr queries key xdr given keyName and keyType
-  rpc ContractKeyXdr(ContractKeyXdrRequest) returns (ContractKeyXdrResponse) {
-    option (google.api.http).get = "/contract/key-xdr/{key_type}/{key_value}";
+  // Xdr encode data and response hex string
+  rpc Xdr(XdrRequest) returns (XdrResponse) {
+    option (google.api.http).get = "/xdr/{type}/{value}";
   }
 }
