@@ -121,7 +121,7 @@ func (k Keeper) TransferEvents(ctx context.Context, request *types.TransferEvent
 	}
 
 	offset := (page - 1) * pageSize
-	var events []*types.TranferEvent
+	var events []*types.TransferEvent
 	err := k.dbHandler.Table(app.TRANSFER_TABLE).
 		Where("contract_id = ?", request.ContractId).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
@@ -149,7 +149,7 @@ func (k Keeper) TransferEventsFrom(ctx context.Context, request *types.TransferE
 	}
 
 	offset := (page - 1) * pageSize
-	var events []*types.TranferEvent
+	var events []*types.TransferEvent
 	err := k.dbHandler.Table(app.TRANSFER_TABLE).
 		Where("from_addr = ?", request.From).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").
@@ -177,7 +177,7 @@ func (k Keeper) TransferEventsTo(ctx context.Context, request *types.TransferEve
 	}
 
 	offset := (page - 1) * pageSize
-	var events []*types.TranferEvent
+	var events []*types.TransferEvent
 	err := k.dbHandler.Table(app.TRANSFER_TABLE).
 		Where("to_addr = ?", request.To).
 		Joins("JOIN transactions ON transactions.hash = asset_contract_transfer_events.tx_hash").

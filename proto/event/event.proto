@@ -19,7 +19,7 @@ message EventInfo {
   google.protobuf.Struct event = 4;
 }
 
-message TranferEvent {
+message TransferEvent {
   string id = 1;
   string contract_id = 2;
   string tx_hash = 3;
@@ -93,7 +93,7 @@ message TransferEventsRequest {
 }
 
 message TransferEventsResponse {
-  repeated TranferEvent events = 1;
+  repeated TransferEvent events = 1;
 }
 
 message TransferEventsFromRequest {
@@ -103,7 +103,7 @@ message TransferEventsFromRequest {
 }
 
 message TransferEventsFromResponse {
-  repeated TranferEvent events = 1;
+  repeated TransferEvent events = 1;
 }
 
 message TransferEventsToRequest {
@@ -113,7 +113,7 @@ message TransferEventsToRequest {
 }
 
 message TransferEventsToResponse {
-  repeated TranferEvent events = 1;
+  repeated TransferEvent events = 1;
 }
 
 message MintEventsRequest {

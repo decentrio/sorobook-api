@@ -159,7 +159,7 @@ func (x *EventInfo) GetEvent() *structpb.Struct {
 	return nil
 }
 
-type TranferEvent struct {
+type TransferEvent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -173,20 +173,20 @@ type TranferEvent struct {
 	AmountLo   uint64 `protobuf:"varint,7,opt,name=amount_lo,json=amountLo,proto3" json:"amount_lo,omitempty"`
 }
 
-func (x *TranferEvent) Reset() {
-	*x = TranferEvent{}
+func (x *TransferEvent) Reset() {
+	*x = TransferEvent{}
 	mi := &file_event_event_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *TranferEvent) String() string {
+func (x *TransferEvent) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TranferEvent) ProtoMessage() {}
+func (*TransferEvent) ProtoMessage() {}
 
-func (x *TranferEvent) ProtoReflect() protoreflect.Message {
+func (x *TransferEvent) ProtoReflect() protoreflect.Message {
 	mi := &file_event_event_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -198,54 +198,54 @@ func (x *TranferEvent) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TranferEvent.ProtoReflect.Descriptor instead.
-func (*TranferEvent) Descriptor() ([]byte, []int) {
+// Deprecated: Use TransferEvent.ProtoReflect.Descriptor instead.
+func (*TransferEvent) Descriptor() ([]byte, []int) {
 	return file_event_event_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *TranferEvent) GetId() string {
+func (x *TransferEvent) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *TranferEvent) GetContractId() string {
+func (x *TransferEvent) GetContractId() string {
 	if x != nil {
 		return x.ContractId
 	}
 	return ""
 }
 
-func (x *TranferEvent) GetTxHash() string {
+func (x *TransferEvent) GetTxHash() string {
 	if x != nil {
 		return x.TxHash
 	}
 	return ""
 }
 
-func (x *TranferEvent) GetFromAddr() string {
+func (x *TransferEvent) GetFromAddr() string {
 	if x != nil {
 		return x.FromAddr
 	}
 	return ""
 }
 
-func (x *TranferEvent) GetToAddr() string {
+func (x *TransferEvent) GetToAddr() string {
 	if x != nil {
 		return x.ToAddr
 	}
 	return ""
 }
 
-func (x *TranferEvent) GetAmountHi() int64 {
+func (x *TransferEvent) GetAmountHi() int64 {
 	if x != nil {
 		return x.AmountHi
 	}
 	return 0
 }
 
-func (x *TranferEvent) GetAmountLo() uint64 {
+func (x *TransferEvent) GetAmountLo() uint64 {
 	if x != nil {
 		return x.AmountLo
 	}
@@ -981,7 +981,7 @@ type TransferEventsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Events []*TranferEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Events []*TransferEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
 }
 
 func (x *TransferEventsResponse) Reset() {
@@ -1014,7 +1014,7 @@ func (*TransferEventsResponse) Descriptor() ([]byte, []int) {
 	return file_event_event_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *TransferEventsResponse) GetEvents() []*TranferEvent {
+func (x *TransferEventsResponse) GetEvents() []*TransferEvent {
 	if x != nil {
 		return x.Events
 	}
@@ -1087,7 +1087,7 @@ type TransferEventsFromResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Events []*TranferEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Events []*TransferEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
 }
 
 func (x *TransferEventsFromResponse) Reset() {
@@ -1120,7 +1120,7 @@ func (*TransferEventsFromResponse) Descriptor() ([]byte, []int) {
 	return file_event_event_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *TransferEventsFromResponse) GetEvents() []*TranferEvent {
+func (x *TransferEventsFromResponse) GetEvents() []*TransferEvent {
 	if x != nil {
 		return x.Events
 	}
@@ -1193,7 +1193,7 @@ type TransferEventsToResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Events []*TranferEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Events []*TransferEvent `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
 }
 
 func (x *TransferEventsToResponse) Reset() {
@@ -1226,7 +1226,7 @@ func (*TransferEventsToResponse) Descriptor() ([]byte, []int) {
 	return file_event_event_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *TransferEventsToResponse) GetEvents() []*TranferEvent {
+func (x *TransferEventsToResponse) GetEvents() []*TransferEvent {
 	if x != nil {
 		return x.Events
 	}
@@ -2330,7 +2330,7 @@ var file_event_event_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
 var file_event_event_proto_goTypes = []any{
 	(*Event)(nil),                       // 0: event.Event
 	(*EventInfo)(nil),                   // 1: event.EventInfo
-	(*TranferEvent)(nil),                // 2: event.TranferEvent
+	(*TransferEvent)(nil),                // 2: event.TransferEvent
 	(*MintEvent)(nil),                   // 3: event.MintEvent
 	(*BurnEvent)(nil),                   // 4: event.BurnEvent
 	(*ClawbackEvent)(nil),               // 5: event.ClawbackEvent
@@ -2371,9 +2371,9 @@ var file_event_event_proto_depIdxs = []int32{
 	1,  // 1: event.EventResponse.event:type_name -> event.EventInfo
 	1,  // 2: event.ContractEventsResponse.events:type_name -> event.EventInfo
 	1,  // 3: event.EventsAtLedgerResponse.events:type_name -> event.EventInfo
-	2,  // 4: event.TransferEventsResponse.events:type_name -> event.TranferEvent
-	2,  // 5: event.TransferEventsFromResponse.events:type_name -> event.TranferEvent
-	2,  // 6: event.TransferEventsToResponse.events:type_name -> event.TranferEvent
+	2,  // 4: event.TransferEventsResponse.events:type_name -> event.TransferEvent
+	2,  // 5: event.TransferEventsFromResponse.events:type_name -> event.TransferEvent
+	2,  // 6: event.TransferEventsToResponse.events:type_name -> event.TransferEvent
 	3,  // 7: event.MintEventsResponse.events:type_name -> event.MintEvent
 	3,  // 8: event.MintEventsAdminResponse.events:type_name -> event.MintEvent
 	3,  // 9: event.MintEventsToResponse.events:type_name -> event.MintEvent
